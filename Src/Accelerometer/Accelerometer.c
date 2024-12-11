@@ -1,4 +1,4 @@
-#include "../../Inc/Accelerometer/Accelerometer.h"
+#include "../../Inc/Sensors/Accelerometer/Accelerometer.h"
 
 void Accelerometer_initDefault(Accelerometer* instance) {
   instance->status.value = 0;

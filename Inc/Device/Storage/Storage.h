@@ -5,6 +5,8 @@
 #include "../../../sirius-headers-common/Accelerometer/AccelerometerPacket.h"
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorPacket.h"
 
+struct Storage;
+
 typedef void (*Storage_init)(struct Storage* instance);
 
 typedef void (*Storage_storeAccelerometerData)(struct Storage* instance, AccelerometerPacket data);
@@ -12,9 +14,9 @@ typedef void (*Storage_storeAccelerometerData)(struct Storage* instance, Acceler
 typedef void (*Storage_storePressureSensorData)(struct Storage* instance, PressureSensorPacket data);
 
 typedef struct {
-  Storage_init                    initFunction;
-  Storage_storeAccelerometerData  storeAccelerometerDataFunction;
-  Storage_storePressureSensorData storePressureSensorDataFunction;
+  Storage_init                    init;
+  Storage_storeAccelerometerData  storeAccelerometerData;
+  Storage_storePressureSensorData storePressureSensorData;
 
   StorageStatus status;
 }

@@ -9,10 +9,11 @@ typedef void (*PressureSensor_init)(struct PressureSensor* instance);
 typedef void (*PressureSensor_gatherData)(struct PressureSensor* instance);
 
 typedef struct {
-  PressureSensor_init initFunction;
-  PressureSensor_gatherData gatherDataFunction;
+  PressureSensor_init       init;
+  PressureSensor_gatherData gatherData;
 
-  PressureSensorStatus status;
+  PressureSensorData        data;
+  PressureSensorStatus      status;
 }
 PressureSensor;
 

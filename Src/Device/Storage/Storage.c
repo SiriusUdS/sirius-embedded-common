@@ -1,4 +1,4 @@
-#include "../../../Inc/Devices/Storage/Storage.h"
+#include "../../../Inc/Device/Storage/Storage.h"
 
 void Storage_initDefault(Storage* instance) {
   instance->status.value = 0;

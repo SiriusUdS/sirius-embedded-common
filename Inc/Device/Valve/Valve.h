@@ -17,11 +17,11 @@ typedef void (*Valve_gatherData)(struct Valve* instance);
 typedef void (*Valve_setState)(struct Valve* instance, ValveState state);
 
 typedef struct {
-  Valve_init initFunction;
-  Valve_gatherData gatherDataFunction;
-  Valve_setState setStateFunction;
+  Valve_init        init;
+  Valve_gatherData  gatherData;
+  Valve_setState    setState;
 
-  ValveStatus status;
+  ValveStatus       status;
 }
 Valve;
 

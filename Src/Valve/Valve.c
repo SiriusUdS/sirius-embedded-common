@@ -1,4 +1,4 @@
-#include "Valve.h"
+#include "../../Inc/Devices/Valve/Valve.h"
 
 static volatile Valve valve;
 
@@ -6,14 +6,21 @@ static int closeState();
 
 static int openState();
 
-static void setCCR(uint16_t cycle);
+static void setCCR(int16_t cycle);
 
 
-TIM_HandleTypeDef htim1;
+TIM_HandleTypeDef htim;
 
-void VALVE_init(){
+void VALVE_init(TIM_HandleTypeDef ht, uint16_t prescale){
+    htim = ht;
+    HAL_TIM_Base_Stop_IT(&htim);
+    __HAL_TIM_SET_PRESCALER(&htim, prescale);
+    if(HAL_TIM_Base_Start_IT(&htim) != HAL_OK){
+        return;
+    }
     setCCR(PWM_DUTY_CYCLE_MIN);
-    HAL_TIM_PWM_Start(&htim1, TIM_CHANNEL_1);
+    
+    HAL_TIM_PWM_Start(&htim, TIM_CHANNEL_1);
     valve.state = VALVE_CLOSED;
 }
 
@@ -48,7 +55,7 @@ ValveState VALVE_GetState(){
     return valve.state;
 }
 
-void setCCR(uint16_t cycle){
+void setCCR(int16_t cycle){
     if(cycle < PWM_DUTY_CYCLE_MIN){
         cycle = PWM_DUTY_CYCLE_MIN;
     }
@@ -64,7 +71,7 @@ void setCCR(uint16_t cycle){
 
 
 int closeState(){
-    if(valve.actualCycle == PWM_DUTY_CYCLE_MIN) return 1;
+    if(valve.actualCycle <= PWM_DUTY_CYCLE_MIN) return 1;
 
     if(HAL_GetTick() - valve.CycleLastTime >= ELAPSED_DELAY_MS){
         setCCR(valve.actualCycle - ELAPSED_STEP);

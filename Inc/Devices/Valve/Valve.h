@@ -5,13 +5,14 @@
 #include "stm32f411xe.h"
 #include <stdint.h>
 
+
 #define PWM_DUTY_CYCLE_MIN 0
-#define PWM_DUTY_CYCLE_MAX 100 // FOR ARR OF 100
+#define PWM_DUTY_CYCLE_MAX 32031 // FOR ARR OF 32031
 //SET THE PWM CONTROLLER TO CHANNEL 1 AND THE ARR FOR THE DESIRE FREQ
 //SOURCE : https://controllerstech.com/pwm-in-stm32/
 
-#define ELAPSED_DELAY_MS 50
-#define ELAPSED_STEP 1
+#define ELAPSED_DELAY_MS 1
+#define ELAPSED_STEP 10
 
 struct Valve;
 
@@ -31,13 +32,13 @@ typedef void (*Valve_setState)(struct Valve* instance, ValveState state);
 typedef struct {
   Valve_init initFunction;
   ValveState state;
-  uint16_t actualCycle;
+  int16_t actualCycle;
   unsigned long CycleLastTime;
 }
 Valve;
 
 
-void VALVE_init();
+void VALVE_init(TIM_HandleTypeDef ht, uint16_t prescale);
 void VALVE_SetState(ValveState _state);
 uint16_t VALVE_GetActualCycle();
 ValveState VALVE_GetState();

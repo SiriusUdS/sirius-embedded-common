@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../../sirius-headers-common/LowLevelDriver/PWMStatus.h"
+#include "../../../sirius-headers-common/LowLevelDriver/PWM/PWMStatus.h"
 
 typedef void (*PWM_init)(struct PWM* instance);
 

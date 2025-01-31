@@ -2,24 +2,22 @@
 
 #include "../../../sirius-headers-common/Valve/ValveStatus.h"
 
-struct Valve;
+#include "../../LowLevelDriver/PWM/PWM.h"
 
-typedef enum {
-  VALVE_CLOSED,
-  VALVE_OPENED
-}
-ValveState;
+struct Valve;
 
 typedef void (*Valve_init)(struct Valve* instance);
 
 typedef void (*Valve_gatherData)(struct Valve* instance);
 
-typedef void (*Valve_setState)(struct Valve* instance, ValveState state);
+typedef void (*Valve_setRatio)(struct Valve* instance, uint8_t ratio_pct);
 
 typedef struct {
   Valve_init        init;
   Valve_gatherData  gatherData;
-  Valve_setState    setState;
+  Valve_setRatio    setRatio;
+
+  PWM               pwmDriver;
 
   ValveStatus       status;
 }
@@ -29,4 +27,4 @@ extern void Valve_initDefault(Valve* instance);
 
 extern void Valve_gatherDataDefault(Valve* instance);
 
-extern void Valve_setStateDefault(Valve* instance, ValveState state);
+extern void Valve_setRatioDefault(Valve* instance, uint8_t ratio_pct);

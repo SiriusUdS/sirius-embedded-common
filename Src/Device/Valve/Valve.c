@@ -6,7 +6,7 @@ void Valve_initDefault(Valve* instance) {
   instance->errorStatus.bits.invalidFunctionPointer = 1;
 
   instance->gatherData = Valve_gatherDataDefault;
-  instance->setRatio = Valve_setDutyCycleDefault;
+  instance->setDutyCycle = Valve_setDutyCycleDefault;
 }
 
 void Valve_gatherDataDefault(Valve* instance) {

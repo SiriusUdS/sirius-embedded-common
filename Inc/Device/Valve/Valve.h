@@ -7,16 +7,16 @@
 
 struct Valve;
 
-typedef void (*Valve_init)(Valve* instance);
+typedef void (*Valve_init)(struct Valve* instance);
 
-typedef void (*Valve_gatherData)(Valve* instance);
+typedef void (*Valve_gatherData)(struct Valve* instance);
 
-typedef void (*Valve_setDutyCycle)(Valve* instance, uint8_t ratio_pct);
+typedef void (*Valve_setDutyCycle)(struct Valve* instance, uint8_t ratio_pct);
 
 typedef struct {
   Valve_init          init;
   Valve_gatherData    gatherData;
-  Valve_setDutyCycle  setRatio;
+  Valve_setDutyCycle  setDutyCycle;
 
   PWM                 pwmDriver;
 

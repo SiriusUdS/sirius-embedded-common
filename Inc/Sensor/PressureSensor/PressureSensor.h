@@ -12,7 +12,7 @@ typedef struct {
   PressureSensor_init       init;
   PressureSensor_gatherData gatherData;
 
-  PressureSensorData        data;
+  PressureSensorValue       data;
   PressureSensorStatus      status;
 }
 PressureSensor;

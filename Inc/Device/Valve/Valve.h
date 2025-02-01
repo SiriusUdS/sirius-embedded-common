@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../../sirius-headers-common/Valve/ValveErrorStatus.h"
 #include "../../../sirius-headers-common/Valve/ValveStatus.h"
 
 #include "../../LowLevelDriver/PWM/PWM.h"
@@ -19,6 +20,7 @@ typedef struct {
 
   PWM               pwmDriver;
 
+  ValveErrorStatus  errorStatus;
   ValveStatus       status;
 }
 Valve;

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorData.h"
+#include "../../../sirius-headers-common/PressureSensor/PressureSensorStatus.h"
+#include "../../../sirius-headers-common/PressureSensor/PressureSensorErrorStatus.h"
 
 struct PressureSensor;
 
@@ -12,7 +14,9 @@ typedef struct {
   PressureSensor_init       init;
   PressureSensor_gatherData gatherData;
 
-  PressureSensorValue       data;
+  PressureSensorData        data;
+
+  PressureSensorErrorStatus errorStatus;
   PressureSensorStatus      status;
 }
 PressureSensor;

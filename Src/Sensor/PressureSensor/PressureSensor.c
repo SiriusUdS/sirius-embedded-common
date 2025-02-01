@@ -9,4 +9,6 @@ void PressureSensor_initDefault(PressureSensor* instance) {
 
 void PressureSensor_gatherDataDefault(PressureSensor* instance) {
   instance->status.bits.invalidFunctionPointer = 1;
+
+  
 }

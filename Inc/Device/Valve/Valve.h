@@ -11,17 +11,17 @@ typedef void (*Valve_init)(struct Valve* instance);
 
 typedef void (*Valve_gatherData)(struct Valve* instance);
 
-typedef void (*Valve_setRatio)(struct Valve* instance, uint8_t ratio_pct);
+typedef void (*Valve_setDutyCycle)(struct Valve* instance, uint8_t ratio_pct);
 
 typedef struct {
-  Valve_init        init;
-  Valve_gatherData  gatherData;
-  Valve_setRatio    setRatio;
+  Valve_init          init;
+  Valve_gatherData    gatherData;
+  Valve_setDutyCycle  setRatio;
 
-  PWM               pwmDriver;
+  PWM                 pwmDriver;
 
-  ValveErrorStatus  errorStatus;
-  ValveStatus       status;
+  ValveErrorStatus    errorStatus;
+  ValveStatus         status;
 }
 Valve;
 
@@ -29,4 +29,4 @@ extern void Valve_initDefault(Valve* instance);
 
 extern void Valve_gatherDataDefault(Valve* instance);
 
-extern void Valve_setRatioDefault(Valve* instance, uint8_t ratio_pct);
+extern void Valve_setDutyCycleDefault(Valve* instance, uint8_t ratio_pct);

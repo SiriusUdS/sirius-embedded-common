@@ -3,6 +3,7 @@
 #include <stdint.h>
 
 #include "../../../sirius-headers-common/Telecommunication/TelecommunicationStatus.h"
+#include "../../../sirius-headers-common/Telecommunication/TelecommunicationErrorStatus.h"
 
 struct Telecommunication;
 
@@ -17,6 +18,7 @@ typedef struct {
   Telecommunication_sendData    sendData;
   Telecommunication_receiveData receiveData;
 
+  TelecommunicationErrorStatus  errorStatus;
   TelecommunicationStatus       status;
 }
 Telecommunication;

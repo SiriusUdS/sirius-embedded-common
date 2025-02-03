@@ -1,8 +1,8 @@
-#include "../../../Inc/Devices/Storage/ExternalFlash.h"
+#include "../../../Inc/Device/Storage/ExternalFlash.h"
 
 void ExternalFlash_init(Storage* instance) {
   instance->status.value = 0;
-  instance->status.bits.initialized = 1;
+  instance->errorStatus.value = 0;
 }
 
 void ExternalFlash_storeAccelerometerData(Storage* instance, AccelerometerPacket data) {

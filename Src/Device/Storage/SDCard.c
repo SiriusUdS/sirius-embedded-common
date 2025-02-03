@@ -1,8 +1,8 @@
-#include "../../../Inc/Devices/Storage/SDCard.h"
+#include "../../../Inc/Device/Storage/SDCard.h"
 
 void SDCard_init(Storage* instance) {
   instance->status.value = 0;
-  instance->status.bits.initialized = 1;
+  instance->errorStatus.value = 0;
 }
 
 void SDCard_storeAccelerometerData(Storage* instance, AccelerometerPacket data) {

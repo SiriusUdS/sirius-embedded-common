@@ -7,11 +7,11 @@ void Accelerometer_initDefault(Accelerometer* instance) {
   instance->gatherData = Accelerometer_gatherDataDefault;
 }
 
-void Accelerometer_gatherDataDefault(Accelerometer* instance, AccelerometerAxis* rawData) {
+void Accelerometer_gatherDataDefault(Accelerometer* instance, AccelerometerData* rawData) {
   instance->status.value = 0;
-  instance->status.bits.invalidFunctionPointer = 1;
+  instance->status.bits.defaultFunctionCalled = 1;
 
-  rawData->x = 0;
-  rawData->y = 0;
-  rawData->z = 0;
+  rawData->rawX = 0;
+  rawData->rawY = 0;
+  rawData->rawZ = 0;
 }

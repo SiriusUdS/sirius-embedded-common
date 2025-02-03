@@ -1,6 +1,7 @@
 #pragma once
 
 #include "../../../sirius-headers-common/Storage/StorageStatus.h"
+#include "../../../sirius-headers-common/Storage/StorageErrorStatus.h"
 
 #include "../../../sirius-headers-common/Accelerometer/AccelerometerPacket.h"
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorPacket.h"
@@ -18,7 +19,8 @@ typedef struct {
   Storage_storeAccelerometerData  storeAccelerometerData;
   Storage_storePressureSensorData storePressureSensorData;
 
-  StorageStatus status;
+  StorageErrorStatus errorStatus;
+  StorageStatus      status;
 }
 Storage;
 

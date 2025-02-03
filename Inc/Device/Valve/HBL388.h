@@ -1,5 +1,8 @@
 #pragma once
 
+// Inspired by
+// https://deepbluembedded.com/stm32-servo-motor-control-with-pwm-servo-library-examples-code/
+
 #include "Valve.h"
 
 #define FREQUENCY_HZ 333
@@ -11,4 +14,4 @@ extern void HBL388_init(Valve* instance);
 
 extern void HBL388_gatherData(Valve* instance);
 
-extern void HBL388_setRatio(Valve* instance, uint8_t ratio_pct);
+extern void HBL388_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct);

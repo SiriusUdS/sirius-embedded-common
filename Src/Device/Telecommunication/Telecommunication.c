@@ -1,2 +1,2 @@
-#include "../../../Inc/Devices/Telecommunication/Telecommunication.h"
+#include "../../../Inc/Device/Telecommunication/Telecommunication.h"
 

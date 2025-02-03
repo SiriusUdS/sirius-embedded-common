@@ -11,20 +11,23 @@ typedef struct {
   PWM_init          init;
   PWM_setDutyCycle  setDutyCycle;
 
-  uint8_t           minDutyCycle;
-  uint8_t           maxDutyCycle;
+  uint8_t minDutyCycle;
+  uint8_t maxDutyCycle;
 
-  void*             externalInstance; // for now, used for HAL implementation
+  void* externalInstance; // for now, used for HAL implementation
 
-  uint8_t           timerId;
-  uint8_t           channel;
+  uint8_t timerId;
+  uint8_t channel;
 
-  uint16_t          prescaler;
-  uint16_t          autoReload;
-  uint16_t          comparator;
+  uint16_t prescaler;
+  uint16_t autoReload;
+  uint16_t comparator;
 
-  PWMErrorStatus    errorStatus;
-  PWMStatus         status;
+  uint16_t actualCycle;
+  uint32_t cycleLastTime;
+
+  PWMErrorStatus errorStatus;
+  PWMStatus      status;
 }
 PWM;
 

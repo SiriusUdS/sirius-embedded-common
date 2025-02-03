@@ -5,9 +5,9 @@
 
 #include "Valve.h"
 
-#define FREQUENCY_HZ 333
+#define HBL388_OPERATING_FREQUENCY_HZ 333
 #define HBL388_PSC 8
-#define ARR 32031
+#define HBL388_ARR 32031
 #define CLOCK_FREQUENCY_HZ 96000000
 
 extern void HBL388_init(Valve* instance);

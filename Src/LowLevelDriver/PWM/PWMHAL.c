@@ -10,7 +10,7 @@ void PWMHAL_init(PWM* instance) {
   HAL_TIM_Base_Stop_IT(halHandle);
   __HAL_TIM_SET_PRESCALER(halHandle, 1);
   if(HAL_TIM_Base_Start_IT(halHandle) != HAL_OK) {
-      return;
+    return;
   }
 
   HAL_TIM_PWM_Start(halHandle, instance->channel);

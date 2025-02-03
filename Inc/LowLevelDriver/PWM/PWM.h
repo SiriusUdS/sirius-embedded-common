@@ -19,6 +19,10 @@ typedef struct {
   uint8_t           timerId;
   uint8_t           channel;
 
+  uint16_t          prescaler;
+  uint16_t          autoReload;
+  uint16_t          comparator;
+
   PWMErrorStatus    errorStatus;
   PWMStatus         status;
 }

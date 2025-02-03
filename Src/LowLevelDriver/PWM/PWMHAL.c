@@ -8,7 +8,7 @@ void PWMHAL_init(PWM* instance) {
   TIM_HandleTypeDef* halHandle = (TIM_HandleTypeDef*)instance->externalInstance;
 
   HAL_TIM_Base_Stop_IT(halHandle);
-  __HAL_TIM_SET_PRESCALER(halHandle, 1);
+  __HAL_TIM_SET_PRESCALER(halHandle, instance->prescaler);
   if(HAL_TIM_Base_Start_IT(halHandle) != HAL_OK) {
     return;
   }

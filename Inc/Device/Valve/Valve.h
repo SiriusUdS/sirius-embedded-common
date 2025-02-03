@@ -18,7 +18,7 @@ typedef struct {
   Valve_gatherData    gatherData;
   Valve_setDutyCycle  setDutyCycle;
 
-  PWM*                pwmDriver;
+  PWM*                pwm;
 
   ValveErrorStatus    errorStatus;
   ValveStatus         status;

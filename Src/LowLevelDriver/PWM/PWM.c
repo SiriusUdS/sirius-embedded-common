@@ -6,6 +6,6 @@ void PWM_initDefault(PWM* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void PWM_setDutyCycleDefault(PWM* instance, uint8_t dutyCycle_pct) {
+void PWM_setDutyCycleDefault(PWM* instance, uint16_t dutyCycle_CCR) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

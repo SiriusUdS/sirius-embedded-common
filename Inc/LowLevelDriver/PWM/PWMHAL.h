@@ -2,4 +2,4 @@
 
 extern void PWMHAL_init(PWM* instance);
 
-extern void PWMHAL_setDutyCycle(PWM* instance, uint8_t dutyCycle_pct);
+extern void PWMHAL_setDutyCycle(PWM* instance, uint16_t dutyCycle_CCR);

@@ -7,7 +7,7 @@ struct PWM;
 
 typedef void (*PWM_init)(struct PWM* instance);
 
-typedef void (*PWM_setDutyCycle)(struct PWM* instance, uint8_t dutyCycle_pct);
+typedef void (*PWM_setDutyCycle)(struct PWM* instance, uint16_t dutyCycle_CCR);
 
 typedef struct {
   PWM_init         init;
@@ -38,4 +38,4 @@ PWM;
 
 extern void PWM_initDefault(PWM* instance);
 
-extern void PWM_setDutyCycleDefault(PWM* instance, uint8_t dutyCycle_pct);
+extern void PWM_setDutyCycleDefault(PWM* instance, uint16_t dutyCycle_CCR);

@@ -36,6 +36,6 @@ extern void Valve_initDefault(Valve* instance);
 
 extern void Valve_gatherDataDefault(Valve* instance);
 
-extern void Valve_setDutyCycleDefault(Valve* instance, uint8_t ratio_pct);
+extern void Valve_setDutyCycleDefault(Valve* instance, uint32_t ratio_pct);
 
 extern void Valve_tickDefault(Valve* instance);

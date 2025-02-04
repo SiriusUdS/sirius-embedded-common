@@ -5,6 +5,8 @@
 
 #include "../../LowLevelDriver/PWM/PWM.h"
 
+#define PWM_DUTY_CYCLE_MAX_CCR 32031
+
 struct Valve;
 
 typedef void (*Valve_init)(struct Valve* instance);
@@ -19,7 +21,7 @@ typedef struct {
   Valve_init          init;
   Valve_gatherData    gatherData;
   Valve_setDutyCycle  setDutyCycle;
-  Valve_tick          execute;
+  Valve_tick          tick;
 
   PWM*                pwm;
 

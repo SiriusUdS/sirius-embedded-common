@@ -15,7 +15,7 @@ void SG90_init(Valve* instance) {
 }
 
 void SG90_gatherData(Valve* instance) {
-
+  // WAITING FOR PCB TO IMPLEMENT VALVE READING
 }
 
 void SG90_tick(Valve* instance) {
@@ -37,17 +37,12 @@ void SG90_tick(Valve* instance) {
   }
 }
 
-void SG90_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct) {
-  // Table to convert pct into CCR
-  instance->targetDutyCycle_CCR = dutyCycle_pct;
+void SG90_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
+  instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)PWM_DUTY_CYCLE_MAX_CCR) / 100);
 }
 
 void incrementDutyCycle(Valve* instance) {
-  if(instance->pwm->currentDutyCycle_CCR >= instance->pwm->maxDutyCycle_CCR) {
-    instance->errorStatus.bits.dutyCycleBelowMin = 1;
-    return;
-  }
-  else if (instance->pwm->currentDutyCycle_CCR >= instance->targetDutyCycle_CCR) {
+  if (instance->pwm->currentDutyCycle_CCR >= instance->targetDutyCycle_CCR) {
     instance->pwm->setDutyCycle(instance->pwm, instance->targetDutyCycle_CCR);
     instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
     return;
@@ -59,11 +54,7 @@ void incrementDutyCycle(Valve* instance) {
 }
 
 void decrementDutyCycle(Valve* instance) {
-  if(instance->pwm->currentDutyCycle_CCR <= instance->pwm->minDutyCycle_CCR) {
-    instance->errorStatus.bits.dutyCycleBelowMin = 1;
-    return;
-  }
-  else if (instance->pwm->currentDutyCycle_CCR <= instance->targetDutyCycle_CCR) {
+  if (instance->pwm->currentDutyCycle_CCR <= instance->targetDutyCycle_CCR) {
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->targetDutyCycle_CCR);
     instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
     return;

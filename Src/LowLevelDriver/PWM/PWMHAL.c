@@ -29,7 +29,7 @@ void PWMHAL_setDutyCycle(PWM* instance, uint8_t dutyCycle_pct) {
     dutyCycleCCR = instance->maxDutyCycle_CCR;
   }
 
-  TIM1->CCR1 = dutyCycleCCR;
+  ((TIM_TypeDef *)(instance->timer))->CCR1 = dutyCycleCCR;
   instance->currentDutyCycle_CCR = dutyCycleCCR;
   instance->lastDutyCycleChangeTime_ms = HAL_GetTick();
 }

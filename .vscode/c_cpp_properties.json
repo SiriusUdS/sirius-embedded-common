@@ -12,7 +12,7 @@
             "includePath": [
                 "${workspaceFolder}/../sirius-rocket-engine/SIRIUS_Rocket_Engine/**",
                 "${workspaceFolder}/../sirius-rocket-engine/SIRIUS_Rocket_Engine/Drivers/STM32F4xx_HAL_Driver/Inc",
-                "${workspaceFolder}/../sirius-rocket-engine/SIRIUS_Rocket_Engine/CMSIS/Device/ST/STM32F4xx/Include",
+                "${workspaceFolder}/../sirius-rocket-engine/SIRIUS_Rocket_Engine/Drivers/CMSIS/Device/ST/STM32F4xx/Include",
                 "${workspaceFolder}/../sirius-rocket-engine/SIRIUS_Rocket_Engine/Core/Inc"
             ],
             "defines": [

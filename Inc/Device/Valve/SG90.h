@@ -11,6 +11,14 @@ PSC = CLOCKFREQ/FREQ(ARR+1)-1
 #define SG90_OPERATING_FREQUENCY_HZ 50
 #define SG90_PSC 59
 #define SG90_ARR 32031
+
+#define SG90_PWM_DUTY_CYCLE_MIN_CCR 0
+#define SG90_PWM_DUTY_CYCLE_MAX_CCR 32031
+
+// MARC
+#define SG90_ELAPSED_DELAY_MS 1
+#define SG90_ELAPSED_STEP 10
+
 #define CLOCK_FREQUENCY_HZ 96000000
 
 extern void SG90_init(Valve* instance);
@@ -18,3 +26,5 @@ extern void SG90_init(Valve* instance);
 extern void SG90_gatherData(Valve* instance);
 
 extern void SG90_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct);
+
+extern void SG90_tick(Valve* instance);

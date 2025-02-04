@@ -13,12 +13,17 @@ typedef void (*Valve_gatherData)(struct Valve* instance);
 
 typedef void (*Valve_setDutyCycle)(struct Valve* instance, uint8_t ratio_pct);
 
+typedef void (*Valve_tick)(struct Valve* instance);
+
 typedef struct {
   Valve_init          init;
   Valve_gatherData    gatherData;
   Valve_setDutyCycle  setDutyCycle;
+  Valve_tick          execute;
 
   PWM*                pwm;
+
+  int16_t             targetDutyCycle_CCR;
 
   ValveErrorStatus    errorStatus;
   ValveStatus         status;
@@ -30,3 +35,5 @@ extern void Valve_initDefault(Valve* instance);
 extern void Valve_gatherDataDefault(Valve* instance);
 
 extern void Valve_setDutyCycleDefault(Valve* instance, uint8_t ratio_pct);
+
+extern void Valve_tickDefault(Valve* instance);

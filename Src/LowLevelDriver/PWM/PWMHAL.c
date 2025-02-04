@@ -18,18 +18,29 @@ void PWMHAL_init(PWM* instance) {
   instance->setDutyCycle(instance, instance->minDutyCycle_CCR);
 }
 
-// À FAIRE : FAIRE UNE TABLE DE CCR POUR COUVRIR LES DUTY CYCLE (SPEED)
-void PWMHAL_setDutyCycle(PWM* instance, uint8_t dutyCycle_pct) {
-  uint16_t dutyCycleCCR = 16000; // Convertir pct en CCR
-  if (dutyCycleCCR < instance->minDutyCycle_CCR) {
-    dutyCycleCCR = instance->minDutyCycle_CCR;
+void PWMHAL_setDutyCycle(PWM* instance, uint16_t dutyCycle_CCR) {
+  if (dutyCycle_CCR < instance->minDutyCycle_CCR) {
+    dutyCycle_CCR = instance->minDutyCycle_CCR;
   }
 
-  if(dutyCycleCCR > instance->maxDutyCycle_CCR){
-    dutyCycleCCR = instance->maxDutyCycle_CCR;
+  if(dutyCycle_CCR > instance->maxDutyCycle_CCR){
+    dutyCycle_CCR = instance->maxDutyCycle_CCR;
   }
 
-  ((TIM_TypeDef *)(instance->timer))->CCR1 = dutyCycleCCR;
-  instance->currentDutyCycle_CCR = dutyCycleCCR;
+  switch (instance->channel) {
+    case TIM_CHANNEL_1:
+      ((TIM_TypeDef *)(instance->timer))->CCR1 = dutyCycle_CCR;
+      break;
+    case TIM_CHANNEL_2:
+      ((TIM_TypeDef *)(instance->timer))->CCR2 = dutyCycle_CCR;
+      break;
+    case TIM_CHANNEL_3:
+    case TIM_CHANNEL_4:
+    default:
+      instance->errorStatus.bits.invalidTimerChannel = 1;
+      break;
+  }
+  
+  instance->currentDutyCycle_CCR = dutyCycle_CCR;
   instance->lastDutyCycleChangeTime_ms = HAL_GetTick();
 }

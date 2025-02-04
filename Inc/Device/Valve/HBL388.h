@@ -18,4 +18,4 @@ extern void HBL388_init(Valve* instance);
 
 extern void HBL388_gatherData(Valve* instance);
 
-extern void HBL388_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct);
+extern void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct);

@@ -8,6 +8,6 @@ void HBL388_gatherData(Valve* instance) {
 
 }
 
-void HBL388_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct) {
+void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
     
 }

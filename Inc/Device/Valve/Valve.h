@@ -13,7 +13,7 @@ typedef void (*Valve_init)(struct Valve* instance);
 
 typedef void (*Valve_gatherData)(struct Valve* instance);
 
-typedef void (*Valve_setDutyCycle)(struct Valve* instance, uint8_t ratio_pct);
+typedef void (*Valve_setDutyCycle)(struct Valve* instance, uint32_t ratio_pct);
 
 typedef void (*Valve_tick)(struct Valve* instance);
 

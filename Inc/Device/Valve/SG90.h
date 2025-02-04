@@ -29,6 +29,6 @@ extern void SG90_init(Valve* instance);
 
 extern void SG90_gatherData(Valve* instance);
 
-extern void SG90_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct);
+extern void SG90_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct);
 
 extern void SG90_tick(Valve* instance);

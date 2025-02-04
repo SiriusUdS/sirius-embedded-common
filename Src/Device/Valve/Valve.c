@@ -13,7 +13,7 @@ void Valve_gatherDataDefault(Valve* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Valve_setDutyCycleDefault(Valve* instance, uint8_t ratio_pct) {
+void Valve_setDutyCycleDefault(Valve* instance, uint32_t ratio_pct) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 

@@ -42,8 +42,8 @@ void SG90_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
 }
 
 void incrementDutyCycle(Valve* instance) {
-  if (instance->pwm->currentDutyCycle_CCR >= instance->targetDutyCycle_CCR) {
-    instance->pwm->setDutyCycle(instance->pwm, instance->targetDutyCycle_CCR);
+  if (instance->pwm->currentDutyCycle_CCR + SG90_ELAPSED_STEP >= instance->targetDutyCycle_CCR) {
+    instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->targetDutyCycle_CCR);
     instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
     return;
   }
@@ -54,7 +54,7 @@ void incrementDutyCycle(Valve* instance) {
 }
 
 void decrementDutyCycle(Valve* instance) {
-  if (instance->pwm->currentDutyCycle_CCR <= instance->targetDutyCycle_CCR) {
+  if (instance->pwm->currentDutyCycle_CCR - SG90_ELAPSED_STEP <= instance->targetDutyCycle_CCR) {
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->targetDutyCycle_CCR);
     instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
     return;

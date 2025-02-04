@@ -13,8 +13,8 @@ typedef struct {
   PWM_init         init;
   PWM_setDutyCycle setDutyCycle;
 
-  uint8_t minDutyCycle_CCR;
-  uint8_t maxDutyCycle_CCR;
+  uint16_t minDutyCycle_CCR;
+  uint16_t maxDutyCycle_CCR;
 
   // for now, used for HAL comptatibility
   void* externalHandle; 

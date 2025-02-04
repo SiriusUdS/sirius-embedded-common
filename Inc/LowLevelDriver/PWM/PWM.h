@@ -3,6 +3,8 @@
 #include "../../../sirius-headers-common/LowLevelDriver/PWM/PWMErrorStatus.h"
 #include "../../../sirius-headers-common/LowLevelDriver/PWM/PWMStatus.h"
 
+struct PWM;
+
 typedef void (*PWM_init)(struct PWM* instance);
 
 typedef void (*PWM_setDutyCycle)(struct PWM* instance, uint8_t dutyCycle_pct);

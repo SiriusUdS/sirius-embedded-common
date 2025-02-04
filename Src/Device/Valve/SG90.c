@@ -19,13 +19,13 @@ void SG90_gatherData(Valve* instance) {
 }
 
 void SG90_tick(Valve* instance) {
-  if(instance->pwm->currentDutyCycle_CCR == instance->pwm->targetDutyCycle_CCR) {
+  if(instance->pwm->currentDutyCycle_CCR == instance->targetDutyCycle_CCR) {
     instance->status.bits.isClosing = 0;
     instance->status.bits.isOpening = 0;
     return;
   }
 
-  if (instance->pwm->currentDutyCycle_CCR - instance->pwm->targetDutyCycle_CCR < 0) {
+  if (instance->pwm->currentDutyCycle_CCR - instance->targetDutyCycle_CCR < 0) {
     incrementDutyCycle(instance);
     instance->status.bits.isClosing = 0;
     instance->status.bits.isOpening = 1;

@@ -38,22 +38,38 @@ void SG90_tick(Valve* instance) {
 }
 
 void SG90_setDutyCycle(Valve* instance, uint8_t dutyCycle_pct) {
-  //instance->pwm
+  // Table to convert pct into CCR
+  instance->targetDutyCycle_CCR = dutyCycle_pct;
 }
 
 void incrementDutyCycle(Valve* instance) {
+  if(instance->pwm->currentDutyCycle_CCR >= instance->pwm->maxDutyCycle_CCR) {
+    instance->errorStatus.bits.dutyCycleBelowMin = 1;
+    return;
+  }
+  else if (instance->pwm->currentDutyCycle_CCR >= instance->targetDutyCycle_CCR) {
+    instance->pwm->setDutyCycle(instance->pwm, instance->targetDutyCycle_CCR);
+    instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
+    return;
+  }
 
+  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTime_ms >= SG90_ELAPSED_DELAY_MS){
+    instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR + SG90_ELAPSED_STEP);
+  }
 }
 
 void decrementDutyCycle(Valve* instance) {
   if(instance->pwm->currentDutyCycle_CCR <= instance->pwm->minDutyCycle_CCR) {
     instance->errorStatus.bits.dutyCycleBelowMin = 1;
     return;
-  } 
-
-  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTime_ms >= SG90_ELAPSED_DELAY_MS){
-    instance->pwm->setDutyCycle(instance->pwm, instance->pwm->currentDutyCycle_CCR - SG90_ELAPSED_STEP);
+  }
+  else if (instance->pwm->currentDutyCycle_CCR <= instance->targetDutyCycle_CCR) {
+    instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->targetDutyCycle_CCR);
+    instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
+    return;
   }
 
-  return 0;
+  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTime_ms >= SG90_ELAPSED_DELAY_MS){
+    instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR - SG90_ELAPSED_STEP);
+  }
 }

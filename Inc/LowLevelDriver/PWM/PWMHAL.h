@@ -1,3 +1,5 @@
+#pragma once
+
 #include "PWM.h"
 
 extern void PWMHAL_init(PWM* instance);

@@ -15,11 +15,15 @@ typedef struct {
   int16_t currentValue;
 
   int16_t disconnectedValue;
-  int16_t maxValue;
-  int16_t minValue;
   int16_t shortCircuitValue;
   
   ADCErrorStatus  errorStatus;
   ADCStatus       status;
 }
 ADC;
+
+extern void ADC_initDefault(ADC* instance);
+
+extern void ADC_readValueDefault(ADC* instance);
+
+extern int16_t ADC_getValueDefault(ADC* instance);

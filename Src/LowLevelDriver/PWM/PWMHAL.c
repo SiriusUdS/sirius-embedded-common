@@ -9,6 +9,7 @@ void PWMHAL_init(PWM* instance) {
 
   HAL_TIM_Base_Stop_IT(halHandle);
   __HAL_TIM_SET_PRESCALER(halHandle, instance->prescaler);
+  ((TIM_TypeDef *)(instance->timer))->ARR = instance->autoReload;
   if(HAL_TIM_Base_Start_IT(halHandle) != HAL_OK) {
     return;
   }

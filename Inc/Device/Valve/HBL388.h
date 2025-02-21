@@ -6,14 +6,16 @@
 #include "Valve.h"
 
 #define HBL388_OPERATING_FREQUENCY_HZ 333
+
 #define HBL388_PSC 8
 #define HBL388_ARR 32031
+
 
 #define HBL388_PWM_DUTY_CYCLE_MIN_CCR 0
 #define HBL388_PWM_DUTY_CYCLE_MAX_CCR 32031
 
 #define HBL388_ELAPSED_DELAY_MS 1
-#define HBL388_ELAPSED_STEP 10
+#define HBL388_ELAPSED_STEP 20
 
 extern void HBL388_init(Valve* instance);
 

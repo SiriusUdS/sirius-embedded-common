@@ -5,13 +5,13 @@
 
 struct ADC12;
 
-typedef void (*ADC_init)(struct ADC12* instance);
+typedef void (*ADC12_init)(struct ADC12* instance);
 
-typedef int16_t (*ADC_getValue)(struct ADC12* instance);
+typedef int16_t (*ADC12_getValue)(struct ADC12* instance);
 
 typedef struct {
-  ADC_init      init;
-  ADC_getValue  getValue;
+  ADC12_init      init;
+  ADC12_getValue  getValue;
 
   void* externalHandle;
   
@@ -28,6 +28,6 @@ typedef struct {
 }
 ADC12;
 
-extern void ADC_initDefault(ADC12* instance);
+extern void ADC12_initDefault(ADC12* instance);
 
-extern int16_t ADC_getValueDefault(ADC12* instance);
+extern int16_t ADC12_getValueDefault(ADC12* instance);

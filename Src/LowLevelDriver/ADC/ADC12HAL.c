@@ -2,14 +2,14 @@
 
 #include "stm32f4xx_hal.h"
 
-void ADCHAL_init(ADC12* instance) {
+void ADC12HAL_init(ADC12* instance) {
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 
   instance->currentValue = 0;
 }
 
-int16_t ADCHAL_getValue(ADC12* instance) {
+int16_t ADC12HAL_getValue(ADC12* instance) {
   ADC_ChannelConfTypeDef adcConfig = {0};
   ADC_HandleTypeDef* adcHandle = (ADC_HandleTypeDef*)instance->externalHandle;
 

@@ -43,5 +43,5 @@ void PWMHAL_setDutyCycle(PWM* instance, uint16_t dutyCycle_CCR) {
   }
   
   instance->currentDutyCycle_CCR = dutyCycle_CCR;
-  instance->lastDutyCycleChangeTime_ms = HAL_GetTick();
+  instance->lastDutyCycleChangeTimestamp_ms = HAL_GetTick();
 }

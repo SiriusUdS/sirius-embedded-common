@@ -14,7 +14,7 @@
 #define HBL388_PWM_DUTY_CYCLE_MAX_CCR 32031
 
 #define HBL388_ELAPSED_DELAY_MS 1
-#define HBL388_ELAPSED_STEP 100
+#define HBL388_ELAPSED_STEP 60
 
 extern void HBL388_init(Valve* instance);
 

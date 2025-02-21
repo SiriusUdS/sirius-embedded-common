@@ -23,8 +23,6 @@ PSC = CLOCKFREQ/FREQ(ARR+1)-1
 #define SG90_ELAPSED_DELAY_MS 1
 #define SG90_ELAPSED_STEP 10
 
-#define CLOCK_FREQUENCY_HZ 96000000
-
 extern void SG90_init(Valve* instance);
 
 extern void SG90_gatherData(Valve* instance);

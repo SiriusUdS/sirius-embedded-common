@@ -10,6 +10,8 @@ void SG90_init(Valve* instance) {
 
   instance->pwm->minDutyCycle_CCR = SG90_PWM_DUTY_CYCLE_MIN_CCR;
   instance->pwm->maxDutyCycle_CCR = SG90_PWM_DUTY_CYCLE_MAX_CCR;
+  instance->pwm->prescaler = SG90_PSC;
+  instance->pwm->autoReload = SG90_ARR;
 
   instance->pwm->currentDutyCycle_CCR = instance->pwm->minDutyCycle_CCR;
 }
@@ -48,7 +50,7 @@ void incrementDutyCycle(Valve* instance) {
     return;
   }
 
-  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTime_ms >= SG90_ELAPSED_DELAY_MS){
+  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTimestamp_ms >= SG90_ELAPSED_DELAY_MS){
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR + SG90_ELAPSED_STEP);
   }
 }
@@ -60,7 +62,7 @@ void decrementDutyCycle(Valve* instance) {
     return;
   }
 
-  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTime_ms >= SG90_ELAPSED_DELAY_MS){
+  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTimestamp_ms >= SG90_ELAPSED_DELAY_MS){
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR - SG90_ELAPSED_STEP);
   }
 }

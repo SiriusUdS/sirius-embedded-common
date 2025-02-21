@@ -29,7 +29,7 @@ typedef struct {
   uint16_t comparator;
 
   int16_t       currentDutyCycle_CCR;
-  unsigned long lastDutyCycleChangeTime_ms;
+  unsigned long lastDutyCycleChangeTimestamp_ms;
 
   PWMErrorStatus errorStatus;
   PWMStatus      status;

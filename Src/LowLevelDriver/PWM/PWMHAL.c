@@ -37,6 +37,7 @@ void PWMHAL_setDutyCycle(PWM* instance, uint16_t dutyCycle_CCR) {
       ((TIM_TypeDef *)(instance->timer))->CCR2 = dutyCycle_CCR;
       break;
     case TIM_CHANNEL_3:
+      ((TIM_TypeDef *)(instance->timer))->CCR3 = dutyCycle_CCR;
     case TIM_CHANNEL_4:
     default:
       instance->errorStatus.bits.invalidTimerChannel = 1;

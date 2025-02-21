@@ -5,6 +5,9 @@
       "stm32f4xx_hal_conf.h": "c",
       "stm32f4xx_hal_rcc.h": "c",
       "stm32f4xx_hal_def.h": "c",
-      "stm32f4xx.h": "c"
+      "stm32f4xx.h": "c",
+      "adc12hal.h": "c",
+      "pressuresensor.h": "c",
+      "temperaturesensor.h": "c"
     }
 }

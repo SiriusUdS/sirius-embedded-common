@@ -17,6 +17,9 @@ typedef struct {
   GPIO_write write;
 
   void* externalHandle;
+
+  uint8_t pinGroup;
+  uint8_t pinNumber;
   
   GPIOErrorStatus  errorStatus;
   GPIOStatus       status;
@@ -27,4 +30,4 @@ extern void GPIO_initDefault(GPIO* instance);
 
 extern int8_t GPIO_readDefault(GPIO* instance);
 
-extern void GPIO_writeDefault(GPIO* instance);
+extern void GPIO_writeDefault(GPIO* instance, uint8_t value);

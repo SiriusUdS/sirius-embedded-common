@@ -3,8 +3,6 @@
 #include "../../../sirius-headers-common/LowLevelDriver/UART/UARTErrorStatus.h"
 #include "../../../sirius-headers-common/LowLevelDriver/UART/UARTStatus.h"
 
-#define UART_RECEIVE_BUFFER_SIZE_BYTES 0x100
-#define UART_SEND_BUFFER_SIZE_BYTES 0x100
 #define UART_COMMUNICATION_TIMEOUT_MS 50
 
 struct UART;
@@ -21,9 +19,6 @@ typedef struct {
   UART_receiveData receiveData;
 
   void* externalHandle;
-  
-  uint8_t sendBuffer[UART_SEND_BUFFER_SIZE_BYTES];
-  uint8_t receiveBuffer[UART_RECEIVE_BUFFER_SIZE_BYTES];
   
   UARTErrorStatus  errorStatus;
   UARTStatus       status;

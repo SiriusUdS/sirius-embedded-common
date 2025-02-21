@@ -4,7 +4,7 @@ static void incrementDutyCycle(Valve* instance);
 
 static void decrementDutyCycle(Valve* instance);
 
-void SG90_init(Valve* instance) {
+void HBL388_init(Valve* instance) {
   instance->status.value = 0;
   instance->errorStatus.value = 0;
 
@@ -16,11 +16,11 @@ void SG90_init(Valve* instance) {
   instance->pwm->currentDutyCycle_CCR = instance->pwm->minDutyCycle_CCR;
 }
 
-void SG90_gatherData(Valve* instance) {
+void HBL388_gatherData(Valve* instance) {
   // WAITING FOR PCB TO IMPLEMENT VALVE READING
 }
 
-void SG90_tick(Valve* instance) {
+void HBL388_tick(Valve* instance) {
   if(instance->pwm->currentDutyCycle_CCR == instance->targetDutyCycle_CCR) {
     instance->status.bits.isClosing = 0;
     instance->status.bits.isOpening = 0;
@@ -39,7 +39,7 @@ void SG90_tick(Valve* instance) {
   }
 }
 
-void SG90_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
+void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
   instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)PWM_DUTY_CYCLE_MAX_CCR) / 100);
 }
 

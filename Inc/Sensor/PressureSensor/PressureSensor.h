@@ -1,5 +1,6 @@
 #pragma once
 
+#include "../../../sirius-headers-common/PressureSensor/PressureSensorData.h"
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorStatus.h"
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorErrorStatus.h"
 

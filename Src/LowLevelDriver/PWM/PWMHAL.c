@@ -14,7 +14,7 @@ void PWMHAL_init(PWM* instance) {
     return;
   }
 
-  HAL_TIM_PWM_Start(halHandle, instance->channel);
+  HAL_TIM_PWMN_Start(halHandle, instance->channel);
 
   instance->setDutyCycle(instance, instance->minDutyCycle_CCR);
 }

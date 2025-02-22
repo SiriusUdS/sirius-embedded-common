@@ -8,6 +8,7 @@
       "stm32f4xx.h": "c",
       "adc12hal.h": "c",
       "pressuresensor.h": "c",
-      "temperaturesensor.h": "c"
+      "temperaturesensor.h": "c",
+      "temperaturesensorerrorstatus.h": "c"
     }
 }

@@ -1,6 +1,6 @@
 #include "../../../Inc/Sensor/TemperatureSensor/Thermistance.h"
 
-TemperatureSensorData currentData = 0;
+TemperatureSensorData currentData = {0};
 
 void Thermistance_init(TemperatureSensor* instance) {
   instance->status.value = 0;

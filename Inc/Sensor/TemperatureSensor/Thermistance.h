@@ -4,4 +4,4 @@
 
 extern void Thermistance_init(TemperatureSensor* instance);
 
-extern int16_t Thermistance_readData(TemperatureSensor* instance);
+extern TemperatureSensorData Thermistance_readData(TemperatureSensor* instance);

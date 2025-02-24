@@ -21,4 +21,4 @@ PressureSensor;
 
 extern void PressureSensor_initDefault(PressureSensor* instance);
 
-extern void PressureSensor_gatherDataDefault(PressureSensor* instance);
+extern PressureSensorData PressureSensor_readDataDefault(PressureSensor* instance);

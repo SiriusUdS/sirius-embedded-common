@@ -1,13 +1,13 @@
-#include "../../../Inc/Sensor/TemperatureSensor/Thermistance.h"
+#include "../../../Inc/Sensor/TemperatureSensor/NTC3950.h"
 
 TemperatureSensorData currentData = {0};
 
-void Thermistance_init(TemperatureSensor* instance) {
+void NTC3950_init(TemperatureSensor* instance) {
   instance->status.value = 0;
   instance->errorStatus.value = 0;
 }
 
-TemperatureSensorData Thermistance_readData(TemperatureSensor* instance) {
+TemperatureSensorData NTC3950_readData(TemperatureSensor* instance) {
   currentData.rawTemperature = instance->adc->getValue(instance->adc);
   return currentData;
 }

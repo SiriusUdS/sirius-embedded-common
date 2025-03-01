@@ -1,5 +1,7 @@
 #pragma once
 
+#include "../../LowLevelDriver/ADC/ADC12ChannelHAL.h"
+
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorData.h"
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorStatus.h"
 #include "../../../sirius-headers-common/PressureSensor/PressureSensorErrorStatus.h"
@@ -13,6 +15,8 @@ typedef PressureSensorData (*PressureSensor_readData)(struct PressureSensor* ins
 typedef struct {
   PressureSensor_init       init;
   PressureSensor_readData   readData;
+
+  ADC12Channel* adcChannel;
 
   PressureSensorErrorStatus errorStatus;
   PressureSensorStatus      status;

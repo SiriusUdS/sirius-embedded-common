@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../LowLevelDriver/ADC/ADC12HAL.h"
+#include "../../LowLevelDriver/ADC/ADC12ChannelHAL.h"
 #include "../../../sirius-headers-common/TemperatureSensor/TemperatureSensorData.h"
 #include "../../../sirius-headers-common/TemperatureSensor/TemperatureSensorStatus.h"
 #include "../../../sirius-headers-common/TemperatureSensor/TemperatureSensorErrorStatus.h"
@@ -13,7 +13,7 @@ typedef struct {
   TemperatureSensor_init     init;
   TemperatureSensor_readData readData;
 
-  ADC12* adc;
+  ADC12Channel* adcChannel;
 
   TemperatureSensorErrorStatus errorStatus;
   TemperatureSensorStatus      status;

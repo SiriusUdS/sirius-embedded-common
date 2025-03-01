@@ -9,6 +9,8 @@
       "adc12hal.h": "c",
       "pressuresensor.h": "c",
       "temperaturesensor.h": "c",
-      "temperaturesensorerrorstatus.h": "c"
+      "temperaturesensorerrorstatus.h": "c",
+      "temperaturesensorstatus.h": "c",
+      "pressuresensorstatus.h": "c"
     }
 }

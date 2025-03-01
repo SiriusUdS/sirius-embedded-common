@@ -5,20 +5,17 @@
 void ADC12HAL_init(ADC12* instance) {
   instance->errorStatus.value = 0;
   instance->status.value = 0;
-
-  instance->currentValue = 0;
-}
-
-int16_t ADC12HAL_getValue(ADC12* instance) {
-  ADC_ChannelConfTypeDef adcConfig = {0};
   ADC_HandleTypeDef* adcHandle = (ADC_HandleTypeDef*)instance->externalHandle;
 
-  adcConfig.Channel = instance->channel;
-  adcConfig.Rank = instance->rank;
-  adcConfig.SamplingTime = instance->sampleTime_adcClockCyles;
+  for (uint8_t i = 0; i < instance->activeChannelsAmt; i++) {
+    instance->channels[i].currentValue = &instance->values[i];
+  }
 
-  HAL_ADC_ConfigChannel(adcHandle, &adcConfig);
-  HAL_ADC_PollForConversion(adcHandle, 50);
+  HAL_ADC_Start_DMA(adcHandle, instance->values, (instance->activeChannelsAmt << 1));
+}
 
-  return (int16_t)HAL_ADC_GetValue(adcHandle);
+void ADC12HAL_tick(ADC12* instance) {
+  for (uint8_t i = 0; i < instance->activeChannelsAmt; i++) {
+    instance->channels[i].tick(&instance->channels[i]);
+  }
 }

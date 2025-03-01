@@ -8,6 +8,6 @@ void NTC3950_init(TemperatureSensor* instance) {
 TemperatureSensorData NTC3950_readData(TemperatureSensor* instance) {
   TemperatureSensorData currentData = {0};
   
-  currentData.rawTemperature = instance->adc->getValue(instance->adc);
+  currentData.rawTemperature = *instance->adcChannel->currentValue;
   return currentData;
 }

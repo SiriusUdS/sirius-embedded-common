@@ -8,6 +8,6 @@ void ETM375_init(PressureSensor* instance) {
 void ETM375_gatherData(PressureSensor* instance) {
   PressureSensorData currentData = {0};
   
-  // READ DIFF ADC
+  currentData.rawPressure = *instance->adcChannel->currentValue;
   return currentData;
 }

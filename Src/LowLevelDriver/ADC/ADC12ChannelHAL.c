@@ -1,5 +1,7 @@
 #include "../../../Inc/LowLevelDriver/ADC/ADC12ChannelHAL.h"
 
+#include "stm32f4xx_hal.h"
+
 void ADC12ChannelHAL_init(ADC12Channel* instance) {
   instance->errorStatus.value = 0;
   instance->status.value = 0;

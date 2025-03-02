@@ -10,6 +10,7 @@ void ADC12HAL_init(ADC12* instance, uint8_t activeChannelsAmt) {
 
   for (uint8_t i = 0; i < instance->activeChannelsAmt; i++) {
     instance->channels[i].currentValue = &instance->values[i];
+    instance->channels[i].externalHandle = instance->externalHandle; 
   }
 
   HAL_ADC_Start_DMA(adcHandle, instance->values, (instance->activeChannelsAmt << 1));

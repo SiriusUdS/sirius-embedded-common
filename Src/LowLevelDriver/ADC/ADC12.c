@@ -8,5 +8,4 @@ void ADC12_initDefault(ADC12* instance, uint8_t activeChannelsAmt) {
 
 void ADC12_tickDefault(ADC12* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
-  return 0;
 }

@@ -5,7 +5,7 @@
 
 #include "../../LowLevelDriver/PWM/PWM.h"
 
-#define PWM_DUTY_CYCLE_MAX_CCR 32031
+#define PWM_DUTY_CYCLE_MAX_CCR 30029
 
 struct Valve;
 

@@ -13,7 +13,7 @@ void ADC12HAL_init(ADC12* instance, uint8_t activeChannelsAmt) {
     instance->channels[i].externalHandle = instance->externalHandle; 
   }
 
-  HAL_ADC_Start_DMA(adcHandle, instance->values, (instance->activeChannelsAmt << 1));
+  HAL_ADC_Start_DMA(adcHandle, instance->values, instance->activeChannelsAmt);
 }
 
 void ADC12HAL_tick(ADC12* instance) {

@@ -40,7 +40,7 @@ void SG90_tick(Valve* instance) {
 }
 
 void SG90_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
-  instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)PWM_DUTY_CYCLE_MAX_CCR) / 100);
+  instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)SG90_PWM_DUTY_CYCLE_MAX_CCR) / 100);
 }
 
 void incrementDutyCycle(Valve* instance) {

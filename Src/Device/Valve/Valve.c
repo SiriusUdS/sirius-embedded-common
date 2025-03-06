@@ -18,6 +18,14 @@ void Valve_setDutyCycleDefault(Valve* instance, uint32_t dutyCycle_pct) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
+void Valve_closeDefault(Valve* instance) {
+  instance->errorStatus.bits.defaultFunctionCalled = 1;
+}
+
+void Valve_openDefault(Valve* instance) {
+  instance->errorStatus.bits.defaultFunctionCalled = 1;
+}
+
 void Valve_tickDefault(Valve* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

@@ -8,9 +8,9 @@ void UARTHAL_init(UART* instance) {
 }
 
 void UARTHAL_sendData(UART* instance, uint8_t* data, uint16_t size) {
-  
+  HAL_UART_Transmit((UART_HandleTypeDef*)instance->externalHandle, data, size, UART_COMMUNICATION_TIMEOUT_MS);
 }
 
 void UARTHAL_receiveData(UART* instance, uint8_t* data, uint16_t size) {
-
+  HAL_UART_Receive((UART_HandleTypeDef*)instance->externalHandle, data, size, UART_COMMUNICATION_TIMEOUT_MS);
 }

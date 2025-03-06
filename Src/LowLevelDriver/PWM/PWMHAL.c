@@ -2,19 +2,14 @@
 
 #include "stm32f4xx_hal.h"
 
+static setFrequency(PWM* instance);
+
 void PWMHAL_init(PWM* instance) {
   instance->status.value = 0;
   instance->errorStatus.value = 0;
   TIM_HandleTypeDef* halHandle = (TIM_HandleTypeDef*)instance->externalHandle;
 
-  HAL_TIM_Base_Stop_IT(halHandle);
-  __HAL_TIM_SET_PRESCALER(halHandle, instance->prescaler);
-  ((TIM_TypeDef *)(instance->timer))->ARR = instance->autoReload;
-  if(HAL_TIM_Base_Start_IT(halHandle) != HAL_OK) {
-    return;
-  }
-
-  HAL_TIM_PWM_Start(halHandle, instance->channel);
+  setFrequency(instance);
 
   instance->setDutyCycle(instance, instance->minDutyCycle_CCR);
 }
@@ -45,4 +40,19 @@ void PWMHAL_setDutyCycle(PWM* instance, uint16_t dutyCycle_CCR) {
   
   instance->currentDutyCycle_CCR = dutyCycle_CCR;
   instance->lastDutyCycleChangeTimestamp_ms = HAL_GetTick();
+}
+
+void setFrequency(PWM* instance) {
+  TIM_HandleTypeDef* halHandle = (TIM_HandleTypeDef*)instance->externalHandle;
+  if (instance->autoReload == 0 && instance->prescaler == 0) {
+    instance->errorStatus.bits.notInitialized = 1;
+    return;
+  }
+
+  HAL_TIM_Base_Stop_IT(halHandle);
+  __HAL_TIM_SET_PRESCALER(halHandle, instance->prescaler);
+  ((TIM_TypeDef *)(instance->timer))->ARR = instance->autoReload;
+  HAL_TIM_Base_Start_IT(halHandle);
+
+  HAL_TIM_PWM_Start(halHandle, instance->channel);
 }

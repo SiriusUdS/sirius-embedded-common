@@ -17,18 +17,20 @@ typedef struct {
   uint16_t maxDutyCycle_CCR;
 
   // for now, used for HAL comptatibility
-  void* externalHandle; 
+  void* externalHandle;
   void* timer;
 
   // When used with HAL, both = 0
   uint8_t timerId;
   uint8_t channel;
 
+  uint32_t clockFrequency_Hz;
+
   uint16_t prescaler;
   uint16_t autoReload;
-  uint16_t comparator;
 
   int16_t       currentDutyCycle_CCR;
+  int16_t       maxCCRValue;
   unsigned long lastDutyCycleChangeTimestamp_ms;
 
   PWMErrorStatus errorStatus;

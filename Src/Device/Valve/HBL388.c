@@ -20,6 +20,16 @@ void HBL388_gatherData(Valve* instance) {
   // WAITING FOR PCB TO IMPLEMENT VALVE READING
 }
 
+void HBL388_close(Valve* instance) {
+  instance->targetDutyCycle_CCR = HBL388_PWM_DUTY_CYCLE_MIN_CCR;
+  instance->pwm->setDutyCycle(instance->pwm, HBL388_PWM_DUTY_CYCLE_MIN_CCR);
+}
+
+void HBL388_open(Valve* instance) {
+  instance->targetDutyCycle_CCR = HBL388_PWM_DUTY_CYCLE_MAX_CCR;
+  instance->pwm->setDutyCycle(instance->pwm, HBL388_PWM_DUTY_CYCLE_MAX_CCR);
+}
+
 void HBL388_tick(Valve* instance) {
   if(instance->pwm->currentDutyCycle_CCR == instance->targetDutyCycle_CCR) {
     instance->status.bits.isClosing = 0;
@@ -40,23 +50,23 @@ void HBL388_tick(Valve* instance) {
 }
 
 void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
-  instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)PWM_DUTY_CYCLE_MAX_CCR) / 100);
+  instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / 100);
 }
 
 void incrementDutyCycle(Valve* instance) {
-  if (instance->pwm->currentDutyCycle_CCR + HBL388_ELAPSED_STEP >= instance->targetDutyCycle_CCR) {
+  if (instance->pwm->currentDutyCycle_CCR + HBL388_STEP >= instance->targetDutyCycle_CCR) {
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->targetDutyCycle_CCR);
     instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
     return;
   }
 
   if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTimestamp_ms >= HBL388_ELAPSED_DELAY_MS){
-    instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR + HBL388_ELAPSED_STEP);
+    instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR + HBL388_STEP);
   }
 }
 
 void decrementDutyCycle(Valve* instance) {
-  if (instance->pwm->currentDutyCycle_CCR - HBL388_ELAPSED_STEP <= instance->targetDutyCycle_CCR) {
+  if (instance->pwm->currentDutyCycle_CCR - HBL388_STEP <= instance->targetDutyCycle_CCR) {
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->targetDutyCycle_CCR);
     instance->pwm->currentDutyCycle_CCR = instance->targetDutyCycle_CCR;
     return;

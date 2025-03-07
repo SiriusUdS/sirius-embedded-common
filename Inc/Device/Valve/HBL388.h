@@ -27,4 +27,4 @@ extern void HBL388_close(Valve* instance, uint32_t timestamp_ms);
 
 extern void HBL388_open(Valve* instance, uint32_t timestamp_ms);
 
-extern void HBL388_tick(Valve* instance);
+extern void HBL388_tick(Valve* instance, uint32_t timestamp_ms);

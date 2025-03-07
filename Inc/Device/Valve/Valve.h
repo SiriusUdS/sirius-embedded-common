@@ -47,8 +47,6 @@ typedef struct {
 
   ValveState currentState;
 
-  int16_t targetDutyCycle_CCR;
-
   uint32_t slowestExpectedMoveTime_ms;
   uint32_t lastDutyCycleChangeTimestamp_ms;
 

@@ -11,7 +11,7 @@ void HBL388_init(Valve* instance) {
   instance->close = (Valve_close)HBL388_close;
   instance->open = (Valve_close)HBL388_open;
   instance->tick = (Valve_tick)HBL388_tick;
-  
+
   instance->status.value = 0;
   instance->errorStatus.value = 0;
 
@@ -29,14 +29,12 @@ void HBL388_setIdle(Valve* instance) {
 }
 
 void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
-  instance->targetDutyCycle_CCR = HBL388_CLOSED_DUTY_CYCLE_CCR;
   instance->pwm->setDutyCycle(instance->pwm, HBL388_CLOSED_DUTY_CYCLE_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_CLOSING;
 }
 
 void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
-  instance->targetDutyCycle_CCR = HBL388_OPENED_DUTY_CYCLE_CCR;
   instance->pwm->setDutyCycle(instance->pwm, HBL388_OPENED_DUTY_CYCLE_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_OPENING;
@@ -83,7 +81,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
 
 // Unused for now, but way be used with tests
 void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
-  instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / 100);
+  //instance->targetDutyCycle_CCR = (int16_t)((dutyCycle_pct * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / 100);
 }
 
 void incrementDutyCycle(Valve* instance) {

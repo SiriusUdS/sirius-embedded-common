@@ -29,8 +29,8 @@ typedef struct {
   uint16_t prescaler;
   uint16_t autoReload;
 
-  int16_t       currentDutyCycle_CCR;
-  int16_t       maxCCRValue;
+  uint16_t       currentDutyCycle_CCR;
+  uint16_t       maxCCRValue;
   unsigned long lastDutyCycleChangeTimestamp_ms;
 
   PWMErrorStatus errorStatus;

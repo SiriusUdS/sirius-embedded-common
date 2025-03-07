@@ -17,13 +17,10 @@ struct Valve;
 #define VALVE_GPIO_CLOSED_INDEX 1
 
 typedef enum {
-  VALVE_UNKNOWN,
-  VALVE_OPENED,
-  VALVE_CLOSED,
-  VALVE_OPENING,
-  VALVE_CLOSING
+  VALVE_MOVEMENT_NOT_COMPLETED,
+  VALVE_MOVEMENT_COMPLETED
 }
-ValveState;
+ValveMovementCompleted;
 
 typedef void (*Valve_init)(struct Valve* instance);
 

@@ -4,7 +4,7 @@ static void incrementDutyCycle(Valve* instance);
 
 static void decrementDutyCycle(Valve* instance);
 
-static uint8_t isMovementCompleted(Valve* instance);
+static ValveMovementCompleted isMovementCompleted(Valve* instance);
 
 void HBL388_init(Valve* instance) {
   instance->status.value = 0;
@@ -18,16 +18,23 @@ void HBL388_init(Valve* instance) {
   instance->pwm->currentDutyCycle_CCR = instance->pwm->minDutyCycle_CCR;
 }
 
+void HBL388_setIdle(Valve* instance) {
+  instance->pwm->setDutyCycle(instance->pwm, 0);
+  instance->status.bits.isIdle = 1;
+}
+
 void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
   instance->targetDutyCycle_CCR = HBL388_PWM_DUTY_CYCLE_MIN_CCR;
   instance->pwm->setDutyCycle(instance->pwm, HBL388_PWM_DUTY_CYCLE_MIN_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
+  instance->currentState = VALVE_STATE_CLOSING;
 }
 
 void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
   instance->targetDutyCycle_CCR = HBL388_PWM_DUTY_CYCLE_MAX_CCR;
   instance->pwm->setDutyCycle(instance->pwm, HBL388_PWM_DUTY_CYCLE_MAX_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
+  instance->currentState = VALVE_STATE_OPENING;
 }
 
 void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
@@ -36,12 +43,13 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
   }
 
   switch (instance->currentState) {
-    case VALVE_CLOSED:
-    case VALVE_OPENED:
+    case VALVE_STATE_CLOSED:
+    case VALVE_STATE_OPENED:
       break;
-    case VALVE_CLOSING:
-      if (isMovementCompleted) {
-        instance->currentState = VALVE_CLOSED;
+    case VALVE_STATE_CLOSING:
+      if (isMovementCompleted(instance) == VALVE_MOVEMENT_COMPLETED) {
+        instance->currentState = VALVE_STATE_CLOSED;
+        instance->setIdle(instance);
         instance->adjustmentsCount = 0;
       }
       else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
@@ -49,9 +57,10 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->adjustmentsCount++;
       }
       break;
-    case VALVE_OPENING:
-      if (isMovementCompleted) {
-        instance->currentState = VALVE_OPENED;
+    case VALVE_STATE_OPENING:
+      if (isMovementCompleted(instance) == VALVE_MOVEMENT_COMPLETED) {
+        instance->currentState = VALVE_STATE_OPENED;
+        instance->setIdle(instance);
         instance->adjustmentsCount = 0;
       }
       else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
@@ -59,8 +68,9 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->adjustmentsCount++;
       }
       break;
-    case VALVE_UNKNOWN:
+    case VALVE_STATE_UNKNOWN:
     default:
+      instance->currentState = VALVE_STATE_UNKNOWN;
       instance->errorStatus.bits.invalidState = 1;
       break;
   }
@@ -83,8 +93,22 @@ void decrementDutyCycle(Valve* instance) {
   }
 }
 
-uint8_t isMovementCompleted(Valve* instance) {
-  // Check if switch has been triggered
-  // return 1 if completed
-  // return 0 if not completed
+ValveMovementCompleted isMovementCompleted(Valve* instance) {
+  switch (instance->currentState) {
+    case VALVE_STATE_CLOSED:
+    case VALVE_STATE_OPENED:
+      return VALVE_MOVEMENT_COMPLETED;
+    case VALVE_STATE_CLOSING:
+      if (instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read(instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_HIGH) {
+        return VALVE_MOVEMENT_COMPLETED;
+      }
+      return VALVE_MOVEMENT_NOT_COMPLETED;
+    case VALVE_STATE_OPENING:
+      if (instance->gpio[VALVE_GPIO_OPENED_INDEX]->read(instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_HIGH) {
+        return VALVE_MOVEMENT_COMPLETED;
+      }
+      return VALVE_MOVEMENT_NOT_COMPLETED;
+    case VALVE_STATE_UNKNOWN:
+      return 0;
+  }
 }

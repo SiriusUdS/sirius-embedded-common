@@ -7,10 +7,12 @@ void GPIOHAL_init(GPIO* instance) {
   instance->status.value = 0;
 }
 
-int8_t GPIOHAL_read(GPIO* instance) {
-  return HAL_GPIO_ReadPin(instance->pinGroup, instance->pinNumber);
+GPIOValue GPIOHAL_read(GPIO* instance) {
+  instance->currentValue = (GPIOValue)HAL_GPIO_ReadPin(instance->pinGroup, instance->pinNumber);
+  return instance->currentValue;
 }
 
-void GPIOHAL_write(GPIO* instance, uint8_t value) {
-  HAL_GPIO_WritePin(instance->pinGroup, instance->pinNumber, (GPIO_PinState)value);
+void GPIOHAL_write(GPIO* instance, GPIOValue value) {
+  instance->currentValue = value;
+  HAL_GPIO_WritePin(instance->pinGroup, instance->pinNumber, (GPIO_PinState)instance->currentValue);
 }

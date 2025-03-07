@@ -17,11 +17,11 @@
 #define HBL388_PWM_CLOSE_DUTY_CYCLE_PCT 28
 
 #define HBL388_ELAPSED_DELAY_MS 1
-#define HBL388_STEP 1000
+#define HBL388_STEP 10
 
 extern void HBL388_init(Valve* instance);
 
-extern void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct);
+extern void HBL388_setIdle(Valve* instance);
 
 extern void HBL388_close(Valve* instance, uint32_t timestamp_ms);
 

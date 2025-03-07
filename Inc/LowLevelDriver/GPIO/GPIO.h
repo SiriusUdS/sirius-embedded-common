@@ -19,14 +19,14 @@ typedef enum {
 GPIOPullMode;
 
 typedef enum {
-  GPIO_HIGH,
-  GPIO_LOW
+  GPIO_VALUE_HIGH,
+  GPIO_VALUE_LOW
 }
 GPIOValue;
 
 typedef void (*GPIO_init)(struct GPIO* instance);
 
-typedef uint8_t (*GPIO_read)(struct GPIO* instance);
+typedef GPIOValue (*GPIO_read)(struct GPIO* instance);
 
 typedef void (*GPIO_write)(struct GPIO* instance, uint8_t value);
 
@@ -37,7 +37,7 @@ typedef struct {
 
   void* externalHandle;
 
-  uint8_t currentValue;
+  GPIOValue currentValue;
 
   GPIOMode mode;
   GPIOPullMode pullMode;
@@ -52,6 +52,6 @@ GPIO;
 
 extern void GPIO_initDefault(GPIO* instance);
 
-extern int8_t GPIO_readDefault(GPIO* instance);
+extern GPIOValue GPIO_readDefault(GPIO* instance);
 
-extern void GPIO_writeDefault(GPIO* instance, uint8_t value);
+extern void GPIO_writeDefault(GPIO* instance, GPIOValue value);

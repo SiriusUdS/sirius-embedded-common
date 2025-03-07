@@ -4,4 +4,4 @@
 
 extern void ETM375_init(PressureSensor* instance);
 
-extern void ETM375_gatherData(PressureSensor* instance);
+extern void ETM375_tick(PressureSensor* instance, uint32_t timestamp_ms);

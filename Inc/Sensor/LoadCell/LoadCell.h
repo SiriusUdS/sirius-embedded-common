@@ -10,7 +10,7 @@ struct LoadCell;
 
 typedef void (*LoadCell_init)(struct LoadCell* instance);
 
-typedef void (*LoadCell_tick)(struct LoadCell* instance, uint32_t timestamp_ms);
+typedef void (*LoadCell_tick)(struct LoadCell* instance);
 
 typedef struct {
   LoadCell_init init;
@@ -27,4 +27,4 @@ LoadCell;
 
 extern void LoadCell_initDefault(LoadCell* instance);
 
-extern void LoadCell_tickDefault(LoadCell* instance, uint32_t timestamp_ms);
+extern void LoadCell_tickDefault(LoadCell* instance);

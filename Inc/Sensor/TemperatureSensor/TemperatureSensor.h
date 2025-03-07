@@ -9,7 +9,7 @@ struct TemperatureSensor;
 
 typedef void (*TemperatureSensor_init)(struct TemperatureSensor* instance);
 
-typedef void (*TemperatureSensor_tick)(struct TemperatureSensor* instance, uint32_t timestamp_ms);
+typedef void (*TemperatureSensor_tick)(struct TemperatureSensor* instance);
 
 typedef struct {
   TemperatureSensor_init     init;
@@ -26,4 +26,4 @@ TemperatureSensor;
 
 extern void TemperatureSensor_initDefault(TemperatureSensor* instance);
 
-extern void TemperatureSensor_tickDefault(TemperatureSensor* instance, uint32_t timestamp_ms);
+extern void TemperatureSensor_tickDefault(TemperatureSensor* instance);

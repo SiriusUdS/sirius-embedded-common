@@ -6,6 +6,6 @@ void LoadCell_initDefault(LoadCell* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void LoadCell_tickDefault(LoadCell* instance, uint32_t timestamp_ms) {
+void LoadCell_tickDefault(LoadCell* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

@@ -24,15 +24,15 @@ void HBL388_setIdle(Valve* instance) {
 }
 
 void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
-  instance->targetDutyCycle_CCR = HBL388_PWM_DUTY_CYCLE_MIN_CCR;
-  instance->pwm->setDutyCycle(instance->pwm, HBL388_PWM_DUTY_CYCLE_MIN_CCR);
+  instance->targetDutyCycle_CCR = HBL388_CLOSED_DUTY_CYCLE_CCR;
+  instance->pwm->setDutyCycle(instance->pwm, HBL388_CLOSED_DUTY_CYCLE_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_CLOSING;
 }
 
 void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
-  instance->targetDutyCycle_CCR = HBL388_PWM_DUTY_CYCLE_MAX_CCR;
-  instance->pwm->setDutyCycle(instance->pwm, HBL388_PWM_DUTY_CYCLE_MAX_CCR);
+  instance->targetDutyCycle_CCR = HBL388_OPENED_DUTY_CYCLE_CCR;
+  instance->pwm->setDutyCycle(instance->pwm, HBL388_OPENED_DUTY_CYCLE_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_OPENING;
 }
@@ -52,10 +52,10 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->setIdle(instance);
         instance->adjustmentsCount = 0;
       }
-      else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
+      /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
         decrementDutyCycle(instance);
         instance->adjustmentsCount++;
-      }
+      }*/
       break;
     case VALVE_STATE_OPENING:
       if (isMovementCompleted(instance) == VALVE_MOVEMENT_COMPLETED) {
@@ -63,10 +63,10 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->setIdle(instance);
         instance->adjustmentsCount = 0;
       }
-      else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
+      /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
         incrementDutyCycle(instance);
         instance->adjustmentsCount++;
-      }
+      }*/
       break;
     case VALVE_STATE_UNKNOWN:
     default:

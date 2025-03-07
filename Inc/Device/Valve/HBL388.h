@@ -1,8 +1,5 @@
 #pragma once
 
-// Inspired by
-// https://deepbluembedded.com/stm32-servo-motor-control-with-pwm-servo-library-examples-code/
-
 #include "Valve.h"
 
 #define HBL388_OPERATING_FREQUENCY_HZ 333
@@ -13,8 +10,11 @@
 #define HBL388_PWM_DUTY_CYCLE_MIN_CCR 0
 #define HBL388_PWM_DUTY_CYCLE_MAX_CCR HBL388_ARR
 
-#define HBL388_PWM_OPEN_DUTY_CYCLE_PCT  72
-#define HBL388_PWM_CLOSE_DUTY_CYCLE_PCT 28
+#define HBL388_PWM_OPENED_DUTY_CYCLE_PCT  72
+#define HBL388_PWM_CLOSED_DUTY_CYCLE_PCT 28
+
+#define HBL388_OPENED_DUTY_CYCLE_CCR (HBL388_ARR * HBL388_PWM_OPENED_DUTY_CYCLE_PCT) / 100 
+#define HBL388_CLOSED_DUTY_CYCLE_CCR (HBL388_ARR * HBL388_PWM_CLOSED_DUTY_CYCLE_PCT) / 100
 
 #define HBL388_ELAPSED_DELAY_MS 1
 #define HBL388_STEP 10

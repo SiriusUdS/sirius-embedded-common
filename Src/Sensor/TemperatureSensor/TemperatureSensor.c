@@ -1,14 +1,11 @@
 #include "../../../Inc/Sensor/TemperatureSensor/TemperatureSensor.h"
 
-TemperatureSensorData defaultData = {0};
 void TemperatureSensor_initDefault(TemperatureSensor* instance) {
   instance->errorStatus.value = 0;
   instance->status.value = 0;
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-TemperatureSensorData TemperatureSensor_readDataDefault(TemperatureSensor* instance) {
+void TemperatureSensor_tickDefault(TemperatureSensor* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
-  
-  return defaultData;
 }

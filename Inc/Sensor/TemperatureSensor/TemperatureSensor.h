@@ -5,15 +5,19 @@
 #include "../../../sirius-headers-common/TemperatureSensor/TemperatureSensorStatus.h"
 #include "../../../sirius-headers-common/TemperatureSensor/TemperatureSensorErrorStatus.h"
 
+struct TemperatureSensor;
+
 typedef void (*TemperatureSensor_init)(struct TemperatureSensor* instance);
 
-typedef TemperatureSensorData (*TemperatureSensor_readData)(struct TemperatureSensor* instance);
+typedef void (*TemperatureSensor_tick)(struct TemperatureSensor* instance, uint32_t timestamp_ms);
 
 typedef struct {
   TemperatureSensor_init     init;
-  TemperatureSensor_readData readData;
+  TemperatureSensor_tick     tick;
 
   ADC12Channel* adcChannel;
+
+  TemperatureSensorData currentTemperature_adc;
 
   TemperatureSensorErrorStatus errorStatus;
   TemperatureSensorStatus      status;
@@ -22,4 +26,4 @@ TemperatureSensor;
 
 extern void TemperatureSensor_initDefault(TemperatureSensor* instance);
 
-extern TemperatureSensorData TemperatureSensor_readDataDefault(TemperatureSensor* instance);
+extern void TemperatureSensor_tickDefault(TemperatureSensor* instance, uint32_t timestamp_ms);

@@ -10,13 +10,15 @@ struct PressureSensor;
 
 typedef void (*PressureSensor_init)(struct PressureSensor* instance);
 
-typedef PressureSensorData (*PressureSensor_readData)(struct PressureSensor* instance);
+typedef void (*PressureSensor_tick)(struct PressureSensor* instance, uint32_t timestamp_ms);
 
 typedef struct {
-  PressureSensor_init       init;
-  PressureSensor_readData   readData;
+  PressureSensor_init init;
+  PressureSensor_tick readData;
 
   ADC12Channel* adcChannel;
+
+  PressureSensorData currentPressure_adc;
 
   PressureSensorErrorStatus errorStatus;
   PressureSensorStatus      status;
@@ -25,4 +27,4 @@ PressureSensor;
 
 extern void PressureSensor_initDefault(PressureSensor* instance);
 
-extern PressureSensorData PressureSensor_readDataDefault(PressureSensor* instance);
+extern void PressureSensor_tickDefault(PressureSensor* instance, uint32_t timestamp_ms);

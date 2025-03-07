@@ -4,4 +4,4 @@
 
 extern void NTC3950_init(TemperatureSensor* instance);
 
-extern TemperatureSensorData NTC3950_readData(TemperatureSensor* instance);
+extern void NTC3950_tick(TemperatureSensor* instance, uint32_t timestamp_ms);

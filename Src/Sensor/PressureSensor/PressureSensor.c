@@ -6,8 +6,6 @@ void PressureSensor_initDefault(PressureSensor* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-PressureSensorData PressureSensor_gatherDataDefault(PressureSensor* instance) {
-  PressureSensorData defaultData = {0};
+void PressureSensor_tickDefault(PressureSensor* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
-  return defaultData;
 }

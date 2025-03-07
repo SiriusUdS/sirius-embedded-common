@@ -5,9 +5,6 @@ void NTC3950_init(TemperatureSensor* instance) {
   instance->errorStatus.value = 0;
 }
 
-TemperatureSensorData NTC3950_readData(TemperatureSensor* instance) {
-  TemperatureSensorData currentData = {0};
-  
-  currentData.rawTemperature = *instance->adcChannel->currentValue;
-  return currentData;
+void NTC3950_tick(TemperatureSensor* instance, uint32_t timestamp_ms) {
+  instance->currentTemperature_adc = *(TemperatureSensorData*)instance->adcChannel->currentValue;
 }

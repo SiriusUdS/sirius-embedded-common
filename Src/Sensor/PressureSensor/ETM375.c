@@ -5,9 +5,6 @@ void ETM375_init(PressureSensor* instance) {
   instance->status.value = 0;
 }
 
-void ETM375_gatherData(PressureSensor* instance) {
-  PressureSensorData currentData = {0};
-  
-  currentData.rawPressure = *instance->adcChannel->currentValue;
-  return currentData;
+void ETM375_tick(PressureSensor* instance, uint32_t timestamp_ms) {
+  instance->currentPressure_adc = *(PressureSensorData*)instance->adcChannel->currentValue;
 }

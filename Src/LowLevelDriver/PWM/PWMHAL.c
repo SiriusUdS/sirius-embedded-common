@@ -2,7 +2,7 @@
 
 #include "stm32f4xx_hal.h"
 
-static setFrequency(PWM* instance);
+static void setFrequency(PWM* instance);
 
 void PWMHAL_init(PWM* instance) {
   instance->status.value = 0;

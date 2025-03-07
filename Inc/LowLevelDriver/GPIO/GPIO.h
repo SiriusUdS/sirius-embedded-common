@@ -6,8 +6,8 @@
 struct GPIO;
 
 typedef enum {
-  GPIO_MODE_INPUT,
-  GPIO_MODE_OUTPUT
+  GPIO_INPUT_MODE,
+  GPIO_OUTPUT_MODE
 }
 GPIOMode;
 

@@ -5,27 +5,24 @@ void Valve_initDefault(Valve* instance) {
   instance->errorStatus.value = 0;
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 
-  instance->gatherData = (Valve_gatherData)Valve_gatherDataDefault;
-  instance->setDutyCycle = (Valve_setDutyCycle)Valve_setDutyCycleDefault;
+  instance->setIdle = (Valve_setIdle)Valve_setIdleDefault;
+  instance->close = (Valve_close)Valve_closeDefault;
+  instance->open = (Valve_close)Valve_openDefault;
   instance->tick = (Valve_tick)Valve_tickDefault;
 }
 
-void Valve_gatherDataDefault(Valve* instance) {
+void Valve_setIdleDefault(Valve* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Valve_setDutyCycleDefault(Valve* instance, uint32_t dutyCycle_pct) {
+void Valve_closeDefault(Valve* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Valve_closeDefault(Valve* instance) {
+void Valve_openDefault(Valve* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Valve_openDefault(Valve* instance) {
-  instance->errorStatus.bits.defaultFunctionCalled = 1;
-}
-
-void Valve_tickDefault(Valve* instance) {
+void Valve_tickDefault(Valve* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

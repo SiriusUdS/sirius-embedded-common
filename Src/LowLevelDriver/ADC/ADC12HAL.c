@@ -3,6 +3,7 @@
 #include "stm32f4xx_hal.h"
 
 void ADC12HAL_init(ADC12* instance, uint8_t activeChannelsAmt) {
+  instance->tick = (ADC12_tick)ADC12HAL_tick;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
   ADC_HandleTypeDef* adcHandle = (ADC_HandleTypeDef*)instance->externalHandle;

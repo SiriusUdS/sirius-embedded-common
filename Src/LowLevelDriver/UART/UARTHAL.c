@@ -3,6 +3,8 @@
 #include "stm32f4xx_hal.h"
 
 void UARTHAL_init(UART* instance) {
+  instance->sendData = (UART_sendData)UARTHAL_sendData;
+  instance->receiveData = (UART_receiveData)UARTHAL_receiveData;
   instance->status.value = 0;
   instance->errorStatus.value = 0;
 }

@@ -1,6 +1,7 @@
 #include "../../../Inc/LowLevelDriver/GPIO/GPIO.h"
 
 void GPIO_initDefault(GPIO* instance) {
+  instance->read = (GPIO_read)GPIO_readDefault;
   instance->status.value = 0;
   instance->errorStatus.value = 0;
   instance->errorStatus.bits.defaultFunctionCalled = 1;

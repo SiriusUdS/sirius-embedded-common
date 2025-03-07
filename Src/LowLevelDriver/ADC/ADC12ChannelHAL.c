@@ -3,6 +3,7 @@
 #include "stm32f4xx_hal.h"
 
 void ADC12ChannelHAL_init(ADC12Channel* instance) {
+  instance->tick = (ADC12Channel_tick)ADC12ChannelHAL_tick;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 

@@ -7,6 +7,11 @@ static void decrementDutyCycle(Valve* instance);
 static ValveMovementCompleted isMovementCompleted(Valve* instance);
 
 void HBL388_init(Valve* instance) {
+  instance->setIdle = (Valve_setIdle)HBL388_setIdle;
+  instance->close = (Valve_close)HBL388_close;
+  instance->open = (Valve_close)HBL388_open;
+  instance->tick = (Valve_tick)HBL388_tick;
+  
   instance->status.value = 0;
   instance->errorStatus.value = 0;
 
@@ -16,11 +21,6 @@ void HBL388_init(Valve* instance) {
   instance->pwm->autoReload = HBL388_ARR;
 
   instance->pwm->currentDutyCycle_CCR = instance->pwm->minDutyCycle_CCR;
-
-  instance->setIdle = (Valve_setIdle)HBL388_setIdle;
-  instance->close = (Valve_close)HBL388_close;
-  instance->open = (Valve_close)HBL388_open;
-  instance->tick = (Valve_tick)HBL388_tick;
 }
 
 void HBL388_setIdle(Valve* instance) {

@@ -11,12 +11,12 @@ typedef void (*Igniter_ignite)(struct Igniter* instance);
 
 typedef struct {
   Igniter_init    init;
-  Igniter_ignite  setDutyCycle;
+  Igniter_ignite  ignite;
 
   GPIO* gpio;
 
-  IgniterErrorStatus    errorStatus;
-  IgniterStatus         status;
+  IgniterErrorStatus errorStatus;
+  IgniterStatus      status;
 }
 Igniter;
 

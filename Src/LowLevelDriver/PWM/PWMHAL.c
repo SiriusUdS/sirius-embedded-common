@@ -5,6 +5,7 @@
 static void setFrequency(PWM* instance);
 
 void PWMHAL_init(PWM* instance) {
+  instance->setDutyCycle = (PWM_setDutyCycle)PWMHAL_setDutyCycle;
   instance->status.value = 0;
   instance->errorStatus.value = 0;
   TIM_HandleTypeDef* halHandle = (TIM_HandleTypeDef*)instance->externalHandle;

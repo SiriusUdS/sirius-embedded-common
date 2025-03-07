@@ -1,6 +1,8 @@
 #include "../../../Inc/LowLevelDriver/UART/UART.h"
 
 void UART_initDefault(UART* instance) {
+  instance->sendData = (UART_sendData)UART_sendDataDefault;
+  instance->receiveData = (UART_receiveData)UART_receiveDataDefault;
   instance->status.value = 0;
   instance->errorStatus.value = 0;
   instance->errorStatus.bits.defaultFunctionCalled = 1;

@@ -1,14 +1,14 @@
 #include "../../../Inc/Device/Valve/Valve.h"
 
 void Valve_initDefault(Valve* instance) {
-  instance->status.value = 0;
-  instance->errorStatus.value = 0;
-  instance->errorStatus.bits.defaultFunctionCalled = 1;
-
   instance->setIdle = (Valve_setIdle)Valve_setIdleDefault;
   instance->close = (Valve_close)Valve_closeDefault;
   instance->open = (Valve_close)Valve_openDefault;
   instance->tick = (Valve_tick)Valve_tickDefault;
+  
+  instance->status.value = 0;
+  instance->errorStatus.value = 0;
+  instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
 void Valve_setIdleDefault(Valve* instance) {

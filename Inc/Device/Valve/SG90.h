@@ -2,12 +2,6 @@
 
 #include "Valve.h"
 
-/*
-FREQ = CLOCKFREQ/(PSC+1)*(ARR+1)
-
-PSC = CLOCKFREQ/FREQ(ARR+1)-1
-*/
-
 #define SG90_OPERATING_FREQUENCY_HZ 50
 
 #define SG90_PSC 59

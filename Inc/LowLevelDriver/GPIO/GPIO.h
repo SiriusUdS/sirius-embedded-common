@@ -5,6 +5,25 @@
 
 struct GPIO;
 
+typedef enum {
+  GPIO_MODE_INPUT,
+  GPIO_MODE_OUTPUT
+}
+GPIOMode;
+
+typedef enum {
+  GPIO_NO_PULL,
+  GPIO_PULL_DOWN,
+  GPIO_PULL_UP
+}
+GPIOPullMode;
+
+typedef enum {
+  GPIO_HIGH,
+  GPIO_LOW
+}
+GPIOValue;
+
 typedef void (*GPIO_init)(struct GPIO* instance);
 
 typedef uint8_t (*GPIO_read)(struct GPIO* instance);
@@ -18,8 +37,13 @@ typedef struct {
 
   void* externalHandle;
 
-  uint8_t pinGroup;
-  uint8_t pinNumber;
+  uint8_t currentValue;
+
+  GPIOMode mode;
+  GPIOPullMode pullMode;
+  
+  uint8_t  pinGroup;
+  uint8_t  pinNumber;
   
   GPIOErrorStatus  errorStatus;
   GPIOStatus       status;

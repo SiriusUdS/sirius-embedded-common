@@ -62,7 +62,7 @@ Valve;
 
 extern void Valve_initDefault(Valve* instance);
 
-extern void Valve_setDutyCycleDefault(Valve* instance, uint32_t ratio_pct);
+extern void Valve_setIdleDefault(Valve* instance);
 
 extern void Valve_closeDefault(Valve* instance, uint32_t timestamp_ms);
 

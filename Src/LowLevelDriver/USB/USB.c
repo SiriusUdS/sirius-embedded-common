@@ -1,6 +1,6 @@
 #include "../../../Inc/LowLevelDriver/USB/USB.h"
 
-void USB_init(USB* instance) {
+void USB_initDefault(USB* instance) {
   instance->transmit = (USB_transmit)USB_transmitDefault;
   instance->status.value = 0;
   instance->errorStatus.value = 0;

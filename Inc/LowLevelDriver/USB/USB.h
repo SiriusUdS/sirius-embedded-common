@@ -13,8 +13,6 @@ typedef struct {
   USB_init     init;
   USB_transmit transmit;
 
-  void* externalHandle;
-
   uint8_t* rxBuffer;
   uint16_t rxBufferSize_bytes;
   

@@ -2,6 +2,7 @@
 
 void GPIO_initDefault(GPIO* instance) {
   instance->read = (GPIO_read)GPIO_readDefault;
+  instance->write = (GPIO_write)GPIO_writeDefault;
   instance->status.value = 0;
   instance->errorStatus.value = 0;
   instance->errorStatus.bits.defaultFunctionCalled = 1;

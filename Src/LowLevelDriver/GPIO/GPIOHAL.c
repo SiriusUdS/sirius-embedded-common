@@ -3,6 +3,8 @@
 #include "stm32f4xx_hal.h"
 
 void GPIOHAL_init(GPIO* instance) {
+  instance->read = (GPIO_read)GPIOHAL_read;
+  instance->write = (GPIO_write)GPIOHAL_write;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 }

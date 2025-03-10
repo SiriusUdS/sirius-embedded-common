@@ -9,14 +9,14 @@ struct UART;
 
 typedef void (*UART_init)(struct UART* instance);
 
-typedef void (*UART_sendData)(struct UART* instance, uint8_t* data, uint16_t size);
+typedef void (*UART_transmit)(struct UART* instance, uint8_t* data, uint16_t size);
 
-typedef void (*UART_receiveData)(struct UART* instance, uint8_t* data, uint16_t size);
+typedef void (*UART_receive)(struct UART* instance, uint8_t* data, uint16_t size);
 
 typedef struct {
-  UART_init        init;
-  UART_sendData    sendData;
-  UART_receiveData receiveData;
+  UART_init     init;
+  UART_transmit transmit;
+  UART_receive  receive;
 
   void* externalHandle;
   
@@ -27,6 +27,6 @@ UART;
 
 extern void UART_initDefault(UART* instance);
 
-extern void UART_sendDataDefault(UART* instance, uint8_t* data, uint16_t size);
+extern void UART_transmitDefault(UART* instance, uint8_t* data, uint16_t size);
 
-extern void UART_receiveDataDefault(UART* instance, uint8_t* data, uint16_t size);
+extern void UART_receiveDefault(UART* instance, uint8_t* data, uint16_t size);

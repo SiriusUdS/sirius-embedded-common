@@ -9,7 +9,7 @@ void UARTHAL_init(UART* instance) {
   instance->errorStatus.value = 0;
 }
 
-void UARTHAL_send(UART* instance, uint8_t* data, uint16_t size) {
+void UARTHAL_transmit(UART* instance, uint8_t* data, uint16_t size) {
   HAL_UART_Transmit((UART_HandleTypeDef*)instance->externalHandle, data, size, UART_COMMUNICATION_TIMEOUT_MS);
 }
 

@@ -1,6 +1,6 @@
 #include "../../../Inc/LowLevelDriver/USB/USBHAL.h"
 
-#include "../../../../sirius-rocket-engine/SIRIUS_Rocket_Engine/USB_DEVICE/App/usbd_cdc_if.h"
+#include "usbd_cdc_if.h"
 
 void USBHAL_init(USB* instance) {
   instance->transmit = (USB_transmit)USBHAL_transmit;

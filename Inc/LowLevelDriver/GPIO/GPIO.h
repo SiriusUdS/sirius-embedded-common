@@ -19,8 +19,8 @@ typedef enum {
 GPIOPullMode;
 
 typedef enum {
-  GPIO_VALUE_HIGH,
-  GPIO_VALUE_LOW
+  GPIO_VALUE_LOW,
+  GPIO_VALUE_HIGH
 }
 GPIOValue;
 

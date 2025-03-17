@@ -8,9 +8,17 @@ static void disableWrite();
 
 static void getRegister();
 
-void FLASH_init(SPI_HandleTypeDef hspi, int fixTime){
+void FLASH_init(SPI_HandleTypeDef *hspi, int fixTime){
     flash.hspi = hspi;
     flash.fixTime = fixTime;
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    uint8_t b[] = {EWSR};
+    HAL_SPI_Transmit(flash.hspi, b, 2, 500);
+    HAL_Delay(1);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    uint8_t body[] = {WRSR, 0x00};
+    HAL_SPI_Transmit(flash.hspi, body, 2, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
 }
 
 int FLASH_write(uint8_t* addr, uint8_t* din, size_t size){
@@ -34,7 +42,9 @@ int FLASH_write(uint8_t* addr, uint8_t* din, size_t size){
 
     size_t cursor = 2;
     uint8_t header[] = {AAI, *(addr), *(addr+1), *(addr+2), *(din), *(din+1)};
-    HAL_SPI_Transmit(&flash.hspi, header, 6, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    HAL_SPI_Transmit(flash.hspi, header, 6, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
     if(flash.fixTime){
         HAL_Delay(T_BP_US);
         // TODO : MODIFY HAL_DELAY TO DELAY US
@@ -46,10 +56,12 @@ int FLASH_write(uint8_t* addr, uint8_t* din, size_t size){
         }
     }
 
-    size_t cursor = 0;
+    cursor = 0;
     for(size_t i = 0; i < nbPackage+1; i++){
         uint8_t pckg[] = {AAI, *(din+ cursor++), *(din+ cursor++)};
-        HAL_SPI_Transmit(&flash.hspi, pckg, 3, 500);
+        HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+        HAL_SPI_Transmit(flash.hspi, pckg, 3, 500);
+        HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
 
         if(flash.fixTime){
             HAL_Delay(T_BP_US);
@@ -66,22 +78,26 @@ int FLASH_write(uint8_t* addr, uint8_t* din, size_t size){
 
     disableWrite();
 
-    return SUCCESS;
+    return SUCCESS_FLASH;
 
 }
 int FLASH_read(uint8_t* addr, uint8_t* dout, size_t size){
     if(size < 4) return FAILED;
 
     uint8_t header[] = {RD, *(addr), *(addr+1), *(addr+2)};
-    HAL_SPI_Transmit(&flash.hspi, header, 4, 500);
-    HAL_SPI_Receive(&flash.hspi, dout, size, 500);
-    return SUCCESS;
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    HAL_SPI_Transmit(flash.hspi, header, 4, 500);
+    HAL_SPI_Receive(flash.hspi, dout, size, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    return SUCCESS_FLASH;
 }
 
 int FLASH_ERASE(uint8_t* addr){
     uint8_t header[] = {ERASE, *(addr), *(addr+1), *(addr+2)};
-    HAL_SPI_Transmit(&flash.hspi, header, 4, 500);
-    return SUCCESS;
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    HAL_SPI_Transmit(flash.hspi, header, 4, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    return SUCCESS_FLASH;
 }
 
 void FLASH_readStatusRegister(StatusRegister* reg){
@@ -91,20 +107,27 @@ void FLASH_readStatusRegister(StatusRegister* reg){
 
 void enableWrite(){
     uint8_t body[] = {WREN};
-    HAL_SPI_Transmit(&flash.hspi, body, 1, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    HAL_StatusTypeDef d = HAL_SPI_Transmit(flash.hspi, body, 1, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    HAL_Delay(10);
     getRegister();
 }
 
 void disableWrite(){
     uint8_t body[] = {WRDI};
-    HAL_SPI_Transmit(&flash.hspi, body, 1, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
+    HAL_SPI_Transmit(flash.hspi, body, 1, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
     getRegister();
 }
 
 void getRegister(){
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
     uint8_t body[] = {RDSR};
-    HAL_SPI_Transmit(&flash.hspi, body, 1, 500);
-    HAL_SPI_Receive(&flash.hspi, body, 1, 500);
+    HAL_SPI_Transmit(flash.hspi, body, 1, 500);
+    HAL_StatusTypeDef d = HAL_SPI_Receive(flash.hspi, body, 1, 500);
+    HAL_GPIO_TogglePin(GPIOE, GPIO_PIN_15);
     uint8_t temp[8];
     for(unsigned int i=0; i < 8; i++){
         temp[i] = (body[0] & (1 << i)) ? 1 :0; 

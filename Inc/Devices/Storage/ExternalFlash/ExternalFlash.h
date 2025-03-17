@@ -9,47 +9,49 @@
 #define RD 0x03
 #define AAI 0xAD
 #define RDSR 0x05
+#define WRSR 0x01
 #define ERASE 0x20
 #define WREN 0x06
 #define WRDI 0x04
+#define EWSR 0x50
 
 #define PCKG_SIZE_BYTE 2
 
 #define T_SE_MS 25
 #define T_SCE_MS 50
-#define T_BP_US 10
+#define T_BP_US 1
 
 
 typedef struct {
-    int busy : 1;
-    int wel : 1;
-    int BP0 : 1;
-    int BP1 : 1;
-    int BP2 : 1;
-    int BP3 : 1;
-    int aai : 1;
-    int bpl : 1;
+    uint8_t busy : 1;
+    uint8_t wel : 1;
+    uint8_t BP0 : 1;
+    uint8_t BP1 : 1;
+    uint8_t BP2 : 1;
+    uint8_t BP3 : 1;
+    uint8_t aai : 1;
+    uint8_t bpl : 1;
 }StatusRegister;
 
 
 enum FlashStatus{
     WRITE,
     READ,
-    RESET
+    RESET_FLASH
 };
 
 enum FlashFeedBack {
-    SUCCESS,
+    SUCCESS_FLASH,
     FAILED
 };
 
 typedef struct {
-    SPI_HandleTypeDef hspi;
+    SPI_HandleTypeDef *hspi;
     StatusRegister actualRegister;
-    int fixTime :1;
+    int fixTime;
 }ExternalFlash;
 
-void FLASH_init(SPI_HandleTypeDef hspi, int fixTime);
+void FLASH_init(SPI_HandleTypeDef *hspi, int fixTime);
 
 int FLASH_write(uint8_t* addr, uint8_t* din, size_t size);
 int FLASH_read(uint8_t* addr, uint8_t* dout, size_t size);

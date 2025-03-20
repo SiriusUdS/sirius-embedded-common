@@ -5,10 +5,10 @@ void ExternalFlash_init(Storage* instance) {
   instance->errorStatus.value = 0;
 }
 
-void ExternalFlash_storeAccelerometerData(Storage* instance, AccelerometerPacket data) {
+void ExternalFlash_store4kbData(Storage* instance, uint8_t* data) {
   
 }
 
-void ExternalFlash_storePressureSensorData(Storage* instance, PressureSensorPacket data) {
+void ExternalFlash_fetch4kbData(Storage* instance, uint8_t* data) {
   
 }

@@ -11,6 +11,8 @@
       "temperaturesensor.h": "c",
       "temperaturesensorerrorstatus.h": "c",
       "temperaturesensorstatus.h": "c",
-      "pressuresensorstatus.h": "c"
+      "pressuresensorstatus.h": "c",
+      "pwm.h": "c",
+      "spihal.h": "c"
     }
 }

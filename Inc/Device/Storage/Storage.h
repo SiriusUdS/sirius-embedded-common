@@ -10,14 +10,14 @@ struct Storage;
 
 typedef void (*Storage_init)(struct Storage* instance);
 
-typedef void (*Storage_storeAccelerometerData)(struct Storage* instance, AccelerometerPacket data);
+typedef void (*Storage_store4kbData)(struct Storage* instance, uint8_t* data);
 
-typedef void (*Storage_storePressureSensorData)(struct Storage* instance, PressureSensorPacket data);
+typedef void (*Storage_fetch4kbData)(struct Storage* instance, uint8_t* data);
 
 typedef struct {
-  Storage_init                    init;
-  Storage_storeAccelerometerData  storeAccelerometerData;
-  Storage_storePressureSensorData storePressureSensorData;
+  Storage_init         init;
+  Storage_store4kbData storePage;
+  Storage_fetch4kbData fetchData;
 
   StorageErrorStatus errorStatus;
   StorageStatus      status;
@@ -26,6 +26,6 @@ Storage;
 
 extern void Storage_initDefault(Storage* instance);
 
-extern void Storage_storeAccelerometerDataDefault(Storage* instance, AccelerometerPacket data);
+extern void Storage_store4kbDataDefault(Storage* instance, uint8_t* data);
 
-extern void Storage_storePressureSensorDataDefault(Storage* instance, PressureSensorPacket data);
+extern void Storage_fetch4kbDataDefault(Storage* instance, uint8_t data);

@@ -14,6 +14,15 @@ static FRESULT SDCard_mount(Storage* instance,TCHAR *path) {
   return fr_status;
 }
 
+static FRESULT SDCard_unmount(Storage* instance) {
+  FRESULT fr_status;
+  fr_status = f_mount(NULL, "", 0);
+  if (fr_status == FR_OK) {
+    instance->errorStatus.bits.notInitialized = 1;
+  }
+  return fr_status;
+}
+
 static FRESULT SDCard_size_free_space(Storage* instance,uint32_t *total_sectors, uint32_t *free_sectors) {
   FATFS fatfs;
   FRESULT fr_status;
@@ -64,6 +73,8 @@ void SDCard_store4kbData(Storage* instance, uint8_t* data) {
   f_puts(buffer, &fil);
 
   f_close(&fil);
+
+  SDCard_unmount(instance);
 }
 
 void SDCard_fetch4kbData(Storage* instance, uint8_t* data) {

@@ -28,4 +28,4 @@ extern void Storage_initDefault(Storage* instance);
 
 extern void Storage_store4kbDataDefault(Storage* instance, uint8_t* data);
 
-extern void Storage_fetch4kbDataDefault(Storage* instance, uint8_t data);
+extern void Storage_fetch4kbDataDefault(Storage* instance, uint8_t* data);

@@ -3,7 +3,7 @@
 #include <string.h>
 #include <stdint.h>
 
-#define BYTE_SIZE = 4096/8
+#define BYTE_SIZE 4096/8
 
 static FRESULT SDCard_mount(Storage* instance,TCHAR *path, FATFS * fatfs) {
   FRESULT fr_status;

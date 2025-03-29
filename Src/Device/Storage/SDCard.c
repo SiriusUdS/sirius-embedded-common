@@ -3,6 +3,8 @@
 #include <string.h>
 #include <stdint.h>
 
+#define BYTE_SIZE = 4096/8
+
 static FRESULT SDCard_mount(Storage* instance,TCHAR *path, FATFS * fatfs) {
   FRESULT fr_status;
   fr_status = f_mount(fatfs, path, 1);
@@ -65,12 +67,12 @@ void SDCard_store4kbData(Storage* instance, uint8_t* data) {
     return;
   }
   UINT bytes_written;
-  fr_status = f_write(&file, data, 4096, &bytes_written);
+  fr_status = f_write(&file, data, BYTE_SIZE, &bytes_written);
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }
-  if (bytes_written != 4096) {
+  if (bytes_written != BYTE_SIZE) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }
@@ -101,12 +103,12 @@ void SDCard_fetch4kbData(Storage* instance, uint8_t* data) {
     return;
   }
   UINT bytes_read;
-  fr_status = f_read(&file, data, 4096, &bytes_read);
+  fr_status = f_read(&file, data, BYTE_SIZE, &bytes_read);
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }
-  if (bytes_read != 4096) {
+  if (bytes_read != BYTE_SIZE) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }

@@ -26,10 +26,11 @@ static FRESULT SDCard_unmount(Storage* instance) {
 }
 
 static FRESULT SDCard_size_free_space(Storage * instance, uint16_t * total_sectors, uint16_t * free_sectors) {
-  FATFS** fatfs = &(FATFS*)instance->externalInstance;
+  FATFS* fatfs = (FATFS*)instance->externalInstance;
+  FATFS** pfatfs = &fatfs;
   FRESULT fr_status;
   DWORD free_clusters;
-  fr_status = f_getfree("", &free_clusters, fatfs);
+  fr_status = f_getfree("", &free_clusters, pfatfs);
   if (fr_status == FR_OK) {
     *total_sectors = (fatfs->n_fatent - 2) * fatfs->csize;
     *free_sectors = free_clusters * fatfs->csize;

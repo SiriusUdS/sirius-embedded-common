@@ -43,16 +43,14 @@ void SDCard_init(Storage* instance) {
 }
 
 void SDCard_store4kbData(Storage* instance, uint8_t* data) {
-  FATFS* fatfs = (FATFS*)instance->externalInstance;
-
-  FRESULT fr_status = SDCard_mount(instance, "", fatfs);
+  FRESULT fr_status = SDCard_mount(instance, "");
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }
   uint16_t total_sectors = 0;
   uint16_t free_sectors = 0;
-  fr_status = SDCard_size_free_space(instance, &total_sectors, &free_sectors, fatfs);
+  fr_status = SDCard_size_free_space(instance, &total_sectors, &free_sectors);
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
@@ -90,9 +88,8 @@ void SDCard_store4kbData(Storage* instance, uint8_t* data) {
 }
 
 void SDCard_fetch4kbData(Storage* instance, uint8_t* data) {
-  FATFS* fatfs = (FATFS*)instance->externalInstance;
 
-  FRESULT fr_status = SDCard_mount(instance, "", fatfs);
+  FRESULT fr_status = SDCard_mount(instance, "");
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;

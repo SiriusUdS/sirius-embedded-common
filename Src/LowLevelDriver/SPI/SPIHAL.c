@@ -29,6 +29,6 @@ void raiseCS(SPI* instance, uint8_t slaveId) {
   instance->chipSelects[slaveId].write(instance->chipSelects[slaveId], GPIO_VALUE_HIGH);
 }
 
-void lowerCS(SPI* instance, uint8_t slaveid) {
+void lowerCS(SPI* instance, uint8_t slaveId) {
   instance->chipSelects[slaveId].write(instance->chipSelects[slaveId], GPIO_VALUE_LOW);
 }

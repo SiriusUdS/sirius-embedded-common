@@ -5,7 +5,8 @@
 
 #define BYTE_SIZE 4096/8
 
-static FRESULT SDCard_mount(Storage* instance,TCHAR *path, FATFS * fatfs) {
+static FRESULT SDCard_mount(Storage* instance,TCHAR *path) {
+  FATFS* fatfs = (FATFS*)instance.externalInstance;
   FRESULT fr_status;
   fr_status = f_mount(fatfs, path, 1);
   if (fr_status != FR_OK) {
@@ -24,11 +25,11 @@ static FRESULT SDCard_unmount(Storage* instance) {
   return fr_status;
 }
 
-static FRESULT SDCard_size_free_space(Storage * instance, uint16_t * total_sectors, uint16_t * free_sectors, FATFS * fatfs) {
-
+static FRESULT SDCard_size_free_space(Storage * instance, uint16_t * total_sectors, uint16_t * free_sectors) {
+  FATFS* fatfs = (FATFS*)instance.externalInstance;
   FRESULT fr_status;
   DWORD free_clusters;
-  fr_status = f_getfree("", free_clusters, &fatfs);
+  fr_status = f_getfree("", free_clusters, fatfs);
   if (fr_status == FR_OK) {
     *total_sectors = (fatfs->n_fatent - 2) * fatfs->csize;
     *free_sectors = free_clusters * fatfs->csize;
@@ -42,16 +43,16 @@ void SDCard_init(Storage* instance) {
 }
 
 void SDCard_store4kbData(Storage* instance, uint8_t* data) {
-  FATFS fatfs;
+  FATFS* fatfs = (FATFS*)instance.externalInstance;
 
-  FRESULT fr_status = SDCard_mount(instance, "", &fatfs);
+  FRESULT fr_status = SDCard_mount(instance, "", fatfs);
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }
   uint16_t total_sectors = 0;
   uint16_t free_sectors = 0;
-  fr_status = SDCard_size_free_space(instance, &total_sectors, &free_sectors, &fatfs);
+  fr_status = SDCard_size_free_space(instance, &total_sectors, &free_sectors, fatfs);
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;
@@ -89,9 +90,9 @@ void SDCard_store4kbData(Storage* instance, uint8_t* data) {
 }
 
 void SDCard_fetch4kbData(Storage* instance, uint8_t* data) {
-  FATFS fatfs;
+  FATFS* fatfs = (FATFS*)instance.externalInstance;
 
-  FRESULT fr_status = SDCard_mount(instance, "", &fatfs);
+  FRESULT fr_status = SDCard_mount(instance, "", fatfs);
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;
     return;

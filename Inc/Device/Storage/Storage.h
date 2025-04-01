@@ -19,6 +19,8 @@ typedef struct {
   Storage_store4kbData storePage;
   Storage_fetch4kbData fetchData;
 
+  void* externalInstance;
+
   StorageErrorStatus errorStatus;
   StorageStatus      status;
 }

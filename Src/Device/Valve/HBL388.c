@@ -32,12 +32,14 @@ void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
   instance->pwm->setDutyCycle(instance->pwm, HBL388_CLOSED_DUTY_CYCLE_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_CLOSING;
+  instance->status.bits.isIdle = 0;
 }
 
 void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
   instance->pwm->setDutyCycle(instance->pwm, HBL388_OPENED_DUTY_CYCLE_CCR);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_OPENING;
+  instance->status.bits.isIdle = 0;
 }
 
 void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {

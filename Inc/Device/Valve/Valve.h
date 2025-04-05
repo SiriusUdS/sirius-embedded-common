@@ -45,7 +45,7 @@ typedef struct {
   uint8_t openDutyCycle_pct;
   uint8_t closeDutyCycle_pct;
 
-  ValveState currentState;
+  uint8_t currentState;
 
   uint32_t slowestExpectedMoveTime_ms;
   uint32_t lastDutyCycleChangeTimestamp_ms;

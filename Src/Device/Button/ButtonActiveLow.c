@@ -1,6 +1,7 @@
 #include "../../../Inc/Device/Button/ButtonActiveLow.h"
 
 void ButtonActiveLow_init(Button* instance) {
+  instance->tick = (Button_tick)ButtonActiveLow_tick;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 }

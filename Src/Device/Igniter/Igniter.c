@@ -2,7 +2,7 @@
 
 void Igniter_initDefault(Igniter* instance) {
   instance->ignite = (Igniter_ignite)Igniter_igniteDefault;
-  instance->tick = (Igniter_ignite)Igniter_tickDefault;
+  instance->tick = (Igniter_tick)Igniter_tickDefault;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 

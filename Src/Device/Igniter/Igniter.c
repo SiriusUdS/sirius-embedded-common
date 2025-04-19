@@ -2,6 +2,7 @@
 
 void Igniter_initDefault(Igniter* instance) {
   instance->ignite = (Igniter_ignite)Igniter_igniteDefault;
+  instance->tick = (Igniter_ignite)Igniter_tickDefault;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 
@@ -9,5 +10,9 @@ void Igniter_initDefault(Igniter* instance) {
 }
 
 void Igniter_igniteDefault(Igniter* instance) {
+  instance->errorStatus.bits.defaultFunctionCalled = 1;
+}
+
+void Igniter_tickDefault(Igniter* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

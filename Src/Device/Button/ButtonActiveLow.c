@@ -7,5 +7,11 @@ void ButtonActiveLow_init(Button* instance) {
 }
 
 void ButtonActiveLow_tick(Button* instance, uint32_t timestamp_ms) {
-  instance->status.bits.isPressed = instance->gpio->read(instance->gpio);
+  if(instance->gpio->read(instance->gpio) == GPIO_VALUE_HIGH){
+    instance->status.bits.isPressed = GPIO_VALUE_LOW;
+  }
+  else{
+    instance->status.bits.isPressed = GPIO_VALUE_HIGH;
+  }
+
 }

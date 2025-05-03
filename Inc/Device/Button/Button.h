@@ -5,6 +5,9 @@
 
 #include "../../LowLevelDriver/GPIO/GPIO.h"
 
+struct Button;
+
+
 typedef void (*Button_init)(struct Button* instance);
 
 typedef void (*Button_tick)(struct Button* instance, uint32_t timestamp_ms);

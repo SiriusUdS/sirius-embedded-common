@@ -30,17 +30,23 @@ typedef void (*Valve_close)(struct Valve* instance, uint32_t timestamp_ms);
 
 typedef void (*Valve_open)(struct Valve* instance, uint32_t timestamp_ms);
 
+typedef void (*Valve_setPositionOpened)(struct Valve* instance, uint8_t positionOpened_pct);
+
 typedef void (*Valve_tick)(struct Valve* instance, uint32_t timestamp_ms);
 
 typedef struct {
-  Valve_init    init;
-  Valve_setIdle setIdle;
-  Valve_close   close;
-  Valve_open    open;
-  Valve_tick    tick;
+  Valve_init              init;
+  Valve_setIdle           setIdle;
+  Valve_close             close;
+  Valve_open              open;
+  Valve_setPositionOpened setDutyCycle;
+  Valve_tick              tick;
 
   PWM*  pwm;
   GPIO* gpio[VALVE_GPIO_AMT];
+
+  uint8_t currentPositionOpened_pct;
+  uint8_t isReversed;
 
   uint8_t openDutyCycle_pct;
   uint8_t closeDutyCycle_pct;

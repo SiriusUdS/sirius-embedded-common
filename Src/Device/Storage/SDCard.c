@@ -127,7 +127,7 @@ void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data,
   }
 }
 
-void SDCard_fetch(Storage* instance, uint8_t* data, uint16_t size) {
+void SDCard_fetch(Storage* instance, SDCardFileIndex destination, uint8_t* data, uint16_t size) {
   /*FRESULT fr_status = SDCard_mount(instance, "");
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;

@@ -14,6 +14,8 @@
       "pressuresensorstatus.h": "c",
       "pwm.h": "c",
       "spihal.h": "c",
-      "igniter.h": "c"
+      "igniter.h": "c",
+      "string.h": "c",
+      "storage.h": "c"
     }
 }

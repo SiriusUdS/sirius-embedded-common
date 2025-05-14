@@ -10,24 +10,25 @@ struct Storage;
 
 typedef void (*Storage_init)(struct Storage* instance);
 
-typedef void (*Storage_store4kbData)(struct Storage* instance, uint8_t* data);
+typedef void (*Storage_store)(struct Storage* instance, uint8_t* data, uint16_t size);
 
-typedef void (*Storage_fetch4kbData)(struct Storage* instance, uint8_t* data);
+typedef void (*Storage_fetch)(struct Storage* instance, uint8_t* data, uint16_t size);
 
 typedef struct {
-  Storage_init         init;
-  Storage_store4kbData storePage;
-  Storage_fetch4kbData fetchData;
+  Storage_init  init;
+  Storage_store store;
+  Storage_fetch fetch;
 
   void* externalInstance;
+  char* volumePath;
 
   StorageErrorStatus errorStatus;
   StorageStatus      status;
 }
 Storage;
 
-extern void Storage_initDefault(Storage* instance);
+void Storage_initDefault(Storage* instance);
 
-extern void Storage_store4kbDataDefault(Storage* instance, uint8_t* data);
+void Storage_storeDefault(Storage* instance, uint8_t* data, uint16_t size);
 
-extern void Storage_fetch4kbDataDefault(Storage* instance, uint8_t* data);
+void Storage_fetchDefault(Storage* instance, uint8_t* data, uint16_t size);

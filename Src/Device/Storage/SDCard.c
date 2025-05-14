@@ -14,9 +14,9 @@ DIR* currentDirectory;
 
 TCHAR* directoryPath = SD_CARD_BASE_DIRECTORY_PATH;
 
-static FRESULT getFreeSpace(Storage* instance, uint16_t* totalSectors, uint16_t freeSectors);
+static FRESULT getFreeSpace(Storage* instance, uint16_t* totalSectors, uint16_t* freeSectors);
 
-static FRESULT openFile(Storage* instance, TCHAR* filePath, uint8_t mode);
+static FRESULT openFile(Storage* instance, TCHAR* filePath, FIL* fileHandle, uint8_t mode);
 
 static FRESULT closeFile(Storage* instance);
 

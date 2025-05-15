@@ -8,11 +8,19 @@
 
 struct Storage;
 
+typedef enum {
+  STORAGE_LOAD_DESTINATION,
+  STORAGE_STATE_DESTINATION,
+  STORAGE_ADC_DESTINATION,
+  STORAGE_ADC_TIMESTAMP_DESTINATION
+}
+StorageDestination;
+
 typedef void (*Storage_init)(struct Storage* instance);
 
-typedef void (*Storage_store)(struct Storage* instance, uint8_t* data, uint16_t size);
+typedef void (*Storage_store)(struct Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
 
-typedef void (*Storage_fetch)(struct Storage* instance, uint8_t* data, uint16_t size);
+typedef void (*Storage_fetch)(struct Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
 
 typedef struct {
   Storage_init  init;
@@ -29,6 +37,6 @@ Storage;
 
 void Storage_initDefault(Storage* instance);
 
-void Storage_storeDefault(Storage* instance, uint8_t* data, uint16_t size);
+void Storage_storeDefault(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
 
-void Storage_fetchDefault(Storage* instance, uint8_t* data, uint16_t size);
+void Storage_fetchDefault(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);

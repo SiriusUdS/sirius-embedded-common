@@ -5,10 +5,10 @@ void Storage_initDefault(Storage* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Storage_store4kbDataDefault(Storage* instance, uint8_t* data) {
+void Storage_store(Storage* instance, uint8_t* data) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Storage_fetch4kbDataDefault(Storage* instance, uint8_t* data) {
+void Storage_fetch(Storage* instance, uint8_t* data) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

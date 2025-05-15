@@ -78,26 +78,26 @@ void SDCard_init(Storage* instance) {
   instance->errorStatus.bits.notInitialized = 0;
 }
 
-void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data, uint16_t size) {
+void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size) {
   FRESULT operationResult;
   FIL fileHandle;
   TCHAR* path;
   UINT bytes_written;
 
   switch (destination) {
-    case SD_CARD_ADC_FILE:
+    case STORAGE_ADC_DESTINATION:
       fileHandle = adcFileHandle;
       path = SD_CARD_ADC_PATH;
       break;
-    case SD_CARD_ADC_TIMESTAMP_FILE:
+    case STORAGE_ADC_TIMESTAMP_DESTINATION:
       fileHandle = adcTimestampFileHandle;
       path = SD_CARD_ADC_TIMESTAMP_PATH;
       break;
-    case SD_CARD_STATUS_FILE:
+    case STORAGE_LOAD_DESTINATION:
       fileHandle = loadFileHandle;
       path = SD_CARD_LOAD_PATH;
       break;
-    case SD_CARD_STATE_FILE:
+    case STORAGE_STATE_DESTINATION:
       fileHandle = stateFileHandle;
       path = SD_CARD_STATE_PATH;
       break;
@@ -136,7 +136,7 @@ void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data,
   }
 }
 
-void SDCard_fetch(Storage* instance, SDCardFileIndex destination, uint8_t* data, uint16_t size) {
+void SDCard_fetch(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size) {
   /*FRESULT fr_status = SDCard_mount(instance, "");
   if (fr_status != FR_OK) {
     instance->errorStatus.bits.notInitialized = 1;

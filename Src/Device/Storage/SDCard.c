@@ -5,12 +5,12 @@
 #include <string.h>
 #include <stdint.h>
 
-FIL* statusFileHandle;
-FIL* stateFileHandle;
-FIL* adcFileHandle;
-FIL* adcTimestampFileHandle;
+FIL statusFileHandle;
+FIL stateFileHandle;
+FIL adcFileHandle;
+FIL adcTimestampFileHandle;
 
-DIR* currentDirectory;
+DIR currentDirectory;
 
 TCHAR* directoryPath = SD_CARD_BASE_DIRECTORY_PATH;
 
@@ -42,25 +42,25 @@ void SDCard_init(Storage* instance) {
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_ADC_PATH, adcFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_ADC_PATH, &adcFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_ADC_TIMESTAMP_PATH, adcTimestampFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_ADC_TIMESTAMP_PATH, &adcTimestampFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_STATE_PATH, stateFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_STATUS_PATH, statusFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_STATUS_PATH, &statusFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
@@ -71,7 +71,7 @@ void SDCard_init(Storage* instance) {
 
 void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data, uint16_t size) {
   FRESULT operationResult;
-  FIL* fileHandle;
+  FIL fileHandle;
   TCHAR* path;
   UINT bytes_written;
 
@@ -109,7 +109,7 @@ void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data,
     return;
   }*/
 
-  operationResult = f_write(fileHandle, data, size, &bytes_written);
+  operationResult = f_write(&fileHandle, data, size, &bytes_written);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.writeFailed = 1;
     return;
@@ -120,7 +120,7 @@ void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data,
     return;
   }
 
-  operationResult = f_sync(fileHandle);
+  operationResult = f_sync(&fileHandle);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_syncFailed = 1;
     return;
@@ -164,47 +164,49 @@ void SDCard_fetch(Storage* instance, SDCardFileIndex destination, uint8_t* data,
 FRESULT createDirectory(Storage* instance) {
   FRESULT operationResult;
   uint16_t directoryNumber = 0;
-  FILINFO* fileInformation;
+  FILINFO fileInformation;
 
   uint8_t nameIsNumber;
 
-  operationResult = f_opendir(currentDirectory, "");
+  operationResult = f_opendir(&currentDirectory, "");
   if (operationResult == FR_OK) {
     for (;;) {
-      operationResult = f_readdir(currentDirectory, fileInformation);
+      operationResult = f_readdir(&currentDirectory, &fileInformation);
 
       // check error + end condition
       if (operationResult != FR_OK) {
         instance->errorStatus.bits.fs_createDirectoryFail = 1;
+        return operationResult;;
+      }
+
+      if (fileInformation.fname[0] == 0) {
         break;
       }
 
-      if (fileInformation->fname[0] == 0) {
-        break;
-      }
-
-      if (fileInformation->fattrib & AM_DIR) {
+      if (fileInformation.fattrib & AM_DIR) {
         nameIsNumber = 1;
-        for (int i = 0; fileInformation->fname[i] != '\0'; i++) {
-          if (fileInformation->fname[i] < '0' || fileInformation->fname[i] > '9') {
+        for (int i = 0; fileInformation.fname[i] != '\0'; i++) {
+          if (fileInformation.fname[i] < '0' || fileInformation.fname[i] > '9') {
             nameIsNumber = 0;
             break;
           }
         }
 
         if (nameIsNumber) {
-          directoryNumber = atoi(fileInformation->fname);
+          directoryNumber = atoi(fileInformation.fname);
         }
       }
     }
 
-    operationResult = f_closedir(currentDirectory);
+    operationResult = f_closedir(&currentDirectory);
     if (operationResult != FR_OK) {
       instance->errorStatus.bits.fs_createDirectoryFail = 1;
+      return operationResult;
     }
   }
   else {
     instance->errorStatus.bits.fs_createDirectoryFail = 1;
+    return operationResult;
   }
 
   itoa(directoryNumber, directoryPath, 10);
@@ -213,6 +215,7 @@ FRESULT createDirectory(Storage* instance) {
 
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_createDirectoryFail = 1;
+    return operationResult;
   }
 }
 

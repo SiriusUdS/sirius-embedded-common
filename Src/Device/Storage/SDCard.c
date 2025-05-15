@@ -221,7 +221,7 @@ FRESULT createDirectory(Storage* instance) {
         directoryNumber++;
         break;
       case FR_OK:
-        return;
+        return operationResult;
       default:
         instance->errorStatus.bits.fs_createDirectoryFail = 1;
         return operationResult;

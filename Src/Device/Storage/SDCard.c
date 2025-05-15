@@ -164,11 +164,11 @@ void SDCard_fetch(Storage* instance, SDCardFileIndex destination, uint8_t* data,
 FRESULT createDirectory(Storage* instance) {
   FRESULT operationResult;
   uint16_t directoryNumber = 0;
-  FILINFO fileInformation;
+  //FILINFO fileInformation;
 
-  uint8_t nameIsNumber;
+  //uint8_t nameIsNumber;
 
-  operationResult = f_opendir(&currentDirectory, "");
+  /*operationResult = f_opendir(&currentDirectory, "");
   if (operationResult == FR_OK) {
     for (;;) {
       operationResult = f_readdir(&currentDirectory, &fileInformation);
@@ -210,15 +210,22 @@ FRESULT createDirectory(Storage* instance) {
   else {
     instance->errorStatus.bits.fs_createDirectoryFail = 1;
     return operationResult;
-  }
+  }*/
+  for (;;) {
+    itoa(directoryNumber, directoryPath, 10);
 
-  itoa(directoryNumber, directoryPath, 10);
+    operationResult = f_mkdir(directoryPath);
 
-  operationResult = f_mkdir(directoryPath);
-
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_createDirectoryFail = 1;
-    return operationResult;
+    switch (operationResult) {
+      case FR_EXIST:
+        directoryNumber++;
+        break;
+      case FR_OK:
+        return;
+      default:
+        instance->errorStatus.bits.fs_createDirectoryFail = 1;
+        return operationResult;
+    }
   }
 }
 

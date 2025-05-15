@@ -5,7 +5,7 @@
 #include <string.h>
 #include <stdint.h>
 
-FIL statusFileHandle;
+FIL loadFileHandle;
 FIL stateFileHandle;
 FIL adcFileHandle;
 FIL adcTimestampFileHandle;
@@ -60,7 +60,7 @@ void SDCard_init(Storage* instance) {
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_STATUS_PATH, &statusFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_LOAD_PATH, &loadFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
@@ -85,8 +85,8 @@ void SDCard_store(Storage* instance, SDCardFileIndex destination, uint8_t* data,
       path = SD_CARD_ADC_TIMESTAMP_PATH;
       break;
     case SD_CARD_STATUS_FILE:
-      fileHandle = statusFileHandle;
-      path = SD_CARD_STATUS_PATH;
+      fileHandle = loadFileHandle;
+      path = SD_CARD_LOAD_PATH;
       break;
     case SD_CARD_STATE_FILE:
       fileHandle = stateFileHandle;

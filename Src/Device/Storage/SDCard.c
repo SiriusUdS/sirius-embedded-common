@@ -183,7 +183,9 @@ FRESULT createDirectory(Storage* instance) {
         break;
       }
 
-      if (fileInformation.fattrib & AM_DIR) {
+      if (fileInformation.fattrib & AM_DIR  &&
+        strcmp(fileInformation.fname, ".") != 0 &&
+        strcmp(fileInformation.fname, "..") != 0) {
         nameIsNumber = 1;
         for (int i = 0; fileInformation.fname[i] != '\0'; i++) {
           if (fileInformation.fname[i] < '0' || fileInformation.fname[i] > '9') {

@@ -30,6 +30,9 @@ void SDCard_init(Storage* instance) {
   instance->errorStatus.value = 0;
   instance->errorStatus.bits.notInitialized = 1;
 
+  instance->fetch = (Storage_fetch)SDCard_fetch;
+  instance->store = (Storage_store)SDCard_store;
+
   operationResult = f_mount(fatfs, instance->volumePath, 1);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_mountFailed = 1;

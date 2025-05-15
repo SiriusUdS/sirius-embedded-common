@@ -12,7 +12,7 @@ FIL adcTimestampFileHandle;
 
 DIR currentDirectory;
 
-TCHAR* directoryPath = SD_CARD_BASE_DIRECTORY_PATH;
+TCHAR directoryPath[16] = "";
 
 static FRESULT getFreeSpace(Storage* instance, uint16_t* totalSectors, uint16_t* freeSectors);
 

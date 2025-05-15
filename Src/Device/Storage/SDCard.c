@@ -59,10 +59,16 @@ void SDCard_init(Storage* instance) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
   }
-  
+
   operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
+    return;
+  }
+
+  operationResult = f_sync(&stateFileHandle);
+  if (operationResult != FR_OK) {
+    instance->errorStatus.bits.fs_syncFailed = 1;
     return;
   }
 

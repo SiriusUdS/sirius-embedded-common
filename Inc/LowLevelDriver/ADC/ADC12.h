@@ -25,7 +25,7 @@ ADCTimestampsBuffer;
 
 struct ADC12;
 
-typedef void (*ADC12_init)(struct ADC12* instance, uint8_t activeChannelsAmt);
+typedef void (*ADC12_init)(struct ADC12* instance, ADCBuffer* dmaBuffer, uint8_t activeChannelsAmt);
 
 typedef void (*ADC12_tick)(struct ADC12* instance);
 
@@ -45,6 +45,6 @@ typedef struct {
 }
 ADC12;
 
-extern void ADC12_initDefault(ADC12* instance, uint8_t activeChannelsAmt);
+extern void ADC12_initDefault(ADC12* instance, ADCBuffer* dmaBuffer, uint8_t activeChannelsAmt);
 
 extern void ADC12_tickDefault(ADC12* instance);

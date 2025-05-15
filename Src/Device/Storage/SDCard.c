@@ -80,25 +80,25 @@ void SDCard_init(Storage* instance) {
 
 void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size) {
   FRESULT operationResult;
-  FIL fileHandle;
+  FIL* fileHandle;
   TCHAR* path;
   UINT bytes_written;
 
   switch (destination) {
     case STORAGE_ADC_DESTINATION:
-      fileHandle = adcFileHandle;
+      fileHandle = &adcFileHandle;
       path = SD_CARD_ADC_PATH;
       break;
     case STORAGE_ADC_TIMESTAMP_DESTINATION:
-      fileHandle = adcTimestampFileHandle;
+      fileHandle = &adcTimestampFileHandle;
       path = SD_CARD_ADC_TIMESTAMP_PATH;
       break;
     case STORAGE_LOAD_DESTINATION:
-      fileHandle = loadFileHandle;
+      fileHandle = &loadFileHandle;
       path = SD_CARD_LOAD_PATH;
       break;
     case STORAGE_STATE_DESTINATION:
-      fileHandle = stateFileHandle;
+      fileHandle = &stateFileHandle;
       path = SD_CARD_STATE_PATH;
       break;
     default:
@@ -118,7 +118,7 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
     return;
   }*/
 
-  operationResult = f_write(&fileHandle, data, size, &bytes_written);
+  operationResult = f_write(fileHandle, data, size, &bytes_written);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.writeFailed = 1;
     return;
@@ -129,7 +129,7 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
     return;
   }
 
-  operationResult = f_sync(&fileHandle);
+  operationResult = f_sync(fileHandle);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_syncFailed = 1;
     return;

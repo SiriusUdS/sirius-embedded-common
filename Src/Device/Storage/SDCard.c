@@ -232,6 +232,7 @@ FRESULT createDirectory(Storage* instance) {
 FRESULT openFile(Storage* instance, TCHAR* filePath, FIL* fileHandle, uint8_t mode) {
   TCHAR path[16] = "";
   strcpy(path, directoryPath);
+  strcat(path, "/");
   TCHAR* fullPath = strcat(path, filePath);
   return f_open(fileHandle, fullPath, mode | FA_WRITE);
 }

@@ -233,8 +233,8 @@ FRESULT openFile(Storage* instance, TCHAR* filePath, FIL* fileHandle, uint8_t mo
   TCHAR path[16] = "";
   strcpy(path, directoryPath);
   strcat(path, "/");
-  TCHAR* fullPath = strcat(path, filePath);
-  return f_open(fileHandle, fullPath, mode | FA_WRITE);
+  strcat(path, filePath);
+  return f_open(fileHandle, path, mode | FA_WRITE);
 }
 
 FRESULT getFreeSpace(Storage* instance, uint16_t* total_sectors, uint16_t* free_sectors) {

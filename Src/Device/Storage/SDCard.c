@@ -214,7 +214,7 @@ FRESULT createDirectory(Storage* instance) {
 
   itoa(directoryNumber, directoryPath, 10);
 
-  operationResult = f_mkdir(strcat(directoryPath, "/"));
+  operationResult = f_mkdir(directoryPath);
 
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_createDirectoryFail = 1;

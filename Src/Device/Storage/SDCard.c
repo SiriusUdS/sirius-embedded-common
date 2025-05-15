@@ -54,13 +54,13 @@ void SDCard_init(Storage* instance) {
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_LOAD_PATH, &loadFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
   }
-
-  operationResult = openFile(instance, SD_CARD_LOAD_PATH, &loadFileHandle, FA_CREATE_ALWAYS);
+  
+  operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, FA_CREATE_ALWAYS);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     return;
@@ -164,53 +164,7 @@ void SDCard_fetch(Storage* instance, SDCardFileIndex destination, uint8_t* data,
 FRESULT createDirectory(Storage* instance) {
   FRESULT operationResult;
   uint16_t directoryNumber = 0;
-  //FILINFO fileInformation;
 
-  //uint8_t nameIsNumber;
-
-  /*operationResult = f_opendir(&currentDirectory, "");
-  if (operationResult == FR_OK) {
-    for (;;) {
-      operationResult = f_readdir(&currentDirectory, &fileInformation);
-
-      // check error + end condition
-      if (operationResult != FR_OK) {
-        instance->errorStatus.bits.fs_createDirectoryFail = 1;
-        return operationResult;;
-      }
-
-      if (fileInformation.fname[0] == 0) {
-        break;
-      }
-
-      if (fileInformation.fattrib & AM_DIR  &&
-          !(fileInformation.fattrib & AM_HID) &&
-          strcmp(fileInformation.fname, ".") != 0 &&
-          strcmp(fileInformation.fname, "..") != 0) {
-        nameIsNumber = 1;
-        for (int i = 0; fileInformation.fname[i] != '\0'; i++) {
-          if (fileInformation.fname[i] < '0' || fileInformation.fname[i] > '9') {
-            nameIsNumber = 0;
-            break;
-          }
-        }
-
-        if (nameIsNumber) {
-          directoryNumber = atoi(fileInformation.fname);
-        }
-      }
-    }
-
-    operationResult = f_closedir(&currentDirectory);
-    if (operationResult != FR_OK) {
-      instance->errorStatus.bits.fs_createDirectoryFail = 1;
-      return operationResult;
-    }
-  }
-  else {
-    instance->errorStatus.bits.fs_createDirectoryFail = 1;
-    return operationResult;
-  }*/
   for (;;) {
     itoa(directoryNumber, directoryPath, 10);
 

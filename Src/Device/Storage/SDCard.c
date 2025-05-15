@@ -184,7 +184,7 @@ FRESULT createDirectory(Storage* instance) {
       }
 
       if (fileInformation.fattrib & AM_DIR  &&
-          !fileInformation.fattrib & AM_HID &&
+          !(fileInformation.fattrib & AM_HID) &&
           strcmp(fileInformation.fname, ".") != 0 &&
           strcmp(fileInformation.fname, "..") != 0) {
         nameIsNumber = 1;

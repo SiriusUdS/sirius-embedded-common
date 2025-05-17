@@ -13,3 +13,5 @@ void XBEE_receiveData(Telecommunication* instance, uint8_t* data, uint16_t size)
 void XBEE_config(Telecommunication* instance);
 
 void XBEE_init(Telecommunication* instance);
+
+void XBEE_tick(Telecommunication* instance, uint32_t timestamp_ms);

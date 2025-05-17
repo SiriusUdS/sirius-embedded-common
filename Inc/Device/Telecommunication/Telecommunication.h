@@ -48,4 +48,4 @@ void Telecommunication_receiveDataDefault(Telecommunication* instance, uint8_t* 
 
 void Telecommunication_configDefault(Telecommunication* instance);
 
-vpod Telecommunication_tickDefault(Telecommunication* instance, uint32_t timestamp_ms);
+void Telecommunication_tickDefault(Telecommunication* instance, uint32_t timestamp_ms);

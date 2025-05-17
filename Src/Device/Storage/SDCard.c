@@ -76,6 +76,7 @@ void SDCard_init(Storage* instance) {
   }
 
   instance->errorStatus.bits.notInitialized = 0;
+  instance->state = STORAGE_STATE_ACTIVE;
 }
 
 void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size) {
@@ -84,55 +85,57 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
   TCHAR* path;
   UINT bytes_written;
 
-  switch (destination) {
-    case STORAGE_ADC_DESTINATION:
-      fileHandle = &adcFileHandle;
-      path = SD_CARD_ADC_PATH;
-      break;
-    case STORAGE_ADC_TIMESTAMP_DESTINATION:
-      fileHandle = &adcTimestampFileHandle;
-      path = SD_CARD_ADC_TIMESTAMP_PATH;
-      break;
-    case STORAGE_LOAD_DESTINATION:
-      fileHandle = &loadFileHandle;
-      path = SD_CARD_LOAD_PATH;
-      break;
-    case STORAGE_STATE_DESTINATION:
-      fileHandle = &stateFileHandle;
-      path = SD_CARD_STATE_PATH;
-      break;
-    default:
-      instance->errorStatus.bits.fs_unexpectedFileName = 1;
+  if (instance->state = STORAGE_STATE_ACTIVE) {
+    switch (destination) {
+      case STORAGE_ADC_DESTINATION:
+        fileHandle = &adcFileHandle;
+        path = SD_CARD_ADC_PATH;
+        break;
+      case STORAGE_ADC_TIMESTAMP_DESTINATION:
+        fileHandle = &adcTimestampFileHandle;
+        path = SD_CARD_ADC_TIMESTAMP_PATH;
+        break;
+      case STORAGE_LOAD_DESTINATION:
+        fileHandle = &loadFileHandle;
+        path = SD_CARD_LOAD_PATH;
+        break;
+      case STORAGE_STATE_DESTINATION:
+        fileHandle = &stateFileHandle;
+        path = SD_CARD_STATE_PATH;
+        break;
+      default:
+        instance->errorStatus.bits.fs_unexpectedFileName = 1;
+        return;
+    }
+  
+    /*uint16_t total_sectors = 0;
+    uint16_t free_sectors = 0;
+    operationResult = SDCard_size_free_space(instance, &total_sectors, &free_sectors);
+    if (operationResult != FR_OK) {
+      instance->errorStatus.bits.notInitialized = 1;
       return;
-  }
-
-  /*uint16_t total_sectors = 0;
-  uint16_t free_sectors = 0;
-  operationResult = SDCard_size_free_space(instance, &total_sectors, &free_sectors);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.notInitialized = 1;
-    return;
-  }
-  if (free_sectors < 4) {
-    instance->errorStatus.bits.notInitialized = 1;
-    return;
-  }*/
-
-  operationResult = f_write(fileHandle, data, size, &bytes_written);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.writeFailed = 1;
-    return;
-  }
-
-  if (bytes_written != size) {
-    instance->errorStatus.bits.incompleteWrite = 1;
-    return;
-  }
-
-  operationResult = f_sync(fileHandle);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_syncFailed = 1;
-    return;
+    }
+    if (free_sectors < 4) {
+      instance->errorStatus.bits.notInitialized = 1;
+      return;
+    }*/
+  
+    operationResult = f_write(fileHandle, data, size, &bytes_written);
+    if (operationResult != FR_OK) {
+      instance->errorStatus.bits.writeFailed = 1;
+      return;
+    }
+  
+    if (bytes_written != size) {
+      instance->errorStatus.bits.incompleteWrite = 1;
+      return;
+    }
+  
+    operationResult = f_sync(fileHandle);
+    if (operationResult != FR_OK) {
+      instance->errorStatus.bits.fs_syncFailed = 1;
+      return;
+    }
   }
 }
 
@@ -168,6 +171,16 @@ void SDCard_fetch(Storage* instance, StorageDestination destination, uint8_t* da
     instance->errorStatus.bits.notInitialized = 1;
     return;
   }*/
+}
+
+void SDCard_tick(Storage* instance, uint32_t timestamp_ms) {
+  switch (instance->state) {
+    case STORAGE_STATE_INIT:
+    case STORAGE_STATE_ACTIVE:
+    case STORAGE_STATE_ERROR:
+    default:
+      break;
+  }
 }
 
 FRESULT createDirectory(Storage* instance) {

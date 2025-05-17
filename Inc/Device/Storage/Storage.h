@@ -16,19 +16,28 @@ typedef enum {
 }
 StorageDestination;
 
+#define STORAGE_STATE_INIT (uint8_t)0x00
+#define STORAGE_STATE_ERROR (uint8_t)0x01
+#define STORAGE_STATE_ACTIVE (uint8_t)0x02
+
 typedef void (*Storage_init)(struct Storage* instance);
 
 typedef void (*Storage_store)(struct Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
 
 typedef void (*Storage_fetch)(struct Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
 
+typedef void (*Storage_tick)(struct Storage* instance, uint32_t timestamp_ms);
+
 typedef struct {
   Storage_init  init;
   Storage_store store;
   Storage_fetch fetch;
+  Storage_tick  tick;
 
   void* externalInstance;
   char* volumePath;
+
+  uint8_t state;
 
   StorageErrorStatus errorStatus;
   StorageStatus      status;
@@ -40,3 +49,5 @@ void Storage_initDefault(Storage* instance);
 void Storage_storeDefault(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
 
 void Storage_fetchDefault(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);
+
+void Storage_tickDefault(Storage* instance, uint32_t timestamp_ms);

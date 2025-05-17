@@ -7,7 +7,7 @@
 
 #define ADC_CHANNEL_NUMBER 16
 
-#define ADC_DMA_BUFFER_SIZE_BYTES 0x100
+#define ADC_DMA_BUFFER_SIZE_BYTES 0x1000
 
 typedef union {
   uint16_t values[ADC_DMA_BUFFER_SIZE_BYTES / sizeof(uint16_t)];

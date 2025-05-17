@@ -35,7 +35,7 @@ void XBEE_tick(Telecommunication* instance, uint32_t timestamp_ms) {
     case TELECOMMUNICATION_STATE_ACTIVE:
       break;
     case TELECOMMUNICATION_STATE_CONFIG:
-      uint8_t bit[] = "b";
+      /*uint8_t bit[] = "b";
 
       instance->uart->transmit((struct UART*)instance->uart, bit, sizeof(bit));
       HAL_Delay(2500);
@@ -43,8 +43,8 @@ void XBEE_tick(Telecommunication* instance, uint32_t timestamp_ms) {
       HAL_Delay(2500);
       instance->uart->transmit((struct UART*)instance->uart, bit, sizeof(bit));
       HAL_Delay(500);
-      instance->state = TELECOMMUNICATION_STATE_ACTIVE;
-      /*if (instance->timestampTarget_ms <= timestamp_ms) {
+      instance->state = TELECOMMUNICATION_STATE_ACTIVE;*/
+      if (instance->timestampTarget_ms <= timestamp_ms) {
         uint8_t bit[] = "b";
         instance->timestampTarget_ms += XBEE_ENABLE_TIME_BETWEEN_SIGNALS_MS;
         instance->uart->transmit((struct UART*)instance->uart, bit, sizeof(bit));
@@ -52,7 +52,7 @@ void XBEE_tick(Telecommunication* instance, uint32_t timestamp_ms) {
         if (instance->enableSignalsAmount >= XBEE_ENABLE_SIGNAL_AMOUNT) {
           instance->state = TELECOMMUNICATION_STATE_ACTIVE;
         }
-      }*/
+      }
       break;
     case TELECOMMUNICATION_STATE_INIT:
     case TELECOMMUNICATION_STATE_INACTIVE:

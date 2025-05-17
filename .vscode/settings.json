@@ -16,6 +16,8 @@
       "spihal.h": "c",
       "igniter.h": "c",
       "string.h": "c",
-      "storage.h": "c"
+      "storage.h": "c",
+      "telecommunicationstatus.h": "c",
+      "stdint.h": "c"
     }
 }

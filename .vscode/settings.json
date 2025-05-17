@@ -15,6 +15,13 @@
       "pwm.h": "c",
       "spihal.h": "c",
       "igniter.h": "c",
+<<<<<<< HEAD
       "telecommunication.h": "c"
+=======
+      "string.h": "c",
+      "storage.h": "c",
+      "telecommunicationstatus.h": "c",
+      "stdint.h": "c"
+>>>>>>> 0ac453ad833a5771234247f0b427c3e946fcb2ba
     }
 }

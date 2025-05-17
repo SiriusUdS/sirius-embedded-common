@@ -1,9 +1,10 @@
 #include "../../../Inc/Device/Telecommunication/Telecommunication.h"
 
 void Telecommunication_initDefault(Telecommunication* instance){
-  instance->receiveData = (Telecommunication_receiveData)TELECOM_receiveData;
-  instance->sendData = (Telecommunication_sendData)TELECOM_sendData;
-  instance->config = (Telecommunication_config)TELECOM_config;
+  instance->receiveData = (Telecommunication_receiveData)Telecommunication_receiveDataDefault;
+  instance->sendData = (Telecommunication_sendData)Telecommunication_sendDataDefault;
+  instance->config = (Telecommunication_config)Telecommunication_configDefault;
+  instance->tick = (Telecommunication_tick)Telecommunication_tickDefault;
 
   instance->errorStatus.value = 0;
   instance->status.value = 0;
@@ -21,7 +22,7 @@ void Telecommunication_receiveDataDefault(Telecommunication* instance, uint8_t* 
 }
 
 
-void TELECOM_setup(Telecommunication* instance) {
+void Telecommunication_configDefault(Telecommunication* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
   /*uint8_t cmdmode[] = "+++++";
   instance->uart->transmit((struct UART*)instance->uart, cmdmode, sizeof(cmdmode) - 1);
@@ -54,4 +55,8 @@ void TELECOM_setup(Telecommunication* instance) {
   for(uint8_t i =0; i < 2; i++){
     instance->uart->transmit((struct UART*)instance->uart, finalCommand[i], 6);
   }*/
+}
+
+void Telecommunication_tickDefault(Telecommunication* instance, uint32_t timestamp_ms) {
+  instance->errorStatus.bits.defaultFunctionCalled = 1;
 }

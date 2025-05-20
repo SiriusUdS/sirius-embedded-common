@@ -8,7 +8,7 @@
 
 #include "../../LowLevelDriver/UART/UART.h"
 #include "../../LowLevelDriver/UART/UARTHAL.h"
-#include "stm32f4xx_hal.h"
+//#include "stm32f4xx_hal.h"
 
 struct Telecommunication;
 

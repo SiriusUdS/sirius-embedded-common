@@ -8,6 +8,11 @@ void DATABRIDGE_init(DataBridge* instance) {
     instance->sendUARTtoUSB = DATABRIDGE_sendUARTtoUSB;
     instance->receiveUSB = DATABRIDGE_receiveUSB;
     instance->getCommand = DATABRIDGE_getCommand;
+
+    if (instance->xbee != NULL) {
+        XBEE_init(instance->xbee);
+        XBEE_config(instance->xbee);
+    }
 }
 
 void DATABRIDGE_sendUSBtoUART(DataBridge* instance, uint8_t* data, uint16_t size) {
@@ -35,11 +40,8 @@ void DATABRIDGE_sendUARTtoUSB(DataBridge* instance, uint8_t* data, uint32_t prev
 
 
 
-void DATABRIDGE_receiveUSB(DataBridge* instance, GSControl gsControl) {
-    if (gsControl.usb->status.bits.rxDataReady == 1) {
-        uint8_t* test = gsControl.usb->rxBuffer;
-        gsControl.usb->status.bits.rxDataReady = 0;
-      } 
+void DATABRIDGE_receiveUSB(DataBridge* instance) {
+    
 }
 
 void DATABRIDGE_getCommand(DataBridge* instance) {

@@ -41,7 +41,13 @@ void DATABRIDGE_sendUARTtoUSB(DataBridge* instance, uint8_t* data, uint32_t prev
 
 
 void DATABRIDGE_receiveUSB(DataBridge* instance) {
-    
+    if (instance == NULL || instance->usb == NULL)
+        return;
+
+    if (instance->usb->status.bits.rxDataReady == 1) {
+        instance->usb->status.bits.rxDataReady = 0;
+        memcpy(&instance->lastCommand, instance->usb->rxBuffer, sizeof(BoardCommand));
+    }
 }
 
 void DATABRIDGE_getCommand(DataBridge* instance) {

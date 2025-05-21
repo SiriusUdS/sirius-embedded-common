@@ -1,5 +1,7 @@
 #include "../../../Inc/Device/Telecommunication/XBee.h"
 
+#include "stm32f4xx_hal.h"
+
 void XBEE_sendData(Telecommunication* instance, uint8_t* data, uint16_t size) {
   if (instance->state == TELECOMMUNICATION_STATE_ACTIVE) {
     instance->uart->transmit((struct UART*)instance->uart, data, size);

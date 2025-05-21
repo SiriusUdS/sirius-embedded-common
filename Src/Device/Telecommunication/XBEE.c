@@ -13,7 +13,7 @@ void XBEE_receiveData(Telecommunication* instance, uint8_t* data, uint16_t size)
 }
 
 void XBEE_config(Telecommunication* instance){
-  instance->enableSignalsAmount = 3;
+  instance->enableSignalsAmount = 0;
   instance->state = TELECOMMUNICATION_STATE_CONFIG;
 }
 

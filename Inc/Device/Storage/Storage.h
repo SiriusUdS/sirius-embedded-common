@@ -31,6 +31,7 @@ typedef struct {
   Storage_tick  tick;
 
   void* externalInstance;
+  void* fs;
   char* volumePath;
 
   uint8_t state;

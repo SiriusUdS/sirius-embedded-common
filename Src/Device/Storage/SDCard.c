@@ -15,6 +15,7 @@ DIR currentDirectory;
 TCHAR directoryPath[16] = "";
 
 uint8_t fileCreationMode = FA_CREATE_ALWAYS;
+uint8_t fileWriteCounter = 0;
 
 static FRESULT getFreeSpace(Storage* instance, uint16_t* totalSectors, uint16_t* freeSectors);
 
@@ -34,6 +35,7 @@ void SDCard_init(Storage* instance) {
 
   instance->fetch = (Storage_fetch)SDCard_fetch;
   instance->store = (Storage_store)SDCard_store;
+  instance->tick  = (Storage_tick)SDCard_tick;
 
   operationResult = f_mount(fatfs, instance->volumePath, 1);
   if (operationResult != FR_OK) {
@@ -42,6 +44,7 @@ void SDCard_init(Storage* instance) {
     return;
   }
 
+  // if it is being reinit
   if (directoryPath[0] != '\0') {
     fileCreationMode = FA_OPEN_APPEND;
     operationResult = createDirectory(instance);
@@ -146,12 +149,16 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
       return;
     }
   
-    operationResult = f_sync(fileHandle);
-    if (operationResult != FR_OK) {
-      instance->errorStatus.bits.fs_syncFailed = 1;
-      instance->state = STORAGE_STATE_ERROR;
-      return;
+    if (fileWriteCounter >= SD_CARD_STORES_BETWEEN_SYNC) {
+      fileWriteCounter = 0;
+      operationResult = f_sync(fileHandle);
+      if (operationResult != FR_OK) {
+        instance->errorStatus.bits.fs_syncFailed = 1;
+        instance->state = STORAGE_STATE_ERROR;
+        return;
+      }
     }
+    fileWriteCounter++;
   }
 }
 

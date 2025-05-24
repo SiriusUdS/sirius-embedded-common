@@ -3,6 +3,10 @@
 void Storage_initDefault(Storage* instance) {
   instance->status.value = 0;
   instance->errorStatus.bits.defaultFunctionCalled = 1;
+
+  instance->store = (Storage_store)Storage_storeDefault;
+  instance->fetch = (Storage_fetch)Storage_fetchDefault;
+  instance->tick  = (Storage_tick)Storage_tickDefault;
 }
 
 void Storage_storeDefault(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size) {

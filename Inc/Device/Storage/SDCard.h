@@ -9,6 +9,8 @@
 #define SD_CARD_ADC_PATH           "ADC.hex"
 #define SD_CARD_ADC_TIMESTAMP_PATH "ADCT.hex"
 
+#define SD_CARD_STORES_BETWEEN_SYNC (uint8_t)0x10
+
 void SDCard_init(Storage* instance);
 
 void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* data, uint16_t size);

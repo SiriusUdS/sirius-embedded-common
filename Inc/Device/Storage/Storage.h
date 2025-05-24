@@ -1,10 +1,10 @@
 #pragma once
 
+#include <stdint.h>
+
 #include "../../../sirius-headers-common/Storage/StorageStatus.h"
 #include "../../../sirius-headers-common/Storage/StorageErrorStatus.h"
-
-#include "../../../sirius-headers-common/Accelerometer/AccelerometerPacket.h"
-#include "../../../sirius-headers-common/PressureSensor/PressureSensorPacket.h"
+#include "../../../sirius-headers-common/Storage/StorageState.h"
 
 struct Storage;
 
@@ -15,10 +15,6 @@ typedef enum {
   STORAGE_ADC_TIMESTAMP_DESTINATION
 }
 StorageDestination;
-
-#define STORAGE_STATE_INIT (uint8_t)0x00
-#define STORAGE_STATE_ERROR (uint8_t)0x01
-#define STORAGE_STATE_ACTIVE (uint8_t)0x02
 
 typedef void (*Storage_init)(struct Storage* instance);
 

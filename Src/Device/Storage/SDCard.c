@@ -14,6 +14,8 @@ DIR currentDirectory;
 
 TCHAR directoryPath[16] = "";
 
+uint8_t fileCreationMode = FA_CREATE_ALWAYS;
+
 static FRESULT getFreeSpace(Storage* instance, uint16_t* totalSectors, uint16_t* freeSectors);
 
 static FRESULT openFile(Storage* instance, TCHAR* filePath, FIL* fileHandle, uint8_t mode);
@@ -24,7 +26,7 @@ static FRESULT createDirectory(Storage* instance);
 
 void SDCard_init(Storage* instance) {
   FRESULT operationResult;
-  FATFS* fatfs = (FATFS*)instance->externalInstance;
+  FATFS* fatfs = (FATFS*)instance->fs;
 
   instance->status.value = 0;
   instance->errorStatus.value = 0;
@@ -36,42 +38,52 @@ void SDCard_init(Storage* instance) {
   operationResult = f_mount(fatfs, instance->volumePath, 1);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_mountFailed = 1;
+    instance->state = STORAGE_STATE_ERROR;
     return;
   }
 
-  operationResult = createDirectory(instance);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_createDirectoryFail = 1;
-    return;
+  if (directoryPath[0] != '\0') {
+    fileCreationMode = FA_OPEN_APPEND;
+    operationResult = createDirectory(instance);
+    if (operationResult != FR_OK) {
+      instance->errorStatus.bits.fs_createDirectoryFail = 1;
+      instance->state = STORAGE_STATE_ERROR;
+      return;
+    }
   }
 
-  operationResult = openFile(instance, SD_CARD_ADC_PATH, &adcFileHandle, FA_CREATE_ALWAYS);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_openFailed = 1;
-    return;
-  }
-
-  operationResult = openFile(instance, SD_CARD_ADC_TIMESTAMP_PATH, &adcTimestampFileHandle, FA_CREATE_ALWAYS);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_openFailed = 1;
-    return;
-  }
-
-  operationResult = openFile(instance, SD_CARD_LOAD_PATH, &loadFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_ADC_PATH, &adcFileHandle, fileCreationMode);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
+    instance->state = STORAGE_STATE_ERROR;
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, FA_CREATE_ALWAYS);
+  operationResult = openFile(instance, SD_CARD_ADC_TIMESTAMP_PATH, &adcTimestampFileHandle, fileCreationMode);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
+    instance->state = STORAGE_STATE_ERROR;
+    return;
+  }
+
+  operationResult = openFile(instance, SD_CARD_LOAD_PATH, &loadFileHandle, fileCreationMode);
+  if (operationResult != FR_OK) {
+    instance->errorStatus.bits.fs_openFailed = 1;
+    instance->state = STORAGE_STATE_ERROR;
+    return;
+  }
+
+  operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, fileCreationMode);
+  if (operationResult != FR_OK) {
+    instance->errorStatus.bits.fs_openFailed = 1;
+    instance->state = STORAGE_STATE_ERROR;
     return;
   }
 
   operationResult = f_sync(&stateFileHandle);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_syncFailed = 1;
+    instance->state = STORAGE_STATE_ERROR;
     return;
   }
 
@@ -105,6 +117,7 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
         break;
       default:
         instance->errorStatus.bits.fs_unexpectedFileName = 1;
+        instance->state = STORAGE_STATE_ERROR;
         return;
     }
   
@@ -123,17 +136,20 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
     operationResult = f_write(fileHandle, data, size, &bytes_written);
     if (operationResult != FR_OK) {
       instance->errorStatus.bits.writeFailed = 1;
+      instance->state = STORAGE_STATE_ERROR;
       return;
     }
   
     if (bytes_written != size) {
       instance->errorStatus.bits.incompleteWrite = 1;
+      instance->state = STORAGE_STATE_ERROR;
       return;
     }
   
     operationResult = f_sync(fileHandle);
     if (operationResult != FR_OK) {
       instance->errorStatus.bits.fs_syncFailed = 1;
+      instance->state = STORAGE_STATE_ERROR;
       return;
     }
   }
@@ -176,8 +192,14 @@ void SDCard_fetch(Storage* instance, StorageDestination destination, uint8_t* da
 void SDCard_tick(Storage* instance, uint32_t timestamp_ms) {
   switch (instance->state) {
     case STORAGE_STATE_INIT:
+      /*SD_HandleTypeDef* handle = (SD_HandleTypeDef*)instance->externalInstance;
+      if (instance->status.bits.isPluggedIn == 1) {
+        instance->init(instance);
+      }*/
     case STORAGE_STATE_ACTIVE:
     case STORAGE_STATE_ERROR:
+      //SD_HandleTypeDef* handle = (SD_HandleTypeDef*)instance->externalInstance;
+      //instance->state = STORAGE_STATE_INIT;
     default:
       break;
   }
@@ -200,6 +222,7 @@ FRESULT createDirectory(Storage* instance) {
         return operationResult;
       default:
         instance->errorStatus.bits.fs_createDirectoryFail = 1;
+        instance->state = STORAGE_STATE_ERROR;
         return operationResult;
     }
   }
@@ -214,7 +237,7 @@ FRESULT openFile(Storage* instance, TCHAR* filePath, FIL* fileHandle, uint8_t mo
 }
 
 FRESULT getFreeSpace(Storage* instance, uint16_t* total_sectors, uint16_t* free_sectors) {
-  FATFS* fatfs = (FATFS*)instance->externalInstance;
+  FATFS* fatfs = (FATFS*)instance->fs;
   FATFS** pfatfs = &fatfs;
   FRESULT fr_status;
   DWORD free_clusters;

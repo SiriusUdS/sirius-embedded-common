@@ -199,13 +199,15 @@ void SDCard_fetch(Storage* instance, StorageDestination destination, uint8_t* da
 void SDCard_tick(Storage* instance, uint32_t timestamp_ms) {
   switch (instance->state) {
     case STORAGE_STATE_INIT:
+      break;
       //SD_HandleTypeDef* sdCardHandle = (SD_HandleTypeDef*)instance->externalInstance;
       /*if (instance->status.bits.isPluggedIn == 1) {
         instance->init(instance);
       }*/
     case STORAGE_STATE_ACTIVE:
+      break;
     case STORAGE_STATE_ERROR:
-      uint8_t test = 0;
+      break;
       //SD_HandleTypeDef* sdCardHandle = (SD_HandleTypeDef*)instance->externalInstance;
       //instance->state = STORAGE_STATE_INIT;
     default:

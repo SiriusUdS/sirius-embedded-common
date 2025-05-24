@@ -45,7 +45,7 @@ void SDCard_init(Storage* instance) {
   }
 
   // if it is being reinit
-  if (directoryPath[0] != '\0') {
+  if (directoryPath[0] == '\0') {
     fileCreationMode = FA_OPEN_APPEND;
     operationResult = createDirectory(instance);
     if (operationResult != FR_OK) {

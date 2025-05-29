@@ -5,7 +5,7 @@ void ButtonActiveHigh_init(Button* instance) {
   instance->errorStatus.value = 0;
   instance->status.value = 0;
 
-  instance->previousState = instance->gpio->read(instance->gpio);
+  instance->previousState = GPIO_VALUE_LOW;
 }
 
 void ButtonActiveHigh_tick(Button* instance, uint32_t timestamp_ms) {

@@ -18,8 +18,13 @@ typedef struct {
 
   GPIO* gpio;
 
-  uint8_t debounceReadCount;
-  uint16_t debounceReadDelay_ms;
+  uint8_t debounceCurrentReadCount;
+  uint8_t debounceTargetReadCount;
+
+  uint32_t targetTimestamp_ms;
+  uint32_t delayBetweenReads_ms;
+
+  uint8_t previousState;
 
   ButtonErrorStatus errorStatus;
   ButtonStatus      status;

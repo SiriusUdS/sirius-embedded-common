@@ -1,8 +1,8 @@
 #include "../../../Inc/Device/Telecommunication/Telecommunication.h"
 
 void Telecommunication_initDefault(Telecommunication* instance){
-  instance->receiveData = (Telecommunication_receiveData)Telecommunication_receiveDataDefault;
-  instance->sendData = (Telecommunication_sendData)Telecommunication_sendDataDefault;
+  instance->receiveData = (Telecommunication_receive)Telecommunication_receiveDefault;
+  instance->sendData = (Telecommunication_transmit)Telecommunication_transmitDefault;
   instance->config = (Telecommunication_config)Telecommunication_configDefault;
   instance->tick = (Telecommunication_tick)Telecommunication_tickDefault;
 
@@ -12,12 +12,12 @@ void Telecommunication_initDefault(Telecommunication* instance){
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Telecommunication_sendDataDefault(Telecommunication* instance, uint8_t* data, uint16_t size){
+void Telecommunication_transmitDefault(Telecommunication* instance, uint8_t* data, uint16_t size){
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
 
-void Telecommunication_receiveDataDefault(Telecommunication* instance, uint8_t* data, uint16_t size){
+void Telecommunication_receiveDefault(Telecommunication* instance, uint8_t* data, uint16_t size){
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 

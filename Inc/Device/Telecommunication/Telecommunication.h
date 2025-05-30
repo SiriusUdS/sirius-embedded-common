@@ -14,20 +14,20 @@ struct Telecommunication;
 
 typedef void (*Telecommunication_init)(struct Telecommunication* instance);
 
-typedef void (*Telecommunication_sendData)(struct Telecommunication* instance, uint8_t* data, uint16_t size);
+typedef void (*Telecommunication_transmit)(struct Telecommunication* instance, uint8_t* data, uint16_t size);
 
-typedef void (*Telecommunication_receiveData)(struct Telecommunication* instance, uint8_t* data, uint16_t size);
+typedef void (*Telecommunication_receive)(struct Telecommunication* instance, uint8_t* data, uint16_t size);
 
 typedef void (*Telecommunication_config)(struct Telecommunication* instance);
 
 typedef void (*Telecommunication_tick)(struct Telecommunication* instance, uint32_t timestamp_ms);
 
 typedef struct {
-  Telecommunication_init        init;
-  Telecommunication_sendData    sendData;
-  Telecommunication_receiveData receiveData;
-  Telecommunication_config      config;
-  Telecommunication_tick        tick;
+  Telecommunication_init     init;
+  Telecommunication_transmit sendData;
+  Telecommunication_receive  receiveData;
+  Telecommunication_config   config;
+  Telecommunication_tick     tick;
   
   UART* uart;
 
@@ -42,9 +42,9 @@ Telecommunication;
 
 void Telecommunication_initDefault(Telecommunication* instance);
 
-void Telecommunication_sendDataDefault(Telecommunication* instance, uint8_t* data, uint16_t size);
+void Telecommunication_transmitDefault(Telecommunication* instance, uint8_t* data, uint16_t size);
 
-void Telecommunication_receiveDataDefault(Telecommunication* instance, uint8_t* data, uint16_t size);
+void Telecommunication_receiveDefault(Telecommunication* instance, uint8_t* data, uint16_t size);
 
 void Telecommunication_configDefault(Telecommunication* instance);
 

@@ -2,13 +2,13 @@
 
 #include "stm32f4xx_hal.h"
 
-void XBEE_sendData(Telecommunication* instance, uint8_t* data, uint16_t size) {
+void XBEE_transmit(Telecommunication* instance, uint8_t* data, uint16_t size) {
   if (instance->state == TELECOMMUNICATION_STATE_ACTIVE) {
     instance->uart->transmit((struct UART*)instance->uart, data, size);
   }
 }
 
-void XBEE_receiveData(Telecommunication* instance, uint8_t* data, uint16_t size) {
+void XBEE_receive(Telecommunication* instance, uint8_t* data, uint16_t size) {
   if (instance->state == TELECOMMUNICATION_STATE_ACTIVE) {
     instance->uart->receive((struct UART*)instance->uart, data, size);
   }
@@ -26,8 +26,8 @@ void XBEE_init(Telecommunication* instance){
 
   instance->enableSignalsAmount = 0;
 
-  instance->receiveData = (Telecommunication_receiveData)XBEE_receiveData;
-  instance->sendData = (Telecommunication_sendData)XBEE_sendData;
+  instance->receiveData = (Telecommunication_receive)XBEE_receive;
+  instance->sendData = (Telecommunication_transmit)XBEE_transmit;
   instance->config = (Telecommunication_config)XBEE_config;
   instance->tick = (Telecommunication_tick)XBEE_tick;
 }

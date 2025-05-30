@@ -9,8 +9,18 @@
 
 #define ADC_DMA_BUFFER_SIZE_BYTES 0x10000
 
+typedef struct {
+  uint16_t firstHalfData[(ADC_DMA_BUFFER_SIZE_BYTES/sizeof(uint32_t)) - sizeof(uint32_t)];
+  uint32_t firstHalfTimestamp_ms;
+  uint16_t secondHalfData[(ADC_DMA_BUFFER_SIZE_BYTES/sizeof(uint32_t)) - sizeof(uint32_t)];
+  uint32_t secondHalfTimestamp_ms;
+}
+TimestampIntegratedADCBuffer;
+
 typedef union {
   uint16_t values[ADC_DMA_BUFFER_SIZE_BYTES / sizeof(uint16_t)];
+
+  TimestampIntegratedADCBuffer storageSaveData;
 
   uint8_t hex[ADC_DMA_BUFFER_SIZE_BYTES];
 }

@@ -22,6 +22,7 @@ void ButtonActiveHigh_tick(Button* instance, uint32_t timestamp_ms) {
 
     if (instance->debounceCurrentReadCount >= instance->debounceTargetReadCount) {
       instance->status.bits.isPressed = state;
+      instance->debounceCurrentReadCount = 0;
     }
 
     instance->previousState = state;

@@ -43,7 +43,7 @@ typedef struct {
   GPIOPullMode pullMode;
   
   uint8_t  pinGroup;
-  uint8_t  pinNumber;
+  uint16_t  pinNumber;
   
   GPIOErrorStatus  errorStatus;
   GPIOStatus       status;

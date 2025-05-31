@@ -7,7 +7,7 @@
 
 #define ADC_CHANNEL_NUMBER 16
 
-#define ADC_DMA_BUFFER_SIZE_BYTES 0x10000
+#define ADC_DMA_BUFFER_SIZE_BYTES 0xF000
 
 typedef struct {
   uint16_t firstHalfData[(ADC_DMA_BUFFER_SIZE_BYTES/sizeof(uint32_t)) - sizeof(uint32_t)];

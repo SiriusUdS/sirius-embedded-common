@@ -35,8 +35,8 @@ typedef struct {
   uint32_t timestampTarget_ms;
   uint8_t enableSignalsAmount;
 
-  TelecommunicationErrorStatus  errorStatus;
-  TelecommunicationStatus       status;
+  volatile TelecommunicationErrorStatus  errorStatus;
+  volatile TelecommunicationStatus       status;
 }
 Telecommunication;
 

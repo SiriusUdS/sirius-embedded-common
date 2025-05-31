@@ -7,7 +7,7 @@
 
 typedef void (*Igniter_init)(struct Igniter* instance);
 
-typedef void (*Igniter_ignite)(struct Igniter* instance);
+typedef void (*Igniter_ignite)(struct Igniter* instance, uint32_t timestamp_ms);
 
 typedef void (*Igniter_tick)(struct Igniter* instance, uint32_t timestamp_ms);
 
@@ -28,6 +28,6 @@ Igniter;
 
 extern void Igniter_initDefault(Igniter* instance);
 
-extern void Igniter_igniteDefault(Igniter* instance);
+extern void Igniter_igniteDefault(Igniter* instance, uint32_t timestamp_ms);
 
 extern void Igniter_tickDefault(Igniter* instance, uint32_t timestamp_ms);

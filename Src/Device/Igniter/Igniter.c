@@ -9,7 +9,7 @@ void Igniter_initDefault(Igniter* instance) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 
-void Igniter_igniteDefault(Igniter* instance) {
+void Igniter_igniteDefault(Igniter* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
 

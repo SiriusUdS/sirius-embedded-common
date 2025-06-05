@@ -6,9 +6,8 @@
 #include <stdint.h>
 
 FIL loadFileHandle;
-FIL stateFileHandle;
-FIL adcFileHandle;
-FIL adcTimestampFileHandle;
+FIL dataFastFileHandle;
+FIL dataSlowFileHandle;
 
 DIR currentDirectory;
 
@@ -55,14 +54,14 @@ void SDCard_init(Storage* instance) {
     }
   }
 
-  operationResult = openFile(instance, SD_CARD_ADC_PATH, &adcFileHandle, fileCreationMode);
+  operationResult = openFile(instance, SD_CARD_DATA_FAST_PATH, &dataFastFileHandle, fileCreationMode);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     instance->state = STORAGE_STATE_ERROR;
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_ADC_TIMESTAMP_PATH, &adcTimestampFileHandle, fileCreationMode);
+  operationResult = openFile(instance, SD_CARD_DATA_SLOW_PATH, &dataSlowFileHandle, fileCreationMode);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     instance->state = STORAGE_STATE_ERROR;
@@ -76,14 +75,7 @@ void SDCard_init(Storage* instance) {
     return;
   }
 
-  operationResult = openFile(instance, SD_CARD_STATE_PATH, &stateFileHandle, fileCreationMode);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_openFailed = 1;
-    instance->state = STORAGE_STATE_ERROR;
-    return;
-  }
-
-  operationResult = f_sync(&stateFileHandle);
+  operationResult = f_sync(&loadFileHandle);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_syncFailed = 1;
     instance->state = STORAGE_STATE_ERROR;
@@ -102,21 +94,17 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
 
   if (instance->state = STORAGE_STATE_ACTIVE) {
     switch (destination) {
-      case STORAGE_ADC_DESTINATION:
-        fileHandle = &adcFileHandle;
-        path = SD_CARD_ADC_PATH;
+      case STORAGE_DATA_FAST_DESTINATION:
+        fileHandle = &dataFastFileHandle;
+        path = SD_CARD_DATA_FAST_PATH;
         break;
-      case STORAGE_ADC_TIMESTAMP_DESTINATION:
-        fileHandle = &adcTimestampFileHandle;
-        path = SD_CARD_ADC_TIMESTAMP_PATH;
+      case STORAGE_DATA_SLOW_DESTINATION:
+        fileHandle = &dataSlowFileHandle;
+        path = SD_CARD_DATA_SLOW_PATH;
         break;
       case STORAGE_LOAD_DESTINATION:
         fileHandle = &loadFileHandle;
         path = SD_CARD_LOAD_PATH;
-        break;
-      case STORAGE_STATE_DESTINATION:
-        fileHandle = &stateFileHandle;
-        path = SD_CARD_STATE_PATH;
         break;
       default:
         instance->errorStatus.bits.fs_unexpectedFileName = 1;

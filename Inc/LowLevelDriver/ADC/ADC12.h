@@ -9,7 +9,7 @@
 
 struct ADC12;
 
-typedef void (*ADC12_init)(struct ADC12* instance, uint16_t* buffer, uint8_t activeChannelsAmt);
+typedef void (*ADC12_init)(struct ADC12* instance, volatile uint16_t* buffer, uint16_t bufferSize_byte, uint8_t activeChannelsAmt);
 
 typedef void (*ADC12_tick)(struct ADC12* instance);
 

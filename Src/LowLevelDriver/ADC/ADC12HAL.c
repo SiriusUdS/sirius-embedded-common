@@ -2,7 +2,7 @@
 
 #include "stm32f4xx_hal.h"
 
-void ADC12HAL_init(ADC12* instance, ADCBuffer* dmaBuffer, uint8_t activeChannelsAmt) {
+void ADC12HAL_init(ADC12* instance, uint16_t* buffer, uint16_t bufferSize_byte, uint8_t activeChannelsAmt) {
   instance->tick = (ADC12_tick)ADC12HAL_tick;
   instance->errorStatus.value = 0;
   instance->status.value = 0;
@@ -14,7 +14,7 @@ void ADC12HAL_init(ADC12* instance, ADCBuffer* dmaBuffer, uint8_t activeChannels
     instance->channels[i].externalHandle = instance->externalHandle; 
   }
 
-  HAL_ADC_Start_DMA(adcHandle, dmaBuffer->values, sizeof(dmaBuffer->values) / sizeof(uint16_t));
+  HAL_ADC_Start_DMA(adcHandle, buffer, bufferSize_byte / sizeof(uint16_t));
 }
 
 void ADC12HAL_tick(ADC12* instance) {

@@ -1,6 +1,6 @@
 #include "../../../Inc/LowLevelDriver/ADC/ADC12.h"
 
-void ADC12_initDefault(ADC12* instance, uint16_t* buffer, uint16_t bufferSize_byte, uint8_t activeChannelsAmt) {
+void ADC12_initDefault(ADC12* instance, uint16_t* buffer, uint32_t bufferSize_byte, uint8_t activeChannelsAmt) {
   instance->tick = (ADC12_tick)ADC12_tickDefault;
   instance->status.value = 0;
   instance->errorStatus.value = 0;

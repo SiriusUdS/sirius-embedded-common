@@ -2,7 +2,7 @@
 
 #include "stm32f4xx_hal.h"
 
-void ADC12HAL_init(ADC12* instance, uint16_t* buffer, uint16_t bufferSize_byte, uint8_t activeChannelsAmt) {
+void ADC12HAL_init(ADC12* instance, uint16_t* buffer, uint32_t bufferSize_byte, uint8_t activeChannelsAmt) {
   instance->tick = (ADC12_tick)ADC12HAL_tick;
   instance->errorStatus.value = 0;
   instance->status.value = 0;

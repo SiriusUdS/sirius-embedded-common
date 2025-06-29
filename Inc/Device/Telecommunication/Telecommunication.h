@@ -5,6 +5,7 @@
 #include "../../../sirius-headers-common/Telecommunication/TelecommunicationStatus.h"
 #include "../../../sirius-headers-common/Telecommunication/TelecommunicationErrorStatus.h"
 #include "../../../sirius-headers-common/Telecommunication/TelecommunicationState.h"
+#include "XBeePacket.h"
 
 #include "../../LowLevelDriver/UART/UART.h"
 #include "../../LowLevelDriver/UART/UARTHAL.h"
@@ -30,6 +31,9 @@ typedef struct {
   Telecommunication_tick     tick;
   
   UART* uart;
+
+  XBeeSendAPIPacket sendPacket;
+  XBeeReceiveAPIPacket receivePacket;
 
   uint8_t state;
   uint32_t timestampTarget_ms;

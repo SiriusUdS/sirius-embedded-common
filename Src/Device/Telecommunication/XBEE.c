@@ -94,7 +94,13 @@ void XBEE_tick(Telecommunication* instance, uint32_t timestamp_ms) {
 
 uint8_t XBEE_calculateCRCAPI(XBeeSendAPIPacket packet)
 {
-    uint64_t calc = 0;
+  uint8_t result;
+
+  for (uint16_t i = 3; i < sizeof(XBeeSendAPIPacket) - 1; i++) {
+    result += packet.data[i];
+  }
+  return 0xFFU - result;
+    /*uint64_t calc = 0;
 
     for(unsigned int i=0; i < LSB_SEND-14; i++){
       calc += packet.bits.data[i];
@@ -111,5 +117,5 @@ uint8_t XBEE_calculateCRCAPI(XBeeSendAPIPacket packet)
     calc += packet.bits.frameID;
     calc += packet.bits.option;
 
-    return (calc & 0xFF);
+    return (calc & 0xFF);*/
 }

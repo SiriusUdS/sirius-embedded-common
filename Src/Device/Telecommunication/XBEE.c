@@ -22,7 +22,7 @@ void XBEE_transmit(Telecommunication* instance, uint8_t* data, uint16_t size) {
     for(unsigned int i=0; i < 8; i++){
       api.bits.destAddr64[i] = addr[i];
     }
-    api.bits.destAddr16 = 0xFFFE;
+    api.bits.destAddr16 = 0xFEFF;
 
     for(uint8_t i = 0; i < size; i++){
       api.bits.data[i] = *(data+i);

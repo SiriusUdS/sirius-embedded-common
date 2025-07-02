@@ -3,7 +3,7 @@
 #include "../../../sirius-headers-common/LowLevelDriver/UART/UARTErrorStatus.h"
 #include "../../../sirius-headers-common/LowLevelDriver/UART/UARTStatus.h"
 
-#define UART_COMMUNICATION_TIMEOUT_MS 50
+#define UART_COMMUNICATION_TIMEOUT_MS 200
 
 struct UART;
 

@@ -2,8 +2,6 @@
 
 #include "stm32f4xx_hal.h"
 
-static uint8_t XBEE_calculateCRCAPI(XBeeSendAPIPacket packet);
-
 void XBEE_transmit(Telecommunication* instance, uint8_t* data, uint16_t size) {
   if (instance->state == TELECOMMUNICATION_STATE_ACTIVE) {
     instance->uart->transmit((struct UART*)instance->uart, data, size);

@@ -63,3 +63,25 @@ void XBEE_tick(Telecommunication* instance, uint32_t timestamp_ms) {
     break;
   }
 }
+
+uint8_t XBEE_calculateCRCAPI(XBeeSendAPIPacket packet)
+{
+    uint64_t calc = 0;
+
+    for(unsigned int i=0; i < LSB_SEND-14; i++){
+      calc += packet.bits.data[i];
+    }
+    calc += packet.bits.apiFrameType;
+    calc += packet.bits.broadcast;
+    calc += packet.bits.destAddr16;
+
+    uint64_t addr64 = 0;
+    for (int i = 0; i < 8; i++) {
+        addr64 |= ((uint64_t)packet.bits.destAddr64[i]) << (8 * (7 - i)); // Big-endian
+    }
+    calc += addr64;
+    calc += packet.bits.frameID;
+    calc += packet.bits.option;
+
+    return (calc & 0xFF);
+}

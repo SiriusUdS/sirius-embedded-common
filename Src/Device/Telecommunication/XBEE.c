@@ -4,7 +4,30 @@
 
 void XBEE_transmit(Telecommunication* instance, uint8_t* data, uint16_t size) {
   if (instance->state == TELECOMMUNICATION_STATE_ACTIVE) {
-    instance->uart->transmit((struct UART*)instance->uart, data, size);
+    XBeeSendAPIPacket api;
+    api.bits.del = DELIMITER;
+    api.bits.msb = MSB;
+    api.bits.lsb = LSB_SEND;
+    api.bits.apiFrameType = DEFAULT_API_FRAME_TYPE_SEND;
+    api.bits.frameID = 0x01;
+    
+    
+    api.bits.option = 0x00;
+    api.bits.broadcast = 0x00;
+
+    uint8_t addr[]=  {0,0,0,0,0,0,0xFF,0xFF};
+
+    for(unsigned int i=0; i < 8; i++){
+      api.bits.destAddr64[i] = addr[i];
+    }
+    api.bits.destAddr16 = 0xFFFE;
+
+    for(uint8_t i = 0; i < size; i++){
+      api.bits.data[i] = *(data+i);
+    }
+
+    api.bits.checkSum = XBEE_calculateCRCAPI(api);
+    instance->uart->transmit((struct UART*)instance->uart, api.data, SEND_PACKET_LENGHT);
   }
 }
 

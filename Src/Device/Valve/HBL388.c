@@ -11,6 +11,7 @@ void HBL388_init(Valve* instance) {
   instance->close = (Valve_close)HBL388_close;
   instance->open = (Valve_close)HBL388_open;
   instance->tick = (Valve_tick)HBL388_tick;
+  instance->setDutyCycle = (Valve_setPositionOpened)HBL388_setDutyCycle;
 
   instance->status.value = 0;
   instance->errorStatus.value = 0;

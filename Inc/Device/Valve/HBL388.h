@@ -32,3 +32,5 @@ void HBL388_close(Valve* instance, uint32_t timestamp_ms);
 void HBL388_open(Valve* instance, uint32_t timestamp_ms);
 
 void HBL388_tick(Valve* instance, uint32_t timestamp_ms);
+
+void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct);

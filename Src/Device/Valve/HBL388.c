@@ -11,7 +11,7 @@ void HBL388_init(Valve* instance) {
   instance->close = (Valve_close)HBL388_close;
   instance->open = (Valve_close)HBL388_open;
   instance->tick = (Valve_tick)HBL388_tick;
-  instance->setDutyCycle = (Valve_setPositionOpened)HBL388_setDutyCycle;
+  instance->setDutyCycle = (Valve_setPositionOpened)HBL388_setOpenedPosition_pct;
 
   instance->status.value = 0;
   instance->errorStatus.value = 0;
@@ -83,7 +83,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
 }
 
 // Unused for now, but way be used with tests
-void HBL388_setDutyCycle(Valve* instance, uint32_t dutyCycle_pct) {
+void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct) {
   instance->pwm->setDutyCycle(instance->pwm, (int16_t)((dutyCycle_pct * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / (uint32_t)100));
 }
 

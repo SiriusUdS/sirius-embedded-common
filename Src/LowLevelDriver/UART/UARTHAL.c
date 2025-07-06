@@ -10,9 +10,9 @@ void UARTHAL_init(UART* instance) {
 }
 
 void UARTHAL_transmit(UART* instance, uint8_t* data, uint16_t size) {
-  HAL_UART_Transmit((UART_HandleTypeDef*)instance->externalHandle, data, size, UART_COMMUNICATION_TIMEOUT_MS);
+  HAL_UART_Transmit_DMA((UART_HandleTypeDef*)instance->externalHandle, data, size);
 }
 
 void UARTHAL_receive(UART* instance, uint8_t* data, uint16_t size) {
-  HAL_UART_Receive((UART_HandleTypeDef*)instance->externalHandle, data, size, UART_COMMUNICATION_TIMEOUT_MS);
+  //HAL_UART_Receive((UART_HandleTypeDef*)instance->externalHandle, data, size, UART_COMMUNICATION_TIMEOUT_MS);
 }

@@ -3,9 +3,7 @@
 #include "stm32f4xx_hal.h"
 
 void XBEE_transmit(Telecommunication* instance, uint8_t* data, uint16_t size) {
-  if (instance->state == TELECOMMUNICATION_STATE_ACTIVE) {
-    instance->uart->transmit((struct UART*)instance->uart, data, size);
-  }
+  instance->uart->transmit((struct UART*)instance->uart, data, size);
 }
 
 void XBEE_receive(Telecommunication* instance, uint8_t* data, uint16_t size) {

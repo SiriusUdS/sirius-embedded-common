@@ -30,7 +30,7 @@ typedef void (*Valve_close)(struct Valve* instance, uint32_t timestamp_ms);
 
 typedef void (*Valve_open)(struct Valve* instance, uint32_t timestamp_ms);
 
-typedef void (*Valve_setPositionOpened)(struct Valve* instance, uint8_t positionOpened_pct);
+typedef void (*Valve_setPositionOpened)(struct Valve* instance, uint32_t positionOpened_pct);
 
 typedef void (*Valve_tick)(struct Valve* instance, uint32_t timestamp_ms);
 

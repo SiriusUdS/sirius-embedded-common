@@ -105,12 +105,12 @@ ValveMovementCompleted isMovementCompleted(Valve* instance) {
     case VALVE_STATE_OPENED:
       return VALVE_MOVEMENT_COMPLETED;
     case VALVE_STATE_CLOSING:
-      if (instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read(instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_HIGH) {
+      if (instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read(instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_LOW) {
         return VALVE_MOVEMENT_COMPLETED;
       }
       return VALVE_MOVEMENT_NOT_COMPLETED;
     case VALVE_STATE_OPENING:
-      if (instance->gpio[VALVE_GPIO_OPENED_INDEX]->read(instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_HIGH) {
+      if (instance->gpio[VALVE_GPIO_OPENED_INDEX]->read(instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_LOW) {
         return VALVE_MOVEMENT_COMPLETED;
       }
       return VALVE_MOVEMENT_NOT_COMPLETED;

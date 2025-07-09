@@ -48,6 +48,8 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
     instance->errorStatus.bits.exceededMaxAdjustments = 1;
   }
 
+  instance->heatpad->tick(instance->heatpad, timestamp_ms);
+
   switch (instance->currentState) {
     case VALVE_STATE_CLOSED:
     case VALVE_STATE_OPENED:

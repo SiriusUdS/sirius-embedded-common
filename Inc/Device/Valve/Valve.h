@@ -8,6 +8,7 @@
 
 #include "../../LowLevelDriver/PWM/PWM.h"
 #include "../../LowLevelDriver/GPIO/GPIO.h"
+#include "../../Device/Heater/Heater.h"
 
 struct Valve;
 
@@ -44,6 +45,7 @@ typedef struct {
 
   PWM*  pwm;
   GPIO* gpio[VALVE_GPIO_AMT];
+  Heater* heatpad;
 
   uint8_t currentPositionOpened_pct;
   uint8_t isReversed;

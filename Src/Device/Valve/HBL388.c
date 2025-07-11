@@ -31,7 +31,7 @@ void HBL388_setIdle(Valve* instance) {
 
 void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
   //instance->pwm->setDutyCycle(instance->pwm, instance->closeDutyCycle_pct);
-  HBL388_setOpenedPosition_pct(instance, instance->closeDutyCycle_pct);
+  HBL388_setOpenedPosition_pct(instance, (HBL388_ARR * (uint32_t)instance->closeDutyCycle_pct) / 100);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_CLOSING;
   instance->status.bits.isIdle = 0;
@@ -39,7 +39,7 @@ void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
 
 void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
   //instance->pwm->setDutyCycle(instance->pwm, instance->openDutyCycle_pct);
-  HBL388_setOpenedPosition_pct(instance, instance->openDutyCycle_pct);
+  HBL388_setOpenedPosition_pct(instance, (HBL388_ARR * (uint32_t)instance->openDutyCycle_pct) / 100);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_OPENING;
   instance->status.bits.isIdle = 0;

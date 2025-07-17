@@ -19,7 +19,27 @@ void FTVOGUEanpih0ztre_tick(Heater* instance, uint32_t timestamp_ms) {
     return;
   }
 
-  if (timestamp_ms - instance->lastSwitchTimestamp_ms <= (uint32_t)instance->period_s * ((uint32_t)10 * (uint32_t)instance->currentDutyCycle_pct)) {
+  if (instance->currentDutyCycle_pct == 0) {
+    if (instance->gpio->currentValue == GPIO_VALUE_HIGH) {
+      instance->gpio->write(instance->gpio, GPIO_VALUE_LOW);
+    }
+    return;
+  }
 
+  switch(instance->gpio->read(instance->gpio)) {
+    case GPIO_VALUE_LOW:
+      if (timestamp_ms - instance->lastSwitchTimestamp_ms >= (((uint32_t)instance->period_s * 1000) - ((uint32_t)instance->currentDutyCycle_pct * 100))) {
+        instance->lastSwitchTimestamp_ms = timestamp_ms;
+        instance->gpio->write(instance->gpio, GPIO_VALUE_HIGH);
+      }
+      break;
+    case GPIO_VALUE_HIGH:
+      if (timestamp_ms - instance->lastSwitchTimestamp_ms >= (((uint32_t)instance->period_s * 1000) - (((uint32_t)instance->period_s * 1000) - ((uint32_t)instance->currentDutyCycle_pct * 100)))) {
+        instance->lastSwitchTimestamp_ms = timestamp_ms;
+        instance->gpio->write(instance->gpio, GPIO_VALUE_LOW);
+      }
+      break;
+    default:
+      break;
   }
 }

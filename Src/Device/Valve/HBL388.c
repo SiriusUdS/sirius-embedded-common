@@ -85,6 +85,11 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
 }
 
 void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct) {
+  if (dutyCycle_pct >= 100) {
+    HBL388_open(instance, HAL_GetTick());
+  } else if (dutyCycle_pct <= 0) {
+    HBL388_close(instance, HAL_GetTick());
+  }
   const uint32_t CLOSED_CCR = (HBL388_ARR * (uint32_t)instance->closeDutyCycle_pct) / 100;
   instance->pwm->setDutyCycle(instance->pwm, (int16_t)(CLOSED_CCR + ((dutyCycle_pct * ((float)((float)instance->openDutyCycle_pct - (float)instance->closeDutyCycle_pct) / 100.0f)) * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / (uint32_t)100));
 }

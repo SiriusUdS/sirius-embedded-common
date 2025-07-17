@@ -5,6 +5,8 @@
 
 #include "../../LowLevelDriver/GPIO/GPIO.h"
 
+struct Heater;
+
 typedef void (*Heater_init)(struct Heater* instance);
 
 typedef void (*Heater_setDutyCycle)(struct Heater* instance, uint8_t dutyCycle_pct);

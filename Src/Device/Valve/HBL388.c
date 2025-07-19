@@ -33,7 +33,7 @@ void HBL388_setIdle(Valve* instance) {
 }
 
 void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
-  instance->pwm->setDutyCycle(instance->pwm, (HBL388_ARR * (uint32_t)instance->closeDutyCycle_pct) / 100);
+  instance->pwm->setDutyCycle((struct PWM*)instance->pwm, (HBL388_ARR * (uint32_t)instance->closeDutyCycle_pct) / 100);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_CLOSING;
   instance->status.bits.isIdle = 0;
@@ -42,7 +42,7 @@ void HBL388_close(Valve* instance, uint32_t timestamp_ms) {
 }
 
 void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
-  instance->pwm->setDutyCycle(instance->pwm, (HBL388_ARR * (uint32_t)instance->openDutyCycle_pct) / 100);
+  instance->pwm->setDutyCycle((struct PWM*)instance->pwm, (HBL388_ARR * (uint32_t)instance->openDutyCycle_pct) / 100);
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   instance->currentState = VALVE_STATE_OPENING;
   instance->status.bits.isIdle = 0;
@@ -55,7 +55,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
     instance->errorStatus.bits.exceededMaxAdjustments = 1;
   }
 
-  instance->heatpad->tick(instance->heatpad, timestamp_ms);
+  instance->heatpad->tick((struct Heater*)instance->heatpad, timestamp_ms);
 
   switch (instance->currentState) {
     case VALVE_STATE_CLOSED:
@@ -64,7 +64,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
     case VALVE_STATE_CLOSING:
       if (isMovementCompleted(instance) == VALVE_MOVEMENT_COMPLETED) {
         instance->currentState = VALVE_STATE_CLOSED;
-        instance->setIdle(instance);
+        instance->setIdle((struct Valve*)instance);
         instance->adjustmentsCount = 0;
       }
       /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
@@ -75,7 +75,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
     case VALVE_STATE_OPENING:
       if (isMovementCompleted(instance) == VALVE_MOVEMENT_COMPLETED) {
         instance->currentState = VALVE_STATE_OPENED;
-        instance->setIdle(instance);
+        instance->setIdle((struct Valve*)instance);
         instance->adjustmentsCount = 0;
       }
       /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
@@ -91,15 +91,15 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
   }
 
   if (timestamp_ms - instance->lastDutyCycleChangeTimestamp_ms >= VALVE_MOVEMENT_MAX_DURATION_MS) {
-    instance->setIdle(instance);
+    instance->setIdle((struct Valve*)instance);
   }
 }
 
 void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct, uint32_t timestamp_ms) {
   if (dutyCycle_pct >= 100) {
-    HBL388_open(instance, timestamp_ms);
+    HBL388_open((struct Valve*)instance, timestamp_ms);
   } else if (dutyCycle_pct <= 0) {
-    HBL388_close(instance, timestamp_ms);
+    HBL388_close((struct Valve*)instance, timestamp_ms);
   }
   instance->currentPositionOpened_pct = dutyCycle_pct;
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
@@ -125,14 +125,14 @@ ValveMovementCompleted isMovementCompleted(Valve* instance) {
     case VALVE_STATE_OPENED:
       return VALVE_MOVEMENT_COMPLETED;
     case VALVE_STATE_CLOSING:
-      if (instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read(instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_LOW &&
-          instance->gpio[VALVE_GPIO_OPENED_INDEX]->read(instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_HIGH) {
+      if ((struct GPIO*)instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read((struct GPIO*)instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_LOW &&
+          (struct GPIO*)instance->gpio[VALVE_GPIO_OPENED_INDEX]->read((struct GPIO*)instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_HIGH) {
         return VALVE_MOVEMENT_COMPLETED;
       }
       return VALVE_MOVEMENT_NOT_COMPLETED;
     case VALVE_STATE_OPENING:
-      if (instance->gpio[VALVE_GPIO_OPENED_INDEX]->read(instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_LOW &&
-          instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read(instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_HIGH) {
+      if ((struct GPIO*)instance->gpio[VALVE_GPIO_OPENED_INDEX]->read((struct GPIO*)instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_LOW &&
+          (struct GPIO*)instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read((struct GPIO*)instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_HIGH) {
         return VALVE_MOVEMENT_COMPLETED;
       }
       return VALVE_MOVEMENT_NOT_COMPLETED;

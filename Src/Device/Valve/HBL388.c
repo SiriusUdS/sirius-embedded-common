@@ -1,8 +1,8 @@
 #include "../../../Inc/Device/Valve/HBL388.h"
 
-static void incrementDutyCycle(Valve* instance);
+static void incrementDutyCycle(Valve* instance, uint32_t timestamp_ms);
 
-static void decrementDutyCycle(Valve* instance);
+static void decrementDutyCycle(Valve* instance, uint32_t timestamp_ms);
 
 static ValveMovementCompleted isMovementCompleted(Valve* instance);
 
@@ -68,7 +68,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->adjustmentsCount = 0;
       }
       /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
-        decrementDutyCycle(instance);
+        decrementDutyCycle(instance, timestamp_ms);
         instance->adjustmentsCount++;
       }*/
       break;
@@ -79,7 +79,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->adjustmentsCount = 0;
       }
       /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
-        incrementDutyCycle(instance);
+        incrementDutyCycle(instance, timestamp_ms);
         instance->adjustmentsCount++;
       }*/
       break;
@@ -107,14 +107,14 @@ void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct, uint3
   instance->pwm->setDutyCycle((struct PWM*)instance->pwm, (int16_t)(CLOSED_CCR + ((dutyCycle_pct * ((float)((float)instance->openDutyCycle_pct - (float)instance->closeDutyCycle_pct) / 100.0f)) * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / (uint32_t)100));
 }
 
-void incrementDutyCycle(Valve* instance) {
-  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTimestamp_ms >= HBL388_ELAPSED_DELAY_MS){
+void incrementDutyCycle(Valve* instance, uint32_t timestamp_ms) {
+  if(timestamp_ms - instance->pwm->lastDutyCycleChangeTimestamp_ms >= HBL388_ELAPSED_DELAY_MS){
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR + HBL388_STEP);
   }
 }
 
-void decrementDutyCycle(Valve* instance) {
-  if(HAL_GetTick() - instance->pwm->lastDutyCycleChangeTimestamp_ms >= HBL388_ELAPSED_DELAY_MS){
+void decrementDutyCycle(Valve* instance, uint32_t timestamp_ms) {
+  if(timestamp_ms - instance->pwm->lastDutyCycleChangeTimestamp_ms >= HBL388_ELAPSED_DELAY_MS){
     instance->pwm->setDutyCycle((struct PWM*)instance->pwm, instance->pwm->currentDutyCycle_CCR - HBL388_STEP);
   }
 }

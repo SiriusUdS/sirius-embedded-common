@@ -5,6 +5,9 @@
 
 #include "../../LowLevelDriver/GPIO/GPIO.h"
 
+struct Igniter;
+
+
 typedef void (*Igniter_init)(struct Igniter* instance);
 
 typedef void (*Igniter_ignite)(struct Igniter* instance, uint32_t timestamp_ms);

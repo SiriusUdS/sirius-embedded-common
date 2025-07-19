@@ -104,7 +104,7 @@ void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct, uint3
   instance->currentPositionOpened_pct = dutyCycle_pct;
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   const uint32_t CLOSED_CCR = (HBL388_ARR * (uint32_t)instance->closeDutyCycle_pct) / 100;
-  instance->pwm->setDutyCycle(instance->pwm, (int16_t)(CLOSED_CCR + ((dutyCycle_pct * ((float)((float)instance->openDutyCycle_pct - (float)instance->closeDutyCycle_pct) / 100.0f)) * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / (uint32_t)100));
+  instance->pwm->setDutyCycle((struct PWM*)instance->pwm, (int16_t)(CLOSED_CCR + ((dutyCycle_pct * ((float)((float)instance->openDutyCycle_pct - (float)instance->closeDutyCycle_pct) / 100.0f)) * (uint32_t)HBL388_PWM_DUTY_CYCLE_MAX_CCR) / (uint32_t)100));
 }
 
 void incrementDutyCycle(Valve* instance) {

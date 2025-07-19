@@ -97,9 +97,9 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
 
 void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct, uint32_t timestamp_ms) {
   if (dutyCycle_pct >= 100) {
-    HBL388_open((struct Valve*)instance, timestamp_ms);
+    HBL388_open(instance, timestamp_ms);
   } else if (dutyCycle_pct <= 0) {
-    HBL388_close((struct Valve*)instance, timestamp_ms);
+    HBL388_close(instance, timestamp_ms);
   }
   instance->currentPositionOpened_pct = dutyCycle_pct;
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;

@@ -26,3 +26,7 @@ void Valve_openDefault(Valve* instance, uint32_t timestamp_ms) {
 void Valve_tickDefault(Valve* instance, uint32_t timestamp_ms) {
   instance->errorStatus.bits.defaultFunctionCalled = 1;
 }
+
+void Valve_setPositionOpenedDefault(Valve* instance, uint32_t positionOpened_pct, uint32_t timestamp_ms) {
+  instance->errorStatus.bits.defaultFunctionCalled = 1;
+}

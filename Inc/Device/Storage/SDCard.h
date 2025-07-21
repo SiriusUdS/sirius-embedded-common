@@ -4,8 +4,7 @@
 
 #include "Storage.h"
 
-#define SD_CARD_DATA_FAST_PATH     "DataF.bin"
-#define SD_CARD_DATA_SLOW_PATH     "DataS.bin"
+#define SD_CARD_DATA_PATH     "Data.bin"
 #define SD_CARD_LOAD_PATH          "Load.bin"
 
 #define SD_CARD_STORES_BETWEEN_SYNC (uint8_t)0x10

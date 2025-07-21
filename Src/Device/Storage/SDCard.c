@@ -6,8 +6,7 @@
 #include <stdint.h>
 
 FIL loadFileHandle;
-FIL dataFastFileHandle;
-FIL dataSlowFileHandle;
+FIL dataFileHandle;
 
 DIR currentDirectory;
 
@@ -54,14 +53,7 @@ void SDCard_init(Storage* instance) {
     }
   }
 
-  operationResult = openFile(instance, SD_CARD_DATA_FAST_PATH, &dataFastFileHandle, fileCreationMode);
-  if (operationResult != FR_OK) {
-    instance->errorStatus.bits.fs_openFailed = 1;
-    instance->state = STORAGE_STATE_ERROR;
-    return;
-  }
-
-  operationResult = openFile(instance, SD_CARD_DATA_SLOW_PATH, &dataSlowFileHandle, fileCreationMode);
+  operationResult = openFile(instance, SD_CARD_DATA_PATH, &dataFileHandle, fileCreationMode);
   if (operationResult != FR_OK) {
     instance->errorStatus.bits.fs_openFailed = 1;
     instance->state = STORAGE_STATE_ERROR;
@@ -95,12 +87,8 @@ void SDCard_store(Storage* instance, StorageDestination destination, uint8_t* da
   if (instance->state = STORAGE_STATE_ACTIVE) {
     switch (destination) {
       case STORAGE_DATA_FAST_DESTINATION:
-        fileHandle = &dataFastFileHandle;
-        path = SD_CARD_DATA_FAST_PATH;
-        break;
-      case STORAGE_DATA_SLOW_DESTINATION:
-        fileHandle = &dataSlowFileHandle;
-        path = SD_CARD_DATA_SLOW_PATH;
+        fileHandle = &dataFileHandle;
+        path = SD_CARD_DATA_PATH;
         break;
       case STORAGE_LOAD_DESTINATION:
         fileHandle = &loadFileHandle;

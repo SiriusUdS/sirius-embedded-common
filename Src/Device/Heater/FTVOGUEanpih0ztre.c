@@ -13,16 +13,12 @@ void FTVOGUEanpih0ztre_setDutyCycle(Heater* instance, uint8_t dutyCycle_pct) {
 
 void FTVOGUEanpih0ztre_tick(Heater* instance, uint32_t timestamp_ms) {
   if (instance->currentDutyCycle_pct == 100) {
-    if (instance->gpio->currentValue == GPIO_VALUE_LOW) {
-      instance->gpio->write(instance->gpio, GPIO_VALUE_HIGH);
-    }
+    instance->gpio->write(instance->gpio, GPIO_VALUE_HIGH);
     return;
   }
 
   if (instance->currentDutyCycle_pct == 0) {
-    if (instance->gpio->currentValue == GPIO_VALUE_HIGH) {
-      instance->gpio->write(instance->gpio, GPIO_VALUE_LOW);
-    }
+    instance->gpio->write(instance->gpio, GPIO_VALUE_LOW);
     return;
   }
 

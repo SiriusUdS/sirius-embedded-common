@@ -17,6 +17,8 @@ struct Valve;
 #define VALVE_GPIO_OPENED_INDEX 0
 #define VALVE_GPIO_CLOSED_INDEX 1
 
+#define VALVE_MOVEMENT_MAX_DURATION_MS 5000
+
 typedef enum {
   VALVE_MOVEMENT_NOT_COMPLETED,
   VALVE_MOVEMENT_COMPLETED
@@ -31,7 +33,7 @@ typedef void (*Valve_close)(struct Valve* instance, uint32_t timestamp_ms);
 
 typedef void (*Valve_open)(struct Valve* instance, uint32_t timestamp_ms);
 
-typedef void (*Valve_setPositionOpened)(struct Valve* instance, uint32_t positionOpened_pct);
+typedef void (*Valve_setPositionOpened)(struct Valve* instance, uint32_t positionOpened_pct, uint32_t timestamp_ms);
 
 typedef void (*Valve_tick)(struct Valve* instance, uint32_t timestamp_ms);
 

@@ -51,6 +51,7 @@ void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
 }
 
 void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
+  instance->status.bits.positionOpened_pct = instance->currentPositionOpened_pct;
   if (instance->adjustmentsCount >= instance->maxAdjustmentsCount) {
     instance->errorStatus.bits.exceededMaxAdjustments = 1;
   }

@@ -52,15 +52,22 @@ void HBL388_open(Valve* instance, uint32_t timestamp_ms) {
 
 void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
   instance->status.bits.positionOpened_pct = instance->currentPositionOpened_pct;
-  if (instance->adjustmentsCount >= instance->maxAdjustmentsCount) {
+  instance->status.bits.state = instance->currentState;
+  instance->status.bits.closedSwitchHigh = (struct GPIO*)instance->gpio[VALVE_GPIO_CLOSED_INDEX]->read((struct GPIO*)instance->gpio[VALVE_GPIO_CLOSED_INDEX]) == GPIO_VALUE_HIGH;
+  instance->status.bits.openedSwitchHigh = (struct GPIO*)instance->gpio[VALVE_GPIO_OPENED_INDEX]->read((struct GPIO*)instance->gpio[VALVE_GPIO_OPENED_INDEX]) == GPIO_VALUE_HIGH;
+
+  /*if (instance->adjustmentsCount >= instance->maxAdjustmentsCount) {
     instance->errorStatus.bits.exceededMaxAdjustments = 1;
-  }
+  }*/
 
   instance->heatpad->tick((struct Heater*)instance->heatpad, timestamp_ms);
 
   switch (instance->currentState) {
     case VALVE_STATE_CLOSED:
+      instance->errorStatus.bits.invalidState = 0;
+      break;
     case VALVE_STATE_OPENED:
+      instance->errorStatus.bits.invalidState = 0;
       break;
     case VALVE_STATE_CLOSING:
       if (isMovementCompleted(instance) == VALVE_MOVEMENT_COMPLETED) {
@@ -68,6 +75,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->setIdle((struct Valve*)instance);
         instance->adjustmentsCount = 0;
       }
+      instance->errorStatus.bits.invalidState = 0;
       /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
         decrementDutyCycle(instance, timestamp_ms);
         instance->adjustmentsCount++;
@@ -79,6 +87,7 @@ void HBL388_tick(Valve* instance, uint32_t timestamp_ms) {
         instance->setIdle((struct Valve*)instance);
         instance->adjustmentsCount = 0;
       }
+      instance->errorStatus.bits.invalidState = 0;
       /*else if (instance->lastDutyCycleChangeTimestamp_ms + instance->slowestExpectedMoveTime_ms < timestamp_ms) {
         incrementDutyCycle(instance, timestamp_ms);
         instance->adjustmentsCount++;
@@ -102,6 +111,7 @@ void HBL388_setOpenedPosition_pct(Valve* instance, uint32_t dutyCycle_pct, uint3
   } else if (dutyCycle_pct <= 0) {
     HBL388_close(instance, timestamp_ms);
   }
+  instance->status.bits.isIdle = 0;
   instance->currentPositionOpened_pct = dutyCycle_pct;
   instance->lastDutyCycleChangeTimestamp_ms = timestamp_ms;
   const uint32_t CLOSED_CCR = (HBL388_ARR * (uint32_t)instance->closeDutyCycle_pct) / 100;
